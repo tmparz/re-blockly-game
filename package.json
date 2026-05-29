@@ -1,0 +1,11 @@
+{
+  "name": "blocky-easy",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node server.mjs",
+    "build": "node scripts/build-static.mjs",
+    "deploy:cloudflare": "node scripts/build-static.mjs && wrangler pages deploy dist --project-name blocky-easy"
+  }
+}
