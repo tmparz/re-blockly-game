@@ -33,8 +33,13 @@ const STAGES = [
     description: "把路線拆成可重複的巡檢流程，練習二層以上的 For。",
   },
   {
+    id: "while",
+    title: "第五階段：While 迴圈",
+    description: "不用指定次數，讓程式自己判斷要不要繼續走，直到條件不成立為止。",
+  },
+  {
     id: "if",
-    title: "第五階段：If 條件",
+    title: "第六階段：If 條件",
     description: "從單次 If 到 For + If，最後加入 If/Else 二選一。",
   },
 ];
@@ -1864,6 +1869,168 @@ const LEVELS = [
     ],
   },
   {
+    id: "while-straight-walk",
+    stage: "while",
+    title: "While：一直往前走",
+    concept: "While 入門",
+    goalText: "用「當前方沒牆時重複」讓小隊員自動走到傳送門。",
+    hint: "放一個 While 方塊，條件選「前方沒牆」，裡面放「前進一步」。",
+    grid: { cols: 7, rows: 3 },
+    start: { x: 0, y: 1, dir: "E" },
+    goal: { x: 6, y: 1 },
+    walls: [],
+    gems: [],
+    blocks: ["move_forward", "while_loop"],
+    targetBlocks: 2,
+    solution: [
+      {
+        type: "while_loop",
+        condition: "FRONT_CLEAR",
+        children: [{ type: "move_forward" }],
+      },
+    ],
+  },
+  {
+    id: "while-collect-line",
+    stage: "while",
+    title: "While：沿路收集",
+    concept: "While + 收集",
+    goalText: "一路前進到傳送門，沿途收集所有寶石。",
+    hint: "While 裡面放兩個方塊：「收集寶石」和「前進一步」。站在寶石上時先收集再前進。",
+    grid: { cols: 7, rows: 3 },
+    start: { x: 0, y: 1, dir: "E" },
+    goal: { x: 6, y: 1 },
+    walls: [],
+    gems: [
+      { x: 1, y: 1 },
+      { x: 2, y: 1 },
+      { x: 3, y: 1 },
+      { x: 4, y: 1 },
+      { x: 5, y: 1 },
+    ],
+    blocks: ["move_forward", "while_loop", "collect_gem"],
+    targetBlocks: 3,
+    solution: [
+      {
+        type: "while_loop",
+        condition: "FRONT_CLEAR",
+        children: [
+          { type: "collect_gem" },
+          { type: "move_forward" },
+        ],
+      },
+    ],
+  },
+  {
+    id: "while-wall-stop",
+    stage: "while",
+    title: "While：走到牆前停",
+    concept: "While 停止",
+    goalText: "往前走直到碰到牆壁，然後轉彎走到傳送門。",
+    hint: "先用 While 一直前進到撞牆前停下來，再手動左轉，最後再用第二個 While 繼續前進。",
+    grid: { cols: 5, rows: 5 },
+    start: { x: 0, y: 3, dir: "E" },
+    goal: { x: 3, y: 0 },
+    walls: [
+      { x: 4, y: 3 },
+      { x: 4, y: 2 },
+      { x: 4, y: 1 },
+      { x: 4, y: 0 },
+    ],
+    gems: [],
+    blocks: ["move_forward", "turn_left", "while_loop"],
+    targetBlocks: 5,
+    solution: [
+      {
+        type: "while_loop",
+        condition: "FRONT_CLEAR",
+        children: [{ type: "move_forward" }],
+      },
+      { type: "turn_left" },
+      {
+        type: "while_loop",
+        condition: "FRONT_CLEAR",
+        children: [{ type: "move_forward" }],
+      },
+    ],
+  },
+  {
+    id: "while-corridor",
+    stage: "while",
+    title: "While：長廊巡邏",
+    concept: "While + 多段轉彎",
+    goalText: "沿著 U 型走廊巡邏，在每個轉角收集能量石，最後到達傳送門。",
+    hint: "走廊有三段：先往右走到底、左轉、往上走到底、左轉、再往左走到傳送門。每段都用 While（前方沒牆）。",
+    grid: { cols: 7, rows: 5 },
+    start: { x: 0, y: 4, dir: "E" },
+    goal: { x: 0, y: 0 },
+    walls: [
+      { x: 1, y: 1 }, { x: 2, y: 1 }, { x: 3, y: 1 }, { x: 4, y: 1 }, { x: 5, y: 1 },
+      { x: 1, y: 2 }, { x: 2, y: 2 }, { x: 3, y: 2 }, { x: 4, y: 2 }, { x: 5, y: 2 },
+      { x: 1, y: 3 }, { x: 2, y: 3 }, { x: 3, y: 3 }, { x: 4, y: 3 }, { x: 5, y: 3 },
+    ],
+    gems: [
+      { x: 6, y: 4 },
+      { x: 6, y: 0 },
+    ],
+    blocks: ["move_forward", "turn_left", "while_loop", "collect_gem"],
+    targetBlocks: 10,
+    solution: [
+      {
+        type: "while_loop",
+        condition: "FRONT_CLEAR",
+        children: [{ type: "move_forward" }],
+      },
+      { type: "collect_gem" },
+      { type: "turn_left" },
+      {
+        type: "while_loop",
+        condition: "FRONT_CLEAR",
+        children: [{ type: "move_forward" }],
+      },
+      { type: "collect_gem" },
+      { type: "turn_left" },
+      {
+        type: "while_loop",
+        condition: "FRONT_CLEAR",
+        children: [{ type: "move_forward" }],
+      },
+    ],
+  },
+  {
+    id: "while-gem-vacuum",
+    stage: "while",
+    title: "While：寶石吸塵器",
+    concept: "While 條件：站在寶石上",
+    goalText: "一邊前進一邊檢查腳下有沒有寶石，有就收集，走到底即完成。",
+    hint: "外層用 While（前方沒牆）一直走；裡面再放一個 While（站在寶石上）收集寶石，然後前進一步。",
+    grid: { cols: 6, rows: 3 },
+    start: { x: 0, y: 1, dir: "E" },
+    goal: { x: 5, y: 1 },
+    walls: [],
+    gems: [
+      { x: 0, y: 1 },
+      { x: 1, y: 1 },
+      { x: 2, y: 1 },
+    ],
+    blocks: ["move_forward", "while_loop", "collect_gem"],
+    targetBlocks: 4,
+    solution: [
+      {
+        type: "while_loop",
+        condition: "FRONT_CLEAR",
+        children: [
+          {
+            type: "while_loop",
+            condition: "ON_GEM",
+            children: [{ type: "collect_gem" }],
+          },
+          { type: "move_forward" },
+        ],
+      },
+    ],
+  },
+  {
     id: "if-clear-step",
     stage: "if",
     title: "If：前方沒牆才走",
@@ -2271,6 +2438,273 @@ const LEVELS = [
       },
     ],
   },
+  {
+    id: "while-dual-corridor",
+    stage: "if",
+    title: "While：雙走廊吸塵器",
+    concept: "巢狀 While + 雙廊清除",
+    goalText: "在 U 型長廊中，用吸塵器邏輯清理完兩側通道的寶石，抵達終點傳送門。",
+    hint: "通道有三段：第一廊、轉彎段、第二廊。每一段都用「當前方沒牆」的吸塵器巢狀邏輯來前進與收集。",
+    grid: { cols: 8, rows: 5 },
+    start: { x: 0, y: 1, dir: "E" },
+    goal: { x: 0, y: 3 },
+    walls: [
+      { x: 0, y: 2 },
+      { x: 1, y: 2 },
+      { x: 2, y: 2 },
+      { x: 3, y: 2 },
+      { x: 4, y: 2 },
+      { x: 5, y: 2 },
+      { x: 0, y: 0 },
+      { x: 1, y: 0 },
+      { x: 2, y: 0 },
+      { x: 3, y: 0 },
+      { x: 4, y: 0 },
+      { x: 5, y: 0 },
+      { x: 6, y: 0 },
+      { x: 7, y: 0 },
+      { x: 7, y: 1 },
+      { x: 7, y: 2 },
+      { x: 7, y: 3 },
+      { x: 7, y: 4 },
+      { x: 0, y: 4 },
+      { x: 1, y: 4 },
+      { x: 2, y: 4 },
+      { x: 3, y: 4 },
+      { x: 4, y: 4 },
+      { x: 5, y: 4 },
+      { x: 6, y: 4 },
+    ],
+    gems: [
+      { x: 2, y: 1 },
+      { x: 4, y: 1 },
+      { x: 6, y: 2 },
+      { x: 4, y: 3 },
+      { x: 2, y: 3 },
+    ],
+    blocks: ["move_forward", "turn_right", "while_loop", "if_condition", "collect_gem"],
+    targetBlocks: 8,
+    solution: [
+      {
+        type: "while_loop",
+        condition: "FRONT_CLEAR",
+        children: [
+          {
+            type: "while_loop",
+            condition: "ON_GEM",
+            children: [{ type: "collect_gem" }],
+          },
+          { type: "move_forward" },
+        ],
+      },
+      {
+        type: "while_loop",
+        condition: "ON_GEM",
+        children: [{ type: "collect_gem" }],
+      },
+      { type: "turn_right" },
+      {
+        type: "while_loop",
+        condition: "FRONT_CLEAR",
+        children: [
+          {
+            type: "while_loop",
+            condition: "ON_GEM",
+            children: [{ type: "collect_gem" }],
+          },
+          { type: "move_forward" },
+        ],
+      },
+      {
+        type: "while_loop",
+        condition: "ON_GEM",
+        children: [{ type: "collect_gem" }],
+      },
+      { type: "turn_right" },
+      {
+        type: "while_loop",
+        condition: "FRONT_CLEAR",
+        children: [
+          {
+            type: "while_loop",
+            condition: "ON_GEM",
+            children: [{ type: "collect_gem" }],
+          },
+          { type: "move_forward" },
+        ],
+      },
+      {
+        type: "while_loop",
+        condition: "ON_GEM",
+        children: [{ type: "collect_gem" }],
+      },
+    ],
+  },
+  {
+    id: "while-spiral-sweeper",
+    stage: "if",
+    title: "While：螺旋掃地機",
+    concept: "巢狀 While + 螺旋巡邏",
+    goalText: "用 For 重複配合巢狀 While 吸塵器，讓小隊員一路沿著螺旋通道吸乾淨所有寶石，走到正中心的傳送門！",
+    hint: "螺旋通道共有 5 個直行區段，每次直走到底後右轉。用 For 重複 5 次，裡面放吸塵器與右轉積木。",
+    grid: { cols: 5, rows: 5 },
+    start: { x: 0, y: 0, dir: "E" },
+    goal: { x: 2, y: 2 },
+    walls: [
+      { x: 0, y: 1 },
+      { x: 1, y: 1 }, { x: 2, y: 1 }, { x: 3, y: 1 },
+      { x: 1, y: 3 },
+      { x: 2, y: 3 }, { x: 3, y: 3 },
+      { x: 3, y: 2 },
+    ],
+    gems: [
+      { x: 2, y: 0 },
+      { x: 4, y: 2 },
+      { x: 2, y: 4 },
+      { x: 0, y: 3 },
+      { x: 1, y: 2 },
+    ],
+    blocks: ["move_forward", "turn_right", "repeat_times", "while_loop", "if_condition", "collect_gem"],
+    targetBlocks: 8,
+    solution: [
+      {
+        type: "repeat_times",
+        times: 5,
+        children: [
+          {
+            type: "while_loop",
+            condition: "FRONT_CLEAR",
+            children: [
+              {
+                type: "while_loop",
+                condition: "ON_GEM",
+                children: [{ type: "collect_gem" }],
+              },
+              { type: "move_forward" },
+            ],
+          },
+          {
+            type: "while_loop",
+            condition: "ON_GEM",
+            children: [{ type: "collect_gem" }],
+          },
+          { type: "turn_right" },
+        ],
+      },
+    ],
+  },
+  {
+    id: "while-grid-sweeper",
+    stage: "if",
+    title: "While：網格吸塵器",
+    concept: "巢狀 While + 蛇形掃街",
+    goalText: "以蛇形軌跡（北行、南行、北行）清理三個通道的寶石，最後抵達傳送門。",
+    hint: "每一段直行都是一次吸塵器區間，清理到底後做手動移動與調頭，再開始下一個區間的清理。",
+    grid: { cols: 3, rows: 5 },
+    start: { x: 0, y: 4, dir: "N" },
+    goal: { x: 2, y: 4 },
+    walls: [],
+    gems: [
+      { x: 0, y: 2 },
+      { x: 1, y: 1 },
+      { x: 1, y: 3 },
+      { x: 2, y: 2 },
+    ],
+    blocks: ["move_forward", "turn_left", "turn_right", "while_loop", "if_condition", "collect_gem"],
+    targetBlocks: 14,
+    solution: [
+      {
+        type: "while_loop",
+        condition: "FRONT_CLEAR",
+        children: [
+          {
+            type: "while_loop",
+            condition: "ON_GEM",
+            children: [{ type: "collect_gem" }],
+          },
+          { type: "move_forward" },
+        ],
+      },
+      {
+        type: "while_loop",
+        condition: "ON_GEM",
+        children: [{ type: "collect_gem" }],
+      },
+      { type: "turn_right" },
+      { type: "move_forward" },
+      { type: "turn_right" },
+      {
+        type: "while_loop",
+        condition: "FRONT_CLEAR",
+        children: [
+          {
+            type: "while_loop",
+            condition: "ON_GEM",
+            children: [{ type: "collect_gem" }],
+          },
+          { type: "move_forward" },
+        ],
+      },
+      {
+        type: "while_loop",
+        condition: "ON_GEM",
+        children: [{ type: "collect_gem" }],
+      },
+      { type: "turn_left" },
+      { type: "move_forward" },
+      { type: "turn_left" },
+      {
+        type: "while_loop",
+        condition: "FRONT_CLEAR",
+        children: [
+          {
+            type: "while_loop",
+            condition: "ON_GEM",
+            children: [{ type: "collect_gem" }],
+          },
+          { type: "move_forward" },
+        ],
+      },
+      {
+        type: "while_loop",
+        condition: "ON_GEM",
+        children: [{ type: "collect_gem" }],
+      },
+    ],
+  },
+  {
+    id: "while-for-combo",
+    stage: "if",
+    title: "While + For：自動巡檢",
+    concept: "While 與 For 結合",
+    goalText: "用 While 自動走到牆壁，收集寶石後調頭，來回巡邏兩趟回到起點。",
+    hint: "外層用 For 重複 2 次；每次先用 While（前方沒牆）一直前進，收集寶石、右轉兩次調頭，再 While 走回去、收集、調頭。",
+    grid: { cols: 7, rows: 3 },
+    start: { x: 0, y: 1, dir: "E" },
+    goal: { x: 0, y: 1 },
+    walls: [],
+    gems: [
+      { x: 6, y: 1 },
+    ],
+    blocks: ["move_forward", "turn_right", "repeat_times", "while_loop", "if_condition", "collect_gem"],
+    targetBlocks: 7,
+    solution: [
+      {
+        type: "repeat_times",
+        times: 2,
+        children: [
+          {
+            type: "while_loop",
+            condition: "FRONT_CLEAR",
+            children: [{ type: "move_forward" }],
+          },
+          { type: "collect_gem" },
+          { type: "turn_right" },
+          { type: "turn_right" },
+        ],
+      },
+    ],
+  },
 ];
 
 const STAGE_TRANSLATIONS = {
@@ -2291,8 +2725,12 @@ const STAGE_TRANSLATIONS = {
       title: "Stage 4: Advanced For Factory",
       description: "Break routes into reusable inspection routines and practice two-layer loops.",
     },
+    while: {
+      title: "Stage 5: While Loops",
+      description: "No fixed count needed — let the program decide when to stop based on conditions.",
+    },
     if: {
-      title: "Stage 5: If Conditions",
+      title: "Stage 6: If Conditions",
       description: "Move from single If checks to For + If, then finish with If/Else choices.",
     },
   },
@@ -2516,6 +2954,60 @@ const LEVEL_TRANSLATIONS = {
       goalText: "Scan four energy rows, collect 12 energy stones, and stop at the service exit.",
       hint: "Make one row as \"repeat 3 times: move two steps, collect\". Then make an up-and-down row pair and repeat the pair 2 times.",
     },
+    "while-straight-walk": {
+      title: "While: Keep Walking",
+      concept: "While Basics",
+      goalText: "Use \"while front is clear\" to walk automatically to the portal.",
+      hint: "Place a While block, choose \"front is clear\", and put Move Forward inside.",
+    },
+    "while-collect-line": {
+      title: "While: Collect Along the Way",
+      concept: "While + Collect",
+      goalText: "Walk to the portal and collect all gems along the way.",
+      hint: "Put two blocks inside While: Collect Gem and Move Forward. Collect first, then move.",
+    },
+    "while-wall-stop": {
+      title: "While: Stop at the Wall",
+      concept: "While Stop",
+      goalText: "Walk forward until you hit a wall, then turn and walk to the portal.",
+      hint: "Use While to walk until blocked, then turn left manually, then use a second While to keep going.",
+    },
+    "while-corridor": {
+      title: "While: U-Corridor Patrol",
+      concept: "While + Multi-Turn",
+      goalText: "Patrol along a U-shaped corridor, collect energy stones at each corner, and reach the portal.",
+      hint: "The corridor has three segments: walk right to the wall, turn left, walk up to the wall, turn left, walk left to the portal. Use While for each.",
+    },
+    "while-gem-vacuum": {
+      title: "While: Gem Vacuum",
+      concept: "While Condition: On Gem",
+      goalText: "Walk forward while checking for gems underfoot — collect any you find and reach the portal.",
+      hint: "Outer While (front clear) keeps walking; inside, put a While (on gem) to collect, then Move Forward.",
+    },
+    "while-dual-corridor": {
+      title: "While: Dual Corridor Vacuum",
+      concept: "Nested While + Dual Corridor",
+      goalText: "Use the vacuum loop logic to clean up gems in a U-shaped corridor and reach the portal.",
+      hint: "The corridor has three straight legs. For each leg, use the nested \"while front is clear\" vacuum logic to move and collect.",
+    },
+    "while-spiral-sweeper": {
+      title: "While: Spiral Sweeper",
+      concept: "Nested While + Spiral Route",
+      goalText: "Combine a For loop with the nested While vacuum cleaner to sweep a spiral path all the way to the center portal!",
+      hint: "The spiral path has 5 legs, turning right after each leg. Repeat 5 times with a vacuum loop followed by Turn Right.",
+    },
+    "while-grid-sweeper": {
+      title: "While: Grid Sweeper",
+      concept: "Nested While + Zig-zag Sweeping",
+      goalText: "Sweep three corridors in a zig-zag serpentine pattern (North, South, North) and reach the portal.",
+      hint: "Each leg is a vacuum interval. Clean all the way to the boundary, turn around manually, and start the next leg.",
+    },
+    "while-for-combo": {
+      title: "While + For: Shuttle Patrol",
+      concept: "While and For Combined",
+      goalText: "Use While to walk to the wall, collect the gem, turn around, and patrol back and forth twice.",
+      hint: "Outer For repeats 2 times; each time use While (front clear) to walk, collect, then turn right twice to reverse.",
+    },
     "if-clear-step": {
       title: "If: Move Only When Clear",
       concept: "If Basics",
@@ -2675,6 +3167,11 @@ const UI_TEXT = {
     repeatDoMessage: "做 %1",
     repeatMessage: "重複 %1 次",
     repeatTooltip: "把裡面的方塊重複執行幾次。",
+    whileMessage: "當 %1 時重複",
+    whileDoMessage: "做 %1",
+    whileChip: "當…重複",
+    whileTooltip: "只要條件成立，就一直重複執行裡面的方塊。",
+    addToWhile: "接到當…重複裡",
     reset: "重來",
     rootProgram: "主程式",
     run: "執行",
@@ -2767,6 +3264,11 @@ const UI_TEXT = {
     repeatDoMessage: "do %1",
     repeatMessage: "repeat %1 times",
     repeatTooltip: "Run the blocks inside several times.",
+    whileMessage: "while %1",
+    whileDoMessage: "do %1",
+    whileChip: "While…",
+    whileTooltip: "Keep running the blocks inside as long as the condition is true.",
+    addToWhile: "Add inside While",
     reset: "Reset",
     rootProgram: "Main",
     run: "Run",
@@ -2796,6 +3298,7 @@ const BLOCK_LABELS = {
     turn_left: "左轉",
     turn_right: "右轉",
     repeat_times: "重複",
+    while_loop: "當…重複",
     if_condition: "如果",
     if_else_condition: "如果/否則",
     collect_gem: "收集寶石",
@@ -2805,6 +3308,7 @@ const BLOCK_LABELS = {
     turn_left: "Turn Left",
     turn_right: "Turn Right",
     repeat_times: "Repeat",
+    while_loop: "While…",
     if_condition: "If",
     if_else_condition: "If/Else",
     collect_gem: "Collect Gem",
@@ -3166,6 +3670,9 @@ function getTargetLabel() {
   if (target.type === "repeat_times") {
     return t("addToRepeat", { times: target.times || 1 });
   }
+  if (target.type === "while_loop") {
+    return t("addToWhile");
+  }
   return branch === "else" ? t("addToElse") : t("addToIf");
 }
 
@@ -3364,6 +3871,28 @@ function defineBlocks() {
       tooltip: t("repeatTooltip"),
     },
     {
+      type: "while_loop",
+      message0: t("whileMessage"),
+      args0: [
+        {
+          type: "field_dropdown",
+          name: "COND",
+          options: conditionOptions(),
+        },
+      ],
+      message1: t("whileDoMessage"),
+      args1: [
+        {
+          type: "input_statement",
+          name: "DO",
+        },
+      ],
+      previousStatement: null,
+      nextStatement: null,
+      colour: 165,
+      tooltip: t("whileTooltip"),
+    },
+    {
       type: "if_condition",
       message0: t("ifBlockMessage"),
       args0: [
@@ -3419,11 +3948,17 @@ function defineBlocks() {
 
 function toolboxFor(level) {
   const actionBlocks = level.blocks
-    .filter((type) => type !== "repeat_times" && type !== "if_condition" && type !== "if_else_condition")
+    .filter((type) => type !== "repeat_times" && type !== "while_loop" && type !== "if_condition" && type !== "if_else_condition")
     .map((type) => `<block type="${type}"></block>`)
     .join("");
-  const loopBlocks = level.blocks.includes("repeat_times")
-    ? `<category name="${safeText(t("loopCategory"))}" colour="#f4b63f"><block type="repeat_times"><field name="TIMES">2</field></block></category>`
+  const hasRepeat = level.blocks.includes("repeat_times");
+  const hasWhile = level.blocks.includes("while_loop");
+  const loopInner = [
+    hasRepeat ? `<block type="repeat_times"><field name="TIMES">2</field></block>` : "",
+    hasWhile ? `<block type="while_loop"></block>` : "",
+  ].filter(Boolean).join("");
+  const loopBlocks = loopInner
+    ? `<category name="${safeText(t("loopCategory"))}" colour="#f4b63f">${loopInner}</category>`
     : "";
   const conditionBlocks = level.blocks.includes("if_condition")
     ? `<block type="if_condition"></block>`
@@ -3479,6 +4014,10 @@ function appendBlockToProgram(type) {
     item.times = 2;
     item.children = [];
   }
+  if (type === "while_loop") {
+    item.condition = "FRONT_CLEAR";
+    item.children = [];
+  }
   if (type === "if_condition") {
     item.condition = type === "if_condition" ? "FRONT_BLOCKED" : undefined;
     item.children = [];
@@ -3532,6 +4071,16 @@ function sequenceToXml(sequence) {
     `;
   }
 
+  if (current.type === "while_loop") {
+    return `
+      <block type="while_loop" id="${safeText(current.id)}">
+        <field name="COND">${current.condition || "FRONT_CLEAR"}</field>
+        <statement name="DO">${sequenceToXml(current.children || [])}</statement>
+        ${nextXml}
+      </block>
+    `;
+  }
+
   if (current.type === "if_condition") {
     return `
       <block type="if_condition" id="${safeText(current.id)}">
@@ -3563,6 +4112,9 @@ function programFromBlocks(block) {
     const item = { id: cursor.id, type: cursor.type };
     if (cursor.type === "repeat_times") {
       item.times = Math.max(1, Math.min(12, Number(cursor.getFieldValue("TIMES")) || 1));
+      item.children = programFromBlocks(cursor.getInputTargetBlock("DO"));
+    } else if (cursor.type === "while_loop") {
+      item.condition = cursor.getFieldValue("COND") || "FRONT_CLEAR";
       item.children = programFromBlocks(cursor.getInputTargetBlock("DO"));
     } else if (cursor.type === "if_condition") {
       item.condition = cursor.getFieldValue("COND") || "FRONT_BLOCKED";
@@ -3620,7 +4172,7 @@ function syncWorkspaceFromProgram() {
 
 function renderProgramItem(item, depth = 0) {
   const isContainer =
-    item.type === "repeat_times" || item.type === "if_condition" || item.type === "if_else_condition";
+    item.type === "repeat_times" || item.type === "while_loop" || item.type === "if_condition" || item.type === "if_else_condition";
   const selected = item.id === selectedContainerId ? " is-selected" : "";
   const depthStyle = ` style="--depth: ${depth}"`;
   const removeButton = `<button class="program-icon-button danger" type="button" data-remove-id="${item.id}" aria-label="${safeText(t("removeBlock", { label: blockLabel(item.type) }))}">×</button>`;
@@ -3631,6 +4183,24 @@ function renderProgramItem(item, depth = 0) {
         <button class="program-chip is-container" type="button" data-select-container="${item.id}">${safeText(t("repeatChip", { times: item.times || 1 }))}</button>
         <button class="program-icon-button" type="button" data-repeat-dec="${item.id}" aria-label="${safeText(t("decreaseRepeat"))}">−</button>
         <button class="program-icon-button" type="button" data-repeat-inc="${item.id}" aria-label="${safeText(t("increaseRepeat"))}">＋</button>
+        ${removeButton}
+      </div>
+      ${(item.children || []).map((child) => renderProgramItem(child, depth + 1)).join("")}
+    `;
+  }
+
+  if (item.type === "while_loop") {
+    return `
+      <div class="program-item${selected}"${depthStyle}>
+        <button class="program-chip is-container" type="button" data-select-container="${item.id}">${safeText(t("whileChip"))}</button>
+        <label class="condition-select">
+          <span>${safeText(t("condition"))}</span>
+          <select data-condition-id="${item.id}">
+            <option value="FRONT_BLOCKED"${item.condition === "FRONT_BLOCKED" ? " selected" : ""}>${safeText(t("frontBlocked"))}</option>
+            <option value="FRONT_CLEAR"${item.condition === "FRONT_CLEAR" ? " selected" : ""}>${safeText(t("frontClear"))}</option>
+            <option value="ON_GEM"${item.condition === "ON_GEM" ? " selected" : ""}>${safeText(t("onGem"))}</option>
+          </select>
+        </label>
         ${removeButton}
       </div>
       ${(item.children || []).map((child) => renderProgramItem(child, depth + 1)).join("")}
@@ -3829,6 +4399,12 @@ function blockSequenceFrom(block, commands = []) {
       for (let i = 0; i < times; i += 1) {
         blockSequenceFrom(child, commands);
       }
+    } else if (cursor.type === "while_loop") {
+      commands.push({
+        type: "while",
+        condition: cursor.getFieldValue("COND"),
+        children: blockSequenceFrom(cursor.getInputTargetBlock("DO"), []),
+      });
     }
 
     cursor = cursor.getNextBlock();
@@ -3880,6 +4456,9 @@ function conditionMatches(condition) {
 
 function countCommands(commands) {
   return commands.reduce((total, command) => {
+    if (command.type === "while") {
+      return total + 1 + countCommands(command.children || []);
+    }
     if (command.type === "if") {
       return total + 1 + countCommands(command.children || []);
     }
@@ -3965,7 +4544,21 @@ function finishSuccess(result) {
 
 async function runCommandList(commands, commandTotal) {
   for (const command of commands) {
-    if (command.type === "if") {
+    if (command.type === "while") {
+      let whileGuard = 0;
+      while (conditionMatches(command.condition)) {
+        whileGuard += 1;
+        if (whileGuard > 200) {
+          throw new Error(t("runaway"));
+        }
+        const nestedResult = await runCommandList(command.children || [], commandTotal);
+        if (nestedResult) {
+          return nestedResult;
+        }
+        await delay(Number(els.speedRange.value));
+      }
+      renderBoard();
+    } else if (command.type === "if") {
       const matched = conditionMatches(command.condition);
       setStatus(matched ? t("conditionTrue") : t("conditionFalse"), "neutral");
       if (matched) {
