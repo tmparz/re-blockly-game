@@ -4373,18 +4373,19 @@ function blockSequenceFrom(block, commands = []) {
     }
 
     if (cursor.type === "move_forward") {
-      commands.push({ type: "move" });
+      commands.push({ type: "move", blockId: cursor.id });
     } else if (cursor.type === "turn_left") {
-      commands.push({ type: "turn", value: -1 });
+      commands.push({ type: "turn", value: -1, blockId: cursor.id });
     } else if (cursor.type === "turn_right") {
-      commands.push({ type: "turn", value: 1 });
+      commands.push({ type: "turn", value: 1, blockId: cursor.id });
     } else if (cursor.type === "collect_gem") {
-      commands.push({ type: "collect" });
+      commands.push({ type: "collect", blockId: cursor.id });
     } else if (cursor.type === "if_condition") {
       commands.push({
         type: "if",
         condition: cursor.getFieldValue("COND"),
         children: blockSequenceFrom(cursor.getInputTargetBlock("DO"), []),
+        blockId: cursor.id,
       });
     } else if (cursor.type === "if_else_condition") {
       commands.push({
@@ -4392,11 +4393,13 @@ function blockSequenceFrom(block, commands = []) {
         condition: cursor.getFieldValue("COND"),
         children: blockSequenceFrom(cursor.getInputTargetBlock("DO"), []),
         elseChildren: blockSequenceFrom(cursor.getInputTargetBlock("ELSE"), []),
+        blockId: cursor.id,
       });
     } else if (cursor.type === "repeat_times") {
       const times = Math.max(1, Math.min(12, Number(cursor.getFieldValue("TIMES")) || 1));
       const child = cursor.getInputTargetBlock("DO");
       for (let i = 0; i < times; i += 1) {
+        commands.push({ type: "highlight", blockId: cursor.id });
         blockSequenceFrom(child, commands);
       }
     } else if (cursor.type === "while_loop") {
@@ -4404,6 +4407,7 @@ function blockSequenceFrom(block, commands = []) {
         type: "while",
         condition: cursor.getFieldValue("COND"),
         children: blockSequenceFrom(cursor.getInputTargetBlock("DO"), []),
+        blockId: cursor.id,
       });
     }
 
@@ -4544,6 +4548,14 @@ function finishSuccess(result) {
 
 async function runCommandList(commands, commandTotal) {
   for (const command of commands) {
+    if (workspace && command.blockId) {
+      workspace.highlightBlock(command.blockId);
+    }
+    if (command.type === "highlight") {
+      await delay(Math.min(100, Number(els.speedRange.value) || 50));
+      continue;
+    }
+
     if (command.type === "while") {
       let whileGuard = 0;
       while (conditionMatches(command.condition)) {
@@ -4642,6 +4654,9 @@ async function runProgram() {
     setStatus(t("adjust"), "bad");
     setResult(error.message, "bad");
   } finally {
+    if (workspace) {
+      workspace.highlightBlock(null);
+    }
     isRunning = false;
     els.runButton.disabled = false;
     updateNextLevelButtons();
