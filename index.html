@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Blocky Easy</title>
+    <meta
+      name="description"
+      content="用 Blockly 方塊練習順序、轉向、重複與收集動作的兒童程式邏輯遊戲。"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="Blocky Easy 首頁">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" role="img">
+            <path d="M7 9.5A6.5 6.5 0 0 1 13.5 3h5A6.5 6.5 0 0 1 25 9.5v13A6.5 6.5 0 0 1 18.5 29h-5A6.5 6.5 0 0 1 7 22.5z" />
+            <path d="M12 12h8M12 17h5M12 22h8" />
+          </svg>
+        </span>
+        <span>
+          <span class="eyebrow">Blockly logic lab</span>
+          <strong>Blocky Easy</strong>
+        </span>
+      </a>
+      <div class="score-strip" aria-live="polite">
+        <span id="totalStarsLabel">總星數</span>
+        <strong id="totalStars">0 / 150</strong>
+      </div>
+      <div class="language-switch" role="group" aria-label="Language">
+        <button id="langZhButton" type="button" data-lang="zh">中文</button>
+        <button id="langEnButton" type="button" data-lang="en">English</button>
+      </div>
+    </header>
+
+    <main class="app-shell">
+      <section class="level-toolbar" aria-label="關卡與任務">
+        <div class="level-select-box">
+          <label for="levelSelect" id="levelSelectLabel">選擇關卡</label>
+          <select id="levelSelect" aria-label="選擇關卡"></select>
+        </div>
+
+        <div class="mission-block">
+          <div>
+            <div class="level-heading-row">
+              <span class="level-kicker" id="levelKicker">第 1 關</span>
+              <button class="next-level-button" id="nextLevelButton" type="button">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M9 5l7 7-7 7" />
+                </svg>
+                下一關
+              </button>
+            </div>
+            <h1 id="levelTitle">直線前進</h1>
+            <p id="levelGoal">把小隊員帶到綠色傳送門。</p>
+          </div>
+          <div class="concept-row">
+            <span id="levelConcept">順序</span>
+            <span id="blockLimit">限制 4 個方塊內</span>
+          </div>
+        </div>
+
+        <div class="hint-box">
+          <button class="ghost-button" id="hintToggle" type="button" aria-expanded="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M9 18h6M10 22h4M8.5 14.5a6 6 0 1 1 7 0c-.9.7-1.5 1.8-1.5 3h-4c0-1.2-.6-2.3-1.5-3Z" />
+            </svg>
+            顯示提示
+          </button>
+          <p id="levelHint" hidden></p>
+        </div>
+      </section>
+
+      <section class="play-panel" aria-label="遊戲地圖">
+        <div class="play-header">
+          <div>
+            <span class="eyebrow" id="missionEyebrow">Mission board</span>
+            <h2 id="mapTitle">任務地圖</h2>
+          </div>
+          <div class="play-status-actions">
+            <div class="run-status" id="runStatus" aria-live="polite">準備好了</div>
+            <button class="next-level-button" id="nextLevelStatusButton" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M9 5l7 7-7 7" />
+              </svg>
+              下一關
+            </button>
+          </div>
+        </div>
+        <div class="board-wrap">
+          <div class="board" id="board" role="img" aria-label="Blockly 關卡地圖"></div>
+        </div>
+        <div class="controls">
+          <button class="primary-button" id="runButton" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+            執行
+          </button>
+          <button class="secondary-button" id="resetButton" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 4v6h6M20 20v-6h-6" />
+              <path d="M20 9a8 8 0 0 0-14.9-4M4 15a8 8 0 0 0 14.9 4" />
+            </svg>
+            重來
+          </button>
+          <button class="secondary-button" id="demoButton" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 3v18M5 8h14M7 16h10" />
+            </svg>
+            示範
+          </button>
+          <label class="speed-control" for="speedRange">
+            <span id="speedLabel">速度</span>
+            <input id="speedRange" type="range" min="180" max="720" step="60" value="360" />
+          </label>
+        </div>
+        <div class="result-line" id="resultLine">把方塊接在「當按下執行」下面。</div>
+      </section>
+
+      <section class="workspace-panel" aria-label="Blockly 工作區">
+        <div class="workspace-header">
+          <div>
+            <span class="eyebrow" id="workspaceEyebrow">Blockly workspace</span>
+            <h2 id="workspaceTitle">方塊工作區</h2>
+          </div>
+          <div class="block-count" id="blockCount">0 個方塊</div>
+        </div>
+        <div class="quick-blocks" aria-label="快速接方塊">
+          <span id="quickBlocksLabel">接方塊</span>
+          <div class="quick-block-row">
+            <div id="quickBlocks"></div>
+            <div class="quick-target-actions">
+              <button class="quick-target-button" id="parentTargetButton" type="button" hidden>上一層</button>
+              <button class="quick-target-button" id="branchTargetButton" type="button" hidden>否則裡</button>
+              <button class="quick-target-button" id="rootTargetButton" type="button" hidden>主程式</button>
+            </div>
+          </div>
+          <div class="quick-target" id="quickTarget">接到主程式</div>
+        </div>
+        <div id="blocklyDiv" aria-label="Blockly 方塊編輯區"></div>
+        <div class="load-warning" id="loadWarning" hidden>
+          Blockly 沒有載入。請確認這台電腦可以連到 unpkg.com，或改成安裝本機 Blockly 套件。
+        </div>
+      </section>
+    </main>
+
+    <script src="https://unpkg.com/blockly/blockly.min.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
