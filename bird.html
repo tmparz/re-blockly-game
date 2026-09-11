@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="zh-Hant">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bird 飛鳥任務｜iPad 觸控版</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 16px system-ui, sans-serif; color: #173b37; background: #f0f7f5; }
+  header { padding: 12px 20px; display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  h1 { margin: 0; font-size: 21px; } p { margin: 4px 0; font-size: 14px; }
+  a { color: #17685a; } iframe { display: block; width: 100%; height: calc(100dvh - 100px); min-height: 620px; border: 0; background: white; }
+</style>
+<header><a href="./">← Blocky Easy</a><div><h1>Bird 飛鳥任務 · iPad 觸控版</h1><p>點積木上的數字 → 使用大按鍵輸入 → 按「確定」。先吃到蟲，再飛回鳥巢。</p></div></header>
+<iframe id="game" title="Bird 十個關卡與觸控數字鍵盤" src="bird-game/bird.html?lang=zh-hant"></iframe>
+<script>
+  const params = new URLSearchParams(location.search);
+  const lang = params.get('lang') === 'en' ? 'en' : 'zh-hant';
+  const level = Math.min(10, Math.max(1, Number(params.get('level')) || 1));
+  document.getElementById('game').src = `bird-game/bird.html?lang=${lang}&level=${level}`;
+</script>
+</html>

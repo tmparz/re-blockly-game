@@ -30,6 +30,7 @@
           <strong>Blocky Easy</strong>
         </span>
       </a>
+      <a href="blockly-games.html">Blockly Games 觸控版</a>
       <div class="score-strip" aria-live="polite">
         <span id="totalStarsLabel">總星數</span>
         <strong id="totalStars">0 / 150</strong>
@@ -111,6 +112,14 @@
             </svg>
             重來
           </button>
+          <button class="secondary-button" id="resetMapButton" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3 12a9 9 0 1 0 3-6.7" />
+              <path d="M3 4v6h6" />
+              <path d="M12 8v5l3 2" />
+            </svg>
+            回到起點
+          </button>
           <button class="secondary-button" id="demoButton" type="button">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="M12 3v18M5 8h14M7 16h10" />
@@ -153,6 +162,6 @@
     </main>
 
     <script src="https://unpkg.com/blockly/blockly.min.js"></script>
-    <script src="app.js"></script>
+    <script type="module" src="app.js"></script>
   </body>
 </html>

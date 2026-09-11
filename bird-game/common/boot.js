@@ -1,0 +1,79 @@
+/**
+ * @license
+ * Copyright 2014 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/**
+ * @fileoverview Load the correct language pack and code bundle.
+ * @author blocklygames@neil.fraser.name (Neil Fraser)
+ */
+'use strict';
+
+// Redirect to new domain.
+if (location.host === 'blockly-games.appspot.com' ||
+    location.host === 'www.blockly.games') {
+  location.replace('https://blockly.games' +
+      location.pathname + location.search + location.hash);
+}
+
+(function() {
+  // Application path.
+  var appName = location.pathname.match(/\/([-\w]+)(\.html)?$/);
+  appName = appName ? appName[1].replace('-', '/') : 'index';
+
+  // Supported languages (consistent across all apps).
+  window['BlocklyGamesLanguages'] = ['en', 'zh-hant'];
+
+  // Use a series of heuristics that determine the likely language of this user.
+  // First choice: The URL specified language.
+  var param = location.search.match(/[?&]lang=([^&]+)/);
+  var lang = param ? param[1].replace(/\+/g, '%20') : null;
+  if (window['BlocklyGamesLanguages'].indexOf(lang) !== -1) {
+    // Save this explicit choice as cookie.
+    var exp = (new Date(Date.now() + 2 * 31536000000)).toUTCString();
+    document.cookie = 'lang=' + escape(lang) + '; expires=' + exp + 'path=/';
+  } else {
+    // Second choice: Language cookie.
+    var cookie = document.cookie.match(/(^|;)\s*lang=([\w\-]+)/);
+    lang = cookie ? unescape(cookie[2]) : null;
+    if (window['BlocklyGamesLanguages'].indexOf(lang) === -1) {
+      // Third choice: The browser's language.
+      lang = navigator.language;
+      if (window['BlocklyGamesLanguages'].indexOf(lang) === -1) {
+        // Fourth choice: English.
+        lang = 'en';
+      }
+    }
+  }
+  window['BlocklyGamesLang'] = lang;
+
+  var debug = false;
+  try {
+    debug = false; // This standalone build contains compiled assets only.
+    if (debug) {
+      console.info('Loading uncompressed JavaScript.');
+    }
+  } catch (e) {
+    // Don't even think of throwing an error.
+  }
+
+  // Load the chosen language pack.
+  var script = document.createElement('script');
+  if (debug) {
+    script.src = 'generated/msg/' + lang + '.js';
+  } else {
+    script.src = appName + '/generated/msg/' + lang + '.js';
+  }
+  script.type = 'text/javascript';
+  document.head.appendChild(script);
+  // Load the code bundle for the chosen game.
+  var script = document.createElement('script');
+  if (debug) {
+    script.src = appName + '/generated/uncompressed.js';
+  } else {
+    script.src = appName + '/generated/compressed.js';
+  }
+  script.type = 'text/javascript';
+  document.head.appendChild(script);
+})();
