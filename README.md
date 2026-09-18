@@ -7,6 +7,12 @@
 內容包含上課流程、iPad 操作、常見問題，以及 Blockly Games／第三方元件的
 來源與授權說明。
 
+## 授權
+
+Blocky Easy 自製關卡、介面、文件與本機改動採 Apache License 2.0。
+第三方程式與素材仍依各自原始授權。完整說明請見根目錄 `LICENSE`、`NOTICE`，
+以及 `bird-game/NOTICE.md`、`blockly-games/NOTICE.md`。
+
 ## Bird 飛鳥任務（iPad 觸控版）
 
 開啟 `/bird.html`（繁體中文）或 `/bird.html?lang=en`（英文），首頁也有入口。

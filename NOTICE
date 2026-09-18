@@ -1,0 +1,48 @@
+Blocky Easy
+Copyright 2026 tmparz
+
+The original code, documentation, custom levels, interface work, and other
+project-authored material in this repository are licensed under the Apache
+License, Version 2.0, except where a file or directory states otherwise.
+
+This distribution also contains third-party software and assets. Those
+materials remain under their original copyright and license terms.
+
+Blockly Games
+-------------
+Portions of this repository are derived from or bundle material from:
+
+  Blockly Games
+  https://github.com/google/blockly-games
+  https://blockly.games/
+  Copyright Google LLC and Blockly Games contributors
+  License: Apache License 2.0
+
+Local changes include touch-friendly numeric, angle, and note input for iPad
+use, Traditional Chinese support, local static packaging, and removal or
+hiding of features that depend on the original server-side sharing/gallery
+services.
+
+The Google and Blockly names and trademarks remain the property of their
+respective owners. The Apache License does not grant trademark rights, and
+this project is not endorsed by Google.
+
+Additional third-party components
+---------------------------------
+Vendored Blockly Games bundles include third-party components such as:
+
+  - ACE Editor — BSD license
+  - CreateJS SoundJS — MIT license
+  - JS-Interpreter — Apache License 2.0
+  - Babel — MIT license
+  - Blockly / Closure-related runtime components — original notices retained
+
+Detailed attribution and local modification notes are retained in:
+
+  bird-game/NOTICE.md
+  bird-game/LICENSE
+  blockly-games/NOTICE.md
+
+When redistributing this repository or a derivative work, preserve the
+applicable copyright, license, and NOTICE information for third-party
+materials.
