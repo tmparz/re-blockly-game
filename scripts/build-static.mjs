@@ -3,7 +3,14 @@ import { resolve } from "node:path";
 
 const root = resolve(".");
 const dist = resolve(root, "dist");
-const files = ["index.html", "styles.css", "app.js", "bird.html", "blockly-games.html"];
+const files = [
+  "index.html",
+  "styles.css",
+  "app.js",
+  "bird.html",
+  "blockly-games.html",
+  "teacher-guide.html",
+];
 const directories = ["src", "styles", "bird-game", "blockly-games"];
 
 await rm(dist, { recursive: true, force: true });

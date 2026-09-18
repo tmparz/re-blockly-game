@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>老師使用說明｜Blocky Easy</title>
+    <style>
+      :root { color-scheme: light; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      * { box-sizing: border-box; }
+      body { margin: 0; color: #173b37; background: #f4f8f7; line-height: 1.7; }
+      a { color: #17685a; }
+      header { padding: 28px 20px; background: #fff; border-bottom: 1px solid #d9e8e4; }
+      .wrap { width: min(920px, 100%); margin: 0 auto; }
+      h1 { margin: 12px 0 8px; font-size: clamp(30px, 5vw, 48px); letter-spacing: -.04em; }
+      h2 { margin-top: 34px; line-height: 1.35; }
+      h3 { margin-top: 24px; }
+      p { margin: 8px 0 14px; }
+      main { padding: 24px 20px 56px; }
+      .lead { color: #4f6d67; max-width: 760px; }
+      .card { margin: 18px 0; padding: 18px 20px; border: 1px solid #d6e4e1; border-radius: 16px; background: #fff; }
+      .quick { border-color: #bcded4; background: #eaf7f3; }
+      .steps { margin: 12px 0 0; padding-left: 24px; }
+      .steps li { margin: 8px 0; }
+      .choice { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
+      .choice article { padding: 16px; border: 1px solid #dce8e5; border-radius: 14px; background: #fff; }
+      .choice h3 { margin: 0 0 6px; }
+      .button { display: inline-flex; min-height: 44px; align-items: center; justify-content: center; margin: 6px 8px 6px 0; padding: 0 16px; border-radius: 10px; background: #17685a; color: #fff; text-decoration: none; font-weight: 700; }
+      table { width: 100%; border-collapse: collapse; margin: 12px 0; background: #fff; }
+      th, td { padding: 10px 12px; border: 1px solid #d8e5e2; text-align: left; vertical-align: top; }
+      th { background: #eef6f4; }
+      code { padding: 2px 6px; border-radius: 6px; background: #eaf0ef; }
+      .fine { color: #627b76; font-size: .94rem; }
+      footer { padding: 22px 20px 38px; color: #627b76; border-top: 1px solid #d9e8e4; background: #fff; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="wrap">
+        <a href="./">← 回首頁</a>
+        <h1>老師使用說明</h1>
+        <p class="lead">這份說明是給帶課老師使用的。照下面順序操作即可，不需要先懂程式或專案設定。</p>
+      </div>
+    </header>
+    <main class="wrap">
+      <section class="card quick">
+        <h2>上課前 30 秒</h2>
+        <ol class="steps">
+          <li>用 iPad 或電腦開啟 <a href="https://tmparz.github.io/re-blockly-game/">https://tmparz.github.io/re-blockly-game/</a>。</li>
+          <li>要上自製闖關課程，就留在首頁；要玩 Google Blockly Games 的六個教學遊戲，點「Blockly Games 觸控版」。</li>
+          <li>iPad 建議橫向使用，畫面會比較寬，拖拉積木也比較容易。</li>
+          <li>先讓學生做一關；卡住時先按「提示」，老師需要示範時再按「示範」。</li>
+        </ol>
+        <a class="button" href="./">進入 Blocky Easy</a>
+        <a class="button" href="blockly-games.html">進入 Blockly Games 觸控版</a>
+      </section>
+
+      <h2>要選哪一套？</h2>
+      <section class="choice">
+        <article>
+          <h3>Blocky Easy</h3>
+          <p>適合完整帶課。共有 100 關，從移動、Repeat、For、While、If 到綜合挑戰，老師可以依程度選關卡。</p>
+        </article>
+        <article>
+          <h3>Blockly Games 觸控版</h3>
+          <p>適合延伸活動。包含 Bird、Turtle、Movie、Music、Pond Tutor、Pond，已把數字、角度與音符輸入改成較適合 iPad 的觸控操作。</p>
+        </article>
+      </section>
+
+      <h2>Blocky Easy 怎麼帶</h2>
+      <table>
+        <thead><tr><th>按鈕</th><th>老師可以怎麼說</th></tr></thead>
+        <tbody>
+          <tr><td>執行</td><td>「先跑一次，看看小隊員會走到哪裡。」</td></tr>
+          <tr><td>回到起點</td><td>角色回到本關起點，但學生排好的積木會保留，適合修改後再測一次。</td></tr>
+          <tr><td>重來</td><td>清掉目前程式，讓學生重新排積木。</td></tr>
+          <tr><td>提示</td><td>先給方向，不直接公布完整答案。</td></tr>
+          <tr><td>示範</td><td>老師需要講解時才使用，系統會放入參考積木。</td></tr>
+          <tr><td>下一關</td><td>完成後直接往下一題。</td></tr>
+        </tbody>
+      </table>
+
+      <h2>iPad 操作重點</h2>
+      <div class="card">
+        <ul class="steps">
+          <li>拖拉積木時，用手指按住積木再移動，不需要叫出鍵盤。</li>
+          <li>Bird、Movie、Music、Pond 等頁面遇到數字、角度或音符欄位，點欄位後會出現大型觸控選擇器。</li>
+          <li>輸入完成後按「確定 / Apply」才會套用；按「取消 / Cancel」會保留原來的值。</li>
+          <li>若畫面太擠，先改成橫向，再重新整理頁面。</li>
+        </ul>
+      </div>
+
+      <h2>學生卡住時，老師先看這裡</h2>
+      <div class="card">
+        <h3>首頁出現「Blockly 沒有載入」</h3>
+        <p>Blocky Easy 首頁目前會從 <code>unpkg.com</code> 載入 Blockly，所以教室網路需能連外。先確認網路，再重新整理頁面。</p>
+        <h3>iPad 點數字卻不能輸入</h3>
+        <p>請確認學生進入的是本站的「Blockly Games 觸控版」。觸控版會跳出大型數字／角度／音符選擇器，不依賴 iPad 系統數字鍵盤。</p>
+        <h3>學生一直過不了</h3>
+        <p>先看關卡的「方塊數限制」與「提示」。有些關卡刻意要求使用 Repeat、For、While 或 If，單純堆很多前進積木不一定會通過。</p>
+      </div>
+
+      <h2>授權與來源說明</h2>
+      <div class="card">
+        <p><strong>Blockly Games 原始專案：</strong><a href="https://github.com/google/blockly-games">google/blockly-games</a>；原始遊戲網站為 <a href="https://blockly.games/">blockly.games</a>。原專案版權屬 Google LLC 與 Blockly Games 貢獻者，主要程式採 Apache License 2.0。</p>
+        <p><strong>本站做的調整：</strong>為 iPad 教學加入大型觸控數字、角度、音符輸入，保留繁體中文／英文資源，並隱藏原站需要伺服器的分享與 Gallery 功能。Bird 與其他五個遊戲的原關卡規則與驗證邏輯仍由原 Blockly Games 程式處理。</p>
+        <p><strong>第三方元件：</strong>專案內還包含 ACE Editor（BSD）、SoundJS（MIT）、JS-Interpreter（Apache-2.0）與 Babel（MIT）等原始第三方元件；相關版權與授權文字保留在專案檔案中。</p>
+        <p><strong>教學使用：</strong>老師可直接在課堂使用本網站。若要把 Blockly Games 的程式或改作版本再散布，請保留原版權、授權與 NOTICE，並清楚標示修改內容。Apache-2.0 不授與 Google 商標使用權，也不代表 Google 對本網站背書。</p>
+        <p><strong>本站自製內容：</strong>Blocky Easy 的自製關卡、介面與本機改動屬本專案自行開發部分，目前未在專案中另外宣告開源授權；若需再散布或二次授權，應由專案所有者另外決定。</p>
+        <p class="fine">完整技術註記請見專案內 <code>bird-game/NOTICE.md</code>、<code>bird-game/LICENSE</code> 與 <code>blockly-games/NOTICE.md</code>。</p>
+      </div>
+
+      <h2>老師上課可以直接照這個節奏</h2>
+      <ol class="steps">
+        <li>先示範一關：只講「拖積木 → 執行 → 看結果」。</li>
+        <li>讓學生自己做 2～3 關，老師只回答操作問題。</li>
+        <li>開始出現 Repeat／For 後，再請學生說出「哪一段一直重複」。</li>
+        <li>進入 While／If 後，先請學生用中文說規則，再去排積木。</li>
+        <li>最後用「示範」對答案，請學生比較自己的做法和參考解法差在哪裡。</li>
+      </ol>
+    </main>
+    <footer><div class="wrap">Blocky Easy 教師使用說明｜最後整理：2026-09-18</div></footer>
+  </body>
+</html>

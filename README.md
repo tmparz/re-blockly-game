@@ -1,5 +1,12 @@
 # Blocky Easy
 
+## 老師使用說明
+
+給帶課老師的簡明操作版已整理在 `teacher-guide.html`，部署後可直接從首頁點
+「老師使用說明」。Markdown 版本在 `docs/20260918-老師使用手冊.md`。
+內容包含上課流程、iPad 操作、常見問題，以及 Blockly Games／第三方元件的
+來源與授權說明。
+
 ## Bird 飛鳥任務（iPad 觸控版）
 
 開啟 `/bird.html`（繁體中文）或 `/bird.html?lang=en`（英文），首頁也有入口。
