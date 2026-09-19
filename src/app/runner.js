@@ -31,7 +31,14 @@ export async function runCommandList(commands, commandTotal) {
       continue;
     }
 
-    if (command.type === "while") {
+    if (command.type === "repeat") {
+      for (let i = 0; i < command.times; i += 1) {
+        runtime.workspace?.highlightBlock(command.blockId);
+        const nestedResult = await runCommandList(command.children || [], commandTotal);
+        if (nestedResult) return nestedResult;
+      }
+      renderBoard();
+    } else if (command.type === "while") {
       let whileGuard = 0;
       while (conditionMatches(command.condition)) {
         whileGuard += 1;
@@ -66,6 +73,10 @@ export async function runCommandList(commands, commandTotal) {
       renderBoard();
     } else {
       await executeCommand(command);
+      const types = command.practiceTypes || [];
+      types.forEach((type) => runtime.state.usedTypes.add(type));
+      runtime.state.repeatDepth = Math.max(runtime.state.repeatDepth,
+        types.filter((type) => type === "repeat_times").length);
     }
 
     const stepResult = evaluateWin(commandTotal);

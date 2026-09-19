@@ -10,26 +10,30 @@ export const STAGE_TRANSLATIONS = {
     },
     nested_for: {
       title: "Stage 3: Nested For Basics",
-      description: "Start by chaining two For loops, then slowly place For loops inside other For loops.",
+      description: "Decompose three-part routes, nest For loops, then handle unequal segment lengths.",
     },
     advanced_for: {
       title: "Stage 4: Advanced For Factory",
       description: "Break routes into reusable inspection routines and practice two-layer loops.",
     },
     while: {
-      title: "Stage 5: While Loops",
-      description: "No fixed count needed — let the program decide when to stop based on conditions.",
+      title: "Stage 5: While Basics",
+      description: "Ten short tasks introduce stopping conditions, zero iterations, and conditional collection.",
     },
     if: {
       title: "Stage 6: If Conditions",
       description: "Move from single If checks to For + If, then finish with If/Else choices.",
     },
+    while_advanced: {
+      title: "Stage 7: While Routes and Returns",
+      description: "After learning conditions, use chained and nested While loops for patrols, variable routes, and return navigation.",
+    },
     maze: {
-      title: "Stage 7: Maze Rules",
+      title: "Stage 8: Maze Rules",
       description: "Use left, right, and forward sensors to write reusable maze-solving rules.",
     },
     challenge: {
-      title: "Stage 8: Large Integrated Challenges",
+      title: "Stage 9: Large Integrated Challenges",
       description: "Use larger maps that combine Repeat, While, If, If/Else, and collection rules.",
     },
   },

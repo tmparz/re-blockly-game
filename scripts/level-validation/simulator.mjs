@@ -1,7 +1,9 @@
 import { deltas, dirs } from "./context.mjs";
 import { keyOf } from "./utils.mjs";
+import { missingPractice } from "../../src/data/lesson-rules.js";
 
-export function simulateLevel(level, index) {
+export function traceLevel(level, solution = level.solution) {
+  const stats = { actions: 0, steps: [], usedTypes: new Set(), repeatDepth: 0, conditions: {}, visits: {}, executed: new Set() };
   const walls = new Set(level.walls.map(keyOf));
   const gemKeys = new Set(level.gems.map(keyOf));
   const state = {
@@ -26,6 +28,15 @@ export function simulateLevel(level, index) {
     state.x === level.goal.x &&
     state.y === level.goal.y &&
     level.gems.every((gem) => state.collected.has(keyOf(gem)));
+  const lessonDone = () => hasWon() && !missingPractice(level, stats.usedTypes).length &&
+    stats.repeatDepth >= (level.minRepeatDepth || 0);
+
+  function check(condition, path) {
+    const matched = conditionMatches(condition);
+    const entry = stats.conditions[path] ||= { condition, true: 0, false: 0 };
+    entry[String(matched)] += 1;
+    return matched;
+  }
 
   function conditionMatches(condition) {
     if (condition === "ON_GEM") {
@@ -53,7 +64,12 @@ export function simulateLevel(level, index) {
     return false;
   }
 
-  function runAction(item) {
+  function runAction(item, parents) {
+    stats.actions += 1;
+    stats.steps.push({ type: item.type });
+    if (stats.actions > 10000) throw new Error("action budget exceeded");
+    parents.forEach((type) => stats.usedTypes.add(type));
+    stats.repeatDepth = Math.max(stats.repeatDepth, parents.filter((type) => type === "repeat_times").length);
     if (item.type === "move_forward") {
       const next = pointAhead();
       if (!inside(next) || walls.has(keyOf(next))) {
@@ -61,13 +77,14 @@ export function simulateLevel(level, index) {
       }
       state.x = next.x;
       state.y = next.y;
-      return hasWon();
+      stats.visits[keyOf(state)] = (stats.visits[keyOf(state)] || 0) + 1;
+      return lessonDone();
     }
 
     if (item.type === "turn_left" || item.type === "turn_right") {
       const turn = item.type === "turn_right" ? 1 : -1;
       state.dir = dirs[(dirs.indexOf(state.dir) + turn + dirs.length) % dirs.length];
-      return hasWon();
+      return lessonDone();
     }
 
     if (item.type === "collect_gem") {
@@ -79,46 +96,50 @@ export function simulateLevel(level, index) {
         throw new Error(`gem already collected at ${here}`);
       }
       state.collected.add(here);
-      return hasWon();
+      return lessonDone();
     }
 
     throw new Error(`unknown block "${item.type}"`);
   }
 
-  function runSequence(sequence = []) {
-    for (const item of sequence) {
+  function runSequence(sequence = [], parents = [], prefix = "") {
+    for (const [position, item] of sequence.entries()) {
+      const path = `${prefix}${position}`;
+      stats.executed.add(path);
+      const nested = [...parents, item.type];
       if (item.type === "repeat_times") {
         const times = Math.max(1, Math.min(12, Number(item.times) || 1));
         for (let i = 0; i < times; i += 1) {
-          if (runSequence(item.children || [])) {
+          if (runSequence(item.children || [], times > 1 ? nested : parents, `${path}.do.`)) {
             return true;
           }
         }
       } else if (item.type === "while_loop") {
         let guard = 0;
-        while (conditionMatches(item.condition)) {
+        while (check(item.condition, path)) {
           guard += 1;
           if (guard > 200) {
             throw new Error(`runaway while "${item.condition}" at ${keyOf(state)}`);
           }
-          if (runSequence(item.children || [])) {
+          if (runSequence(item.children || [], nested, `${path}.do.`)) {
             return true;
           }
         }
       } else if (item.type === "if_condition") {
-        if (conditionMatches(item.condition) && runSequence(item.children || [])) {
+        if (check(item.condition, path) && runSequence(item.children || [], nested, `${path}.do.`)) {
           return true;
         }
       } else if (item.type === "if_else_condition") {
-        const branch = conditionMatches(item.condition) ? item.children || [] : item.elseChildren || [];
-        if (runSequence(branch)) {
+        const matched = check(item.condition, path);
+        const branch = matched ? item.children || [] : item.elseChildren || [];
+        if (runSequence(branch, nested, `${path}.${matched ? "do" : "else"}.`)) {
           return true;
         }
-      } else if (runAction(item)) {
+      } else if (runAction(item, parents)) {
         return true;
       }
 
-      if (hasWon()) {
+      if (lessonDone()) {
         return true;
       }
     }
@@ -126,15 +147,18 @@ export function simulateLevel(level, index) {
   }
 
   try {
-    const completed = runSequence(level.solution) || hasWon();
+    const completed = runSequence(solution) || lessonDone();
     if (!completed) {
-      return [
-        `${index + 1} ${level.id}: ended at ${keyOf(state)} facing ${state.dir}, collected ${state.collected.size}/${level.gems.length}`,
-      ];
+      return { ok: false, stats, state, error: `ended at ${keyOf(state)} facing ${state.dir}, collected ${state.collected.size}/${level.gems.length}; missing practice: ${missingPractice(level, stats.usedTypes).join(", ")}; repeat depth ${stats.repeatDepth}` };
     }
   } catch (error) {
-    return [`${index + 1} ${level.id}: ${error.message}`];
+    return { ok: false, stats, state, error: error.message };
   }
 
-  return [];
+  return { ok: true, stats, state };
+}
+
+export function simulateLevel(level, index) {
+  const result = traceLevel(level);
+  return result.ok ? [] : [`${index + 1} ${level.id}: ${result.error}`];
 }

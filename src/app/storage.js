@@ -1,5 +1,6 @@
-import { CURRENT_LEVEL_KEY, STORAGE_KEY } from "./constants.js";
+import { CURRENT_LEVEL_KEY, CURRENT_LEVEL_ID_KEY, STORAGE_KEY } from "./constants.js";
 import { LEVELS } from "../data/index.js";
+import { LEGACY_LEVEL_IDS } from "../data/levels.js";
 import { runtime } from "./runtime.js";
 
 export function readProgress() {
@@ -12,8 +13,9 @@ export function readProgress() {
 
 export function readCurrentLevelIndex() {
   try {
-    const index = Number(localStorage.getItem(CURRENT_LEVEL_KEY) || 0);
-    return Math.max(0, Math.min(LEVELS.length - 1, Number.isFinite(index) ? index : 0));
+    const legacyIndex = Number(localStorage.getItem(CURRENT_LEVEL_KEY) || 0);
+    const savedId = localStorage.getItem(CURRENT_LEVEL_ID_KEY) || LEGACY_LEVEL_IDS[legacyIndex];
+    return Math.max(0, LEVELS.findIndex((level) => level.id === savedId));
   } catch {
     return 0;
   }

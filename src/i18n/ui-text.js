@@ -1,5 +1,9 @@
 export const UI_TEXT = {
   zh: {
+    practiceRequired: "本關需使用：{blocks}。",
+    practiceDepthRequired: "重複方塊至少巢狀 {depth} 層。",
+    practiceMissing: "已到出口；請讓「{blocks}」實際控制動作，完成本關練習。",
+    practiceDepth: "請讓動作在至少 {depth} 層巢狀重複內執行，完成本關練習。",
     addBlocksFirst: "先放一些動作方塊，再按執行。",
     addToElse: "接到否則裡",
     addToIf: "接到如果裡",
@@ -60,7 +64,7 @@ export const UI_TEXT = {
     noStart: "找不到開始方塊。",
     nextLevel: "下一關",
     leftClear: "左邊沒牆",
-    notDone: "還沒到傳送門",
+    notDone: "任務還沒完成",
     onGem: "站在寶石上",
     rightClear: "右邊沒牆",
     pageDescription: "用 Blockly 方塊練習順序、轉向、重複與收集動作的兒童程式邏輯遊戲。",
@@ -102,6 +106,10 @@ export const UI_TEXT = {
     workspaceTitle: "方塊工作區",
   },
   en: {
+    practiceRequired: "Use: {blocks}.",
+    practiceDepthRequired: "Nest Repeat blocks at least {depth} layers deep.",
+    practiceMissing: "You reached the exit. Use {blocks} to control an action and complete this lesson.",
+    practiceDepth: "Run an action inside at least {depth} nested Repeat layers to complete this lesson.",
     addBlocksFirst: "Add some action blocks before running.",
     addToElse: "Add inside Else",
     addToIf: "Add inside If",
@@ -162,7 +170,7 @@ export const UI_TEXT = {
     noStart: "Cannot find the Start block.",
     nextLevel: "Next level",
     leftClear: "left is clear",
-    notDone: "not at portal",
+    notDone: "mission not complete",
     onGem: "on a gem",
     rightClear: "right is clear",
     pageDescription: "A Blockly logic game for kids to practice sequence, turning, repeat loops, conditions, and collection actions.",

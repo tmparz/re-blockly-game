@@ -1,3 +1,4 @@
+import { LEVEL_ORDER } from "./level-order.js";
 import { levels01 } from "./levels/levels-01.js";
 import { levels02 } from "./levels/levels-02.js";
 import { levels03 } from "./levels/levels-03.js";
@@ -20,7 +21,7 @@ import { levels19 } from "./levels/levels-19.js";
 import { levels20 } from "./levels/levels-20.js";
 import { levels21 } from "./levels/levels-21.js";
 
-export const LEVELS = [
+const allLevels = [
   ...levels01,
   ...levels02,
   ...levels03,
@@ -43,3 +44,11 @@ export const LEVELS = [
   ...levels20,
   ...levels21,
 ];
+
+const byId = new Map(allLevels.map((level) => [level.id, level]));
+if (byId.size !== allLevels.length || new Set(LEVEL_ORDER).size !== allLevels.length ||
+    LEVEL_ORDER.some((id) => !byId.has(id))) {
+  throw new Error("Curriculum order must contain every level ID exactly once.");
+}
+export const LEVELS = LEVEL_ORDER.map((id) => byId.get(id));
+export const LEGACY_LEVEL_IDS = allLevels.map((level) => level.id);

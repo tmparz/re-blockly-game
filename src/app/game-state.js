@@ -19,6 +19,8 @@ export function cloneStart(level) {
     y: level.start.y,
     dir: level.start.dir,
     collected: new Set(),
+    usedTypes: new Set(),
+    repeatDepth: 0,
   };
 }
 

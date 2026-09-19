@@ -4,7 +4,8 @@ import { countLessonBlocks } from "./blockly-workspace.js";
 import { keyOf, samePoint, setStatus } from "./game-state.js";
 import { renderBoard } from "./board-view.js";
 import { runtime } from "./runtime.js";
-import { t } from "./i18n.js";
+import { t, blockLabel } from "./i18n.js";
+import { missingPractice } from "../data/lesson-rules.js";
 
 export function delay(ms) {
   return new Promise((resolve) => window.setTimeout(resolve, ms));
@@ -108,6 +109,14 @@ export function evaluateWin() {
   }
   if (!allGems) {
     return { ok: false, message: t("missingGems") };
+  }
+
+  const missing = missingPractice(level, runtime.state.usedTypes);
+  if (missing.length) {
+    return { ok: false, message: t("practiceMissing", { blocks: missing.map(blockLabel).join("、") }) };
+  }
+  if (runtime.state.repeatDepth < (level.minRepeatDepth || 0)) {
+    return { ok: false, message: t("practiceDepth", { depth: level.minRepeatDepth }) };
   }
 
   const blockCount = countLessonBlocks();

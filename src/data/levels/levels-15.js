@@ -3,7 +3,7 @@ import { wallsOutsidePath } from "../walls.js";
 export const levels15 = [
 {
     id: "while-dead-end-return",
-    stage: "while",
+    stage: "while_advanced",
     title: "While：死巷取物再回程",
     concept: "While + 回程路線",
     goalText: "先進入右側死巷收集能量石，再轉身用 While 回到起點，最後往上到傳送門。",
@@ -46,7 +46,7 @@ export const levels15 = [
   },
 {
     id: "while-gem-ribbon-switchbacks",
-    stage: "while",
+    stage: "while_advanced",
     title: "While：寶石帶換軌",
     concept: "While + 連續寶石條件",
     goalText: "沿著四段長短不同的寶石帶前進，用 While 在站上寶石時持續收集並前進，停在空格後再換到下一段。",
@@ -117,7 +117,7 @@ export const levels15 = [
   },
 {
     id: "while-rotation-lock-lab",
-    stage: "while",
+    stage: "while_advanced",
     title: "While：旋轉鎖實驗室",
     concept: "While + 轉到可走",
     goalText: "一開始面向牆壁，先用 While 轉到有路，再沿著實驗室長路線收集能量石。",

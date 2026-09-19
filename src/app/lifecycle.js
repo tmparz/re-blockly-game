@@ -1,4 +1,4 @@
-import { CURRENT_LEVEL_KEY } from "./constants.js";
+import { CURRENT_LEVEL_KEY, CURRENT_LEVEL_ID_KEY } from "./constants.js";
 import { LEVELS } from "../data/index.js";
 import { createStartBlock, renderQuickBlocks } from "./quick-blocks.js";
 import { currentLang, LANGUAGE_KEY } from "./language.js";
@@ -11,7 +11,8 @@ import { resetState, resetMapOnly, setStatus, getBlockLimit } from "./game-state
 import { runProgram } from "./runner.js";
 import { runtime } from "./runtime.js";
 import { syncWorkspaceFromProgram } from "./program-xml.js";
-import { t, levelText, setButtonText, applyStaticTranslations } from "./i18n.js";
+import { t, levelText, blockLabel, setButtonText, applyStaticTranslations } from "./i18n.js";
+import { lessonRequirements } from "../data/lesson-rules.js";
 import { targetParts, findProgramItem, findProgramParentId } from "./program-model.js";
 import { toolboxFor } from "./block-definitions.js";
 
@@ -30,6 +31,7 @@ export function loadLevel(index) {
   runtime.currentLevelIndex = index;
   try {
     localStorage.setItem(CURRENT_LEVEL_KEY, String(index));
+    localStorage.setItem(CURRENT_LEVEL_ID_KEY, LEVELS[index].id);
   } catch {
     // Progress still works without persistent storage.
   }
@@ -37,6 +39,13 @@ export function loadLevel(index) {
   els.levelKicker.textContent = t("levelKicker", { number: index + 1 });
   els.levelTitle.textContent = levelText(level, "title");
   els.levelGoal.textContent = levelText(level, "goalText");
+  const required = lessonRequirements(level);
+  if (required.length) {
+    els.levelGoal.textContent += " " + t("practiceRequired", { blocks: required.map(blockLabel).join("、") });
+  }
+  if (level.minRepeatDepth) {
+    els.levelGoal.textContent += " " + t("practiceDepthRequired", { depth: level.minRepeatDepth });
+  }
   els.levelConcept.textContent = levelText(level, "concept");
   els.blockLimit.textContent = t("blockLimit", { limit: getBlockLimit(level) });
   els.mapTitle.textContent = levelText(level, "title") || t("mapTitleFallback");

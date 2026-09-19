@@ -44,7 +44,7 @@ export function validateLevelData(level, index) {
   if (!stageIds.has(level.stage)) {
     problems.push(`${label}: unknown stage "${level.stage}"`);
   }
-  if (level.id.startsWith("while-") && level.stage !== "while") {
+  if (level.id.startsWith("while-") && !["while", "while_advanced"].includes(level.stage)) {
     problems.push(`${label}: while-prefixed level is in "${level.stage}" stage`);
   }
   if (level.id.startsWith("if-") && level.stage !== "if") {

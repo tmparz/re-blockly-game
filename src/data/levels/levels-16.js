@@ -3,7 +3,7 @@ import { wallsOutsidePath } from "../walls.js";
 export const levels16 = [
 {
     id: "while-final-cross-return",
-    stage: "while",
+    stage: "while_advanced",
     title: "While：最終回程十字路",
     concept: "While 綜合回程",
     goalText: "先進入長死巷收集能量石，再用 While 轉身回程，最後穿過上方通道抵達傳送門。",
@@ -71,44 +71,37 @@ export const levels16 = [
   },
 {
     id: "while-for-mixed-patrol",
-    stage: "while",
-    title: "While：走停收集混合迴圈",
-    concept: "While + For 混合",
-    goalText: "外層用 While 控制整體路線，走到底後用 For 重複固定步數回收能量石，再轉向下一段。",
-    hint: "每段先用 While 走到底，再用 For 重複 2 次「前進一步、收集」。橫向收完後要再前進一步到轉角，才能往上收集。",
-    grid: { cols: 7, rows: 5 },
-    start: { x: 0, y: 4, dir: "E" },
-    goal: { x: 6, y: 0 },
-    walls: wallsOutsidePath(7, 5, [
-      { x: 0, y: 4 }, { x: 1, y: 4 }, { x: 2, y: 4 }, { x: 3, y: 4 },
-      { x: 3, y: 3 }, { x: 3, y: 2 },
-      { x: 4, y: 2 }, { x: 5, y: 2 }, { x: 6, y: 2 },
-      { x: 6, y: 1 }, { x: 6, y: 0 },
-    ]),
-    gems: [
-      { x: 4, y: 2 },
-      { x: 5, y: 2 },
-      { x: 6, y: 1 },
-      { x: 6, y: 0 },
+    stage: "while_advanced",
+    title: "While：走廊接固定採樣",
+    concept: "條件停止與固定次數分工",
+    goalText: "先用 While 穿過兩段走廊，再用 For 完成兩組固定兩站的採樣。",
+    hint: "走廊長度交給 While；已知有兩座連續站台就用 For（前進、收集）兩次。橫向採樣後另走一步，才轉向上方。",
+    grid: {"cols":7,"rows":5},
+    start: {"x":0,"y":4,"dir":"E"},
+    goal: {"x":6,"y":0},
+    walls: [
+      { x: 0, y: 0 }, { x: 1, y: 0 }, { x: 2, y: 0 }, { x: 3, y: 0 }, { x: 4, y: 0 }, { x: 5, y: 0 },
+      { x: 0, y: 1 }, { x: 1, y: 1 }, { x: 2, y: 1 }, { x: 3, y: 1 }, { x: 4, y: 1 }, { x: 5, y: 1 },
+      { x: 0, y: 2 }, { x: 1, y: 2 }, { x: 2, y: 2 }, { x: 0, y: 3 }, { x: 1, y: 3 }, { x: 2, y: 3 },
+      { x: 4, y: 3 }, { x: 5, y: 3 }, { x: 6, y: 3 }, { x: 4, y: 4 }, { x: 5, y: 4 }, { x: 6, y: 4 },
     ],
-    blocks: ["move_forward", "turn_left", "turn_right", "repeat_times", "while_loop", "collect_gem"],
+    gems: [{"x":4,"y":2},{"x":5,"y":2},{"x":6,"y":1},{"x":6,"y":0}],
+    blocks: ["move_forward","turn_left","turn_right","repeat_times","while_loop","collect_gem"],
     targetBlocks: 14,
     solution: [
-      {
-        type: "while_loop",
-        condition: "FRONT_CLEAR",
-        children: [{ type: "move_forward" }],
+      { type: "while_loop", condition: "FRONT_CLEAR",
+        children: [
+          { type: "move_forward" },
+        ],
       },
       { type: "turn_left" },
-      {
-        type: "while_loop",
-        condition: "FRONT_CLEAR",
-        children: [{ type: "move_forward" }],
+      { type: "while_loop", condition: "FRONT_CLEAR",
+        children: [
+          { type: "move_forward" },
+        ],
       },
       { type: "turn_right" },
-      {
-        type: "repeat_times",
-        times: 2,
+      { type: "repeat_times", times: 2,
         children: [
           { type: "move_forward" },
           { type: "collect_gem" },
@@ -116,9 +109,7 @@ export const levels16 = [
       },
       { type: "move_forward" },
       { type: "turn_left" },
-      {
-        type: "repeat_times",
-        times: 2,
+      { type: "repeat_times", times: 2,
         children: [
           { type: "move_forward" },
           { type: "collect_gem" },
@@ -128,11 +119,11 @@ export const levels16 = [
   },
 {
     id: "while-triple-nested-scan",
-    stage: "while",
+    stage: "while_advanced",
     title: "While：變長礦道三層掃描",
     concept: "三層巢狀 While",
     goalText: "用三層 While 掃描長短不同的礦道：外層重複兩排巡線，中層走到每排盡頭，內層只在踩到能量石時收集。",
-    hint: "最外層用「還沒到傳送門」。每次先向前掃完一排並逐點檢查寶石，再左轉上樓掃回來，最後右轉進入下一組礦道。",
+    hint: "最外層用「任務還沒完成」。每次先向前掃完一排並逐點檢查寶石，再左轉上樓掃回來，最後右轉進入下一組礦道。",
     grid: { cols: 10, rows: 9 },
     start: { x: 1, y: 7, dir: "E" },
     goal: { x: 9, y: 3 },

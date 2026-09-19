@@ -1,6 +1,7 @@
 import { levels, stageOrder } from "./level-validation/context.mjs";
 import { validateLevelData, validateTextTranslations } from "./level-validation/checks.mjs";
 import { simulateLevel } from "./level-validation/simulator.mjs";
+import { validateCurriculumLevel } from "./level-validation/curriculum-checks.mjs";
 
 const problems = [];
 const ids = new Set();
@@ -18,6 +19,7 @@ levels.forEach((level, index) => {
     lastStageIndex = Math.max(lastStageIndex, currentStageIndex);
   }
   problems.push(...validateLevelData(level, index));
+  problems.push(...validateCurriculumLevel(level, index));
   problems.push(...simulateLevel(level, index));
 });
 
