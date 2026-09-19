@@ -4,8 +4,7 @@ const path = 'bird-game/bird/generated/compressed.js';
 let source = await readFile(path, 'utf8');
 const replacements = [
   ['var a={rtl:rk,trashcan:!0},b=T("toolbox");', 'var a={rtl:rk,trashcan:!0,zoom:{controls:false,wheel:false,startScale:0.8,maxScale:1.5,minScale:0.4,scaleSpeed:1.2}},b=T("toolbox");'],
-  ['g.Ie=function(a,b){this.h=this.m.l;', 'g.Ie=function(a,b){window.BirdTouch.open(uh(this),function(v){Id(this,v)}.bind(this));return;this.h=this.m.l;'],
-  ['g.Ie=function(a){Zj.j.Ie.call(this,a,Ta||Na||Oa);', 'g.Ie=function(a){window.BirdTouch.open(uh(this),function(v){Id(this,v)}.bind(this),true);return;Zj.j.Ie.call(this,a,Ta||Na||Oa);'],
+  ['g.Ie=function(a,b){this.h=this.m.l;', 'g.Ie=function(a,b){if(this instanceof Zj){this.h=this.m.l;a=b||!1;!a&&(Ta||Na||Oa)?Yj(this):(kh(this,this.m.o,this.Jr.bind(this)),this.Kb=this.wm(),this.Cf=!0,a||(this.Kb.focus({preventScroll:!0}),this.Kb.select()));return;}window.BirdTouch.open(uh(this),function(v){Id(this,v)}.bind(this));return;this.h=this.m.l;'],
 ];
 for (const [before, after] of replacements) {
   if (source.includes(after)) continue;
