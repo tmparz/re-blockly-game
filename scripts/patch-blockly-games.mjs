@@ -1,7 +1,7 @@
 import { readFile, writeFile } from 'node:fs/promises';
 
 const games = [
-  { name: 'turtle', number: ['g.Qd=function(a,b){this.h=this.m.i;', 'g.Qd=function(a,b){window.BlocklyTouchInput.open(this.Tb(),function(v){this.Na(v)}.bind(this));return;this.h=this.m.i;'] },
+  { name: 'turtle', number: ['g.Qd=function(a,b){this.h=this.m.i;', 'g.Qd=function(a,b){if(this.isAngleField||(typeof TurtleAngleField!=="undefined"&&this instanceof TurtleAngleField)){this.h=this.m.i;a=b||!1;!a&&(Za||Ta||Ua)?Vn(this):(jh(this,this.m.o,this.Ou.bind(this)),this.hc=this.cp(),this.Di=!0,a||(this.hc.focus({preventScroll:!0}),this.hc.select()));return;}window.BlocklyTouchInput.open(this.Tb(),function(v){this.Na(v)}.bind(this));return;this.h=this.m.i;'] },
   { name: 'movie', number: ['g.Ge=function(a,b){this.h=this.m.i;', 'g.Ge=function(a,b){window.BlocklyTouchInput.open(this.Sb(),function(v){this.Ja(v)}.bind(this));return;this.h=this.m.i;'] },
   { name: 'music', number: ['g.od=function(a,b){this.h=this.m.i;', 'g.od=function(a,b){window.BlocklyTouchInput.open(this.fc(),function(v){this.Ta(this.cn(v))}.bind(this));return;this.h=this.m.i;'], pitch: ['g.od=function(){sn.prototype.od.call(this);', 'g.od=function(){window.BlocklyTouchInput.openPitch(this.Ya(),function(v){this.Ta(v)}.bind(this));return;sn.prototype.od.call(this);'], workspace: ['$n();document.body.innerHTML=bo();', '$n();window.blocklyGamesMusicWorkspace=bk;document.body.innerHTML=bo();'] },
   { name: 'pond/tutor', number: ['g.Jd=function(a,b){this.h=this.m.i;', 'g.Jd=function(a,b){window.BlocklyTouchInput.open(this.Ob(),function(v){gd(this,v)}.bind(this));return;this.h=this.m.i;'], angle: ['g.Jd=function(a){$n.l.Jd.call(this,a,yb||sb||tb);', 'g.Jd=function(a){window.BlocklyTouchInput.open(this.Ob(),function(v){gd(this,v)}.bind(this),true);return;$n.l.Jd.call(this,a,yb||sb||tb);'] },
@@ -24,3 +24,4 @@ for (const game of games) {
 }
 
 console.log(`Patched ${games.length} Blockly Games for touch numeric, angle, and note input.`);
+import('./patch-turtle.mjs');

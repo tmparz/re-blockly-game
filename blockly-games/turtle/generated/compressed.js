@@ -616,11 +616,201 @@ var Rn={onchange:function(a){this.Ri||(this.Ri=[null,null]);var b=ni(this,"A"),c
 Mh("logic_ternary",{vr:null,onchange:function(a){var b=ni(this,"THEN"),c=ni(this,"ELSE"),d=this.v.K;if((b||c)&&d)for(var e=0;e<2;e++){var f=e==1?b:c;f&&!Wd(f.v,d)&&(z(a.group),d===this.vr?(Qd(this),d.D().La()):(Qd(f),f.La()),z(!1))}this.vr=d}});function Sn(a,b,c){this.jj=!0;Sn.l.constructor.call(this,a,b,c);this.cl=this.ve=this.hc=null;this.zk=!1;this.h=null}F(Sn,mh);Sn.prototype.If="";Sn.M=function(a){var b=kb(a.text);return new Sn(b,void 0,a)};g=Sn.prototype;g.Lf=!0;g.Ej="text";g.Gb=function(a){Sn.l.Gb.call(this,a);typeof a.spellcheck=="boolean"&&(this.jj=a.spellcheck)};
 g.ef=function(){if(this.F().mp){for(var a=0,b=0,c=0,d;d=this.m.B[c];c++){for(var e=0;d.Z[e];e++)a++;d.connection&&b++}this.zk=a<=1&&this.m.v&&!b}else this.zk=!1;this.zk?this.ck=this.m.P():oh(this);ph(this)};g.fe=function(a){return a===null||a===void 0?null:String(a)};g.Wp=function(){if(this.Di){this.sn=!1;var a=this.pa;this.pa=this.hc.Pr;this.m&&w==0&&x(new (A("change"))(this.m,"field",this.name||null,a,this.pa))}};g.bd=function(a){this.sn=!0;this.pa=a;this.Di||(this.Gd=!0)};
 g.Ja=function(){this.m&&this.F().mp&&(this.wa?this.wa.setAttribute("stroke",this.m.style.Xd):this.m.oa.ta.setAttribute("fill",this.F().ip))};g.uh=function(){Sn.l.uh.call(this);if(this.Di){Tn(this);var a=this.hc;this.sn?(Gc(a,"blocklyInvalidInput"),xh(a,"invalid",!1)):(C(a,"blocklyInvalidInput"),xh(a,"invalid",!0))}};function Un(a){0!=a.jj&&(a.jj=!1,a.hc&&a.hc.setAttribute("spellcheck",a.jj))}
-g.Qd=function(a,b){window.BlocklyTouchInput.open(this.Tb(),function(v){this.Na(v)}.bind(this));return;this.h=this.m.i;a=b||!1;!a&&(Za||Ta||Ua)?Vn(this):(jh(this,this.m.o,this.Ou.bind(this)),this.hc=this.cp(),this.Di=!0,a||(this.hc.focus({preventScroll:!0}),this.hc.select()))};function Vn(a){fl(k.CHANGE_VALUE_TITLE,a.Tb(),function(b){b!==null&&this.Na(b)}.bind(a))}
+g.Qd=function(a,b){if(this.isAngleField||(typeof TurtleAngleField!=="undefined"&&this instanceof TurtleAngleField)){this.h=this.m.i;a=b||!1;!a&&(Za||Ta||Ua)?Vn(this):(jh(this,this.m.o,this.Ou.bind(this)),this.hc=this.cp(),this.Di=!0,a||(this.hc.focus({preventScroll:!0}),this.hc.select()));return;}window.BlocklyTouchInput.open(this.Tb(),function(v){this.Na(v)}.bind(this));return;this.h=this.m.i;a=b||!1;!a&&(Za||Ta||Ua)?Vn(this):(jh(this,this.m.o,this.Ou.bind(this)),this.hc=this.cp(),this.Di=!0,a||(this.hc.focus({preventScroll:!0}),this.hc.select()))};function Vn(a){fl(k.CHANGE_VALUE_TITLE,a.Tb(),function(b){b!==null&&this.Na(b)}.bind(a))}
 g.cp=function(){var a=eh;C(nh(this),"editing");var b=document.createElement("input");b.className="blocklyHtmlInput";b.setAttribute("spellcheck",this.jj);var c=nk(this.h),d=this.F().Dg*c+"pt";a.style.fontSize=d;b.style.fontSize=d;d=4*c+"px";if(this.zk){d=pf(this);d=(d.bottom-d.top)/2+"px";var e=this.m.getParent()?this.m.getParent().style.Xd:this.m.style.Xd;b.style.border=1*c+"px solid "+e;a.style.borderRadius=d;a.style.transition="box-shadow 0.25s ease 0s";this.F().zs&&(a.style.boxShadow="rgba(255, 255, 255, 0.3) 0px 0px 0px "+
 4*c+"px")}b.style.borderRadius=d;a.appendChild(b);b.value=b.defaultValue=String(this.pa);b.Pr=this.pa;b.cr=null;Tn(this);this.ve=r(b,"keydown",this,this.au);this.cl=r(b,"input",this,this.$t);return b};g.Ou=function(){this.Di=!1;this.sn=!0;th(this);this.Xn&&this.Xn(this.pa);this.ve&&(t(this.ve),this.ve=null);this.cl&&(t(this.cl),this.cl=null);var a=eh.style;a.width="auto";a.height="auto";a.fontSize="";a.transition="";a.boxShadow="";this.hc=null;Gc(nh(this),"editing")};
 g.au=function(a){if(a.keyCode==13)kh(),vf();else if(a.keyCode==27)this.Na(this.hc.Pr),kh(),vf();else if(a.keyCode==9){kh();vf();var b=this.m,c=!a.shiftKey,d=new $i;bh(d,Ug(this));var e=d.tc;c?d.next():d.ze();(c=d.tc)&&c!==e&&(e=c.T,Lg(e)&&e.Qd(void 0),b.i.kh&&bh(b.i.Zg(),c));a.preventDefault()}};g.$t=function(){var a=this.hc.value;a!==this.hc.cr&&(this.hc.cr=a,z(!0),this.Na(a),th(this),Tn(this),z(!1))};
-function Tn(a){var b=eh,c=pf(a);b.style.width=c.right-c.left+"px";b.style.height=c.bottom-c.top+"px";a=new p(a.m.o?c.right-b.offsetWidth:c.left,c.top);b.style.left=a.x+"px";b.style.top=a.y+"px"}g.Aq=function(){return!0};g.Dk=function(){return this.Di&&this.hc?this.hc.value:null};v(Pb,"field_input",Sn);function Wn(a,b,c,d,e,f){this.Ni=-Infinity;this.Li=Infinity;this.ph=0;this.vm=null;Wn.l.constructor.call(this,a,e,f);f||(Xn(this,b),Yn(this,c),Zn(this,d),this.Na(this.Qa()))}F(Wn,Sn);Wn.prototype.If=0;Wn.M=function(a){return new Wn(a.value,void 0,void 0,void 0,void 0,a)};Wn.prototype.Lf=!0;Wn.prototype.Gb=function(a){Wn.l.Gb.call(this,a);Xn(this,a.min);Yn(this,a.max);Zn(this,a.precision)};function Xn(a,b){b==null?a.Ni=-Infinity:(b=Number(b),isNaN(b)||(a.Ni=b))}
+function Tn(a){var b=eh,c=pf(a);b.style.width=c.right-c.left+"px";b.style.height=c.bottom-c.top+"px";a=new p(a.m.o?c.right-b.offsetWidth:c.left,c.top);b.style.left=a.x+"px";b.style.top=a.y+"px"}g.Aq=function(){return!0};g.Dk=function(){return this.Di&&this.hc?this.hc.value:null};v(Pb,"field_input",Sn);
+function TurtleAngleField(a,b,c){
+  this.isAngleField=!0;
+  this.clockwise=!1;
+  this.angleOffset=0;
+  this.angleWrap=360;
+  this.angleRound=15;
+  TurtleAngleField.l.constructor.call(this,a,b,c);
+  this.angleSvg=this.angleGauge=this.angleLine=this.angleCircle=this.angleWrapper=null;
+  this.angleClickListener=this.angleMouseMoveListener=this.angleContainerClickListener=null;
+}
+F(TurtleAngleField,Sn);
+TurtleAngleField.prototype.If=0;
+TurtleAngleField.M=function(a){return new TurtleAngleField(a.angle,void 0,a)};
+var _tg=TurtleAngleField.prototype;
+_tg.Lf=!0;
+_tg.Yf=function(){
+  TurtleAngleField.l.Yf.call(this);
+  this.degreeSymbol=B(Cc,{},null);
+  this.degreeSymbol.appendChild(document.createTextNode("\u00b0"));
+  this.ib.appendChild(this.degreeSymbol);
+};
+_tg.uh=function(){
+  TurtleAngleField.l.uh.call(this);
+  _turtleUpdateGauge(this);
+};
+_tg.Qd=function(a){
+  TurtleAngleField.l.Qd.call(this,a);
+  this.createAnglePicker();
+  df.appendChild(this.angleWrapper);
+  var borderCol=this.m.style.Xd||"#4a90e2";
+  cf.style.backgroundColor=this.m.style.Wd||"#fff";
+  cf.style.borderColor=borderCol;
+  of(this,this.disposeAnglePicker.bind(this));
+  _turtleUpdateGauge(this);
+};
+_tg.createAnglePicker=function(){
+  var container=document.createElement("div");
+  container.className="turtle-angle-container";
+  container.style.display="flex";
+  container.style.flexDirection="column";
+  container.style.alignItems="center";
+  container.style.padding="6px 8px";
+  container.style.userSelect="none";
+
+  var svg=B(Ac,{xmlns:"http://www.w3.org/2000/svg",version:"1.1",height:"100px",width:"100px"},container);
+  svg.style.touchAction="none";
+  svg.style.cursor="pointer";
+
+  var circle=B(kc,{cx:50,cy:50,r:49,"class":"blocklyAngleCircle"},svg);
+  this.angleCircle=circle;
+  this.angleGauge=B(wc,{"class":"blocklyAngleGauge"},svg);
+  this.angleLine=B(vc,{x1:50,y1:50,"class":"blocklyAngleLine"},svg);
+
+  for(var c=0;c<360;c+=15){
+    B(vc,{x1:99,y1:50,x2:99-(c%45==0?10:5),y2:50,"class":"blocklyAngleMarks",transform:"rotate("+c+",50,50)"},svg);
+  }
+
+  var buttonsDiv=document.createElement("div");
+  buttonsDiv.className="turtle-angle-presets";
+  buttonsDiv.style.display="grid";
+  buttonsDiv.style.gridTemplateColumns="repeat(3, 1fr)";
+  buttonsDiv.style.gap="4px";
+  buttonsDiv.style.marginTop="8px";
+  buttonsDiv.style.width="100%";
+
+  var commonAngles=[1,45,72,90,120,144];
+  var self=this;
+  commonAngles.forEach(function(ang){
+    var btn=document.createElement("button");
+    btn.type="button";
+    btn.textContent=ang+"\u00b0";
+    btn.style.padding="4px 2px";
+    btn.style.fontSize="12px";
+    btn.style.fontWeight="bold";
+    btn.style.color="#333";
+    btn.style.borderRadius="4px";
+    btn.style.border="1px solid #bbb";
+    btn.style.background="#f0f0f0";
+    btn.style.cursor="pointer";
+    btn.onmouseenter=function(){btn.style.background="#ddd"};
+    btn.onmouseleave=function(){btn.style.background="#f0f0f0"};
+    btn.onclick=function(e){
+      e.stopPropagation();
+      self.setAngle(ang);
+    };
+    buttonsDiv.appendChild(btn);
+  });
+  container.appendChild(buttonsDiv);
+
+  this.angleContainerClickListener=r(svg,"click",this,this.onContainerClick);
+  this.angleClickListener=r(circle,"click",this,this.onPickerPointerMove,!0,!0);
+  this.angleMouseMoveListener=r(circle,"mousemove",this,this.onPickerPointerMove,!0,!0);
+
+  circle.addEventListener("pointerdown",function(e){
+    self.onPickerPointerMove(e);
+    function onPointerMove(ev){self.onPickerPointerMove(ev)}
+    function onPointerUp(){
+      window.removeEventListener("pointermove",onPointerMove);
+      window.removeEventListener("pointerup",onPointerUp);
+    }
+    window.addEventListener("pointermove",onPointerMove);
+    window.addEventListener("pointerup",onPointerUp);
+  });
+
+  this.angleWrapper=container;
+  this.angleSvg=svg;
+};
+_tg.setAngle=function(b){
+  b=_turtleCheckAngle(this,b);
+  if(b!=this.pa){
+    this.Gd=!0;
+    this.Di&&this.hc&&(this.hc.value=String(b));
+    this.Na(b);
+    _turtleUpdateGauge(this);
+  }
+};
+_tg.disposeAnglePicker=function(){
+  this.angleContainerClickListener&&(t(this.angleContainerClickListener),this.angleContainerClickListener=null);
+  this.angleClickListener&&(t(this.angleClickListener),this.angleClickListener=null);
+  this.angleMouseMoveListener&&(t(this.angleMouseMoveListener),this.angleMouseMoveListener=null);
+  this.angleLine=this.angleGauge=this.angleCircle=this.angleSvg=null;
+};
+_tg.onContainerClick=function(){
+  gf===this&&vf();
+};
+_tg.onPickerPointerMove=function(a){
+  if(!this.angleGauge||!this.angleGauge.ownerSVGElement)return;
+  var b=this.angleGauge.ownerSVGElement.getBoundingClientRect();
+  var c=a.clientX-b.left-50;
+  var d=a.clientY-b.top-50;
+  var theta=Math.atan(-d/c);
+  if(!isNaN(theta)){
+    theta=theta*180/Math.PI;
+    c<0?theta+=180:d>0&&(theta+=360);
+    theta=this.clockwise?this.angleOffset+360-theta:360-(this.angleOffset-theta);
+    var target=theta;
+    if(Math.abs(target-72)<=4)target=72;
+    else if(Math.abs(target-144)<=4)target=144;
+    else if(target<=4||target>=356)target=1;
+    else if(this.angleRound)target=Math.round(target/this.angleRound)*this.angleRound;
+    this.setAngle(target);
+  }
+};
+function _turtleUpdateGauge(a){
+  if(a.angleGauge){
+    var b=(Number(a.pa)+a.angleOffset)%360*Math.PI/180;
+    var c=["M ",50,",",50];
+    var d=50,e=50;
+    if(!isNaN(b)){
+      var f=Number(a.clockwise);
+      var h=a.angleOffset*Math.PI/180;
+      var k=Math.cos(h)*49;
+      var l=Math.sin(h)*-49;
+      f&&(b=2*h-b);
+      d+=Math.cos(b)*49;
+      e-=Math.sin(b)*49;
+      b=Math.abs(Math.floor((b-h)/Math.PI)%2);
+      f&&(b=1-b);
+      c.push(" l ",k,",",l," A ",49,",",49," 0 ",b," ",f," ",d,",",e," z");
+    }
+    a.angleGauge.setAttribute("d",c.join(""));
+    a.angleLine.setAttribute("x2",d);
+    a.angleLine.setAttribute("y2",e);
+  }
+}
+function _turtleCheckAngle(a,b){
+  b=Number(b)||0;
+  b%=360;
+  b<0&&(b+=360);
+  b>a.angleWrap&&(b-=360);
+  return b;
+}
+_tg.fe=function(a){
+  a=Number(a);
+  return isNaN(a)||!isFinite(a)?null:_turtleCheckAngle(this,a);
+};
+_tg.au=function(a){
+  TurtleAngleField.l.au.call(this,a);
+  var b;
+  a.keyCode===37?b=this.m.o?1:-1:a.keyCode===39?b=this.m.o?-1:1:a.keyCode===40?b=-1:a.keyCode===38&&(b=1);
+  b&&(this.setAngle(Number(this.pa)+b*this.angleRound),a.preventDefault(),a.stopPropagation());
+};
+Re([
+  ".blocklyAngleCircle { stroke: #444; stroke-width: 1; fill: #ddd; fill-opacity: .8; }",
+  ".blocklyAngleMarks { stroke: #444; stroke-width: 1; }",
+  ".blocklyAngleGauge { fill: #f88; fill-opacity: .8; pointer-events: none; }",
+  ".blocklyAngleLine { stroke: #f00; stroke-width: 2; stroke-linecap: round; pointer-events: none; }"
+]);
+v(Pb,"field_angle",TurtleAngleField);
+function Wn(a,b,c,d,e,f){this.Ni=-Infinity;this.Li=Infinity;this.ph=0;this.vm=null;Wn.l.constructor.call(this,a,e,f);f||(Xn(this,b),Yn(this,c),Zn(this,d),this.Na(this.Qa()))}F(Wn,Sn);Wn.prototype.If=0;Wn.M=function(a){return new Wn(a.value,void 0,void 0,void 0,void 0,a)};Wn.prototype.Lf=!0;Wn.prototype.Gb=function(a){Wn.l.Gb.call(this,a);Xn(this,a.min);Yn(this,a.max);Zn(this,a.precision)};function Xn(a,b){b==null?a.Ni=-Infinity:(b=Number(b),isNaN(b)||(a.Ni=b))}
 function Yn(a,b){b==null?a.Li=Infinity:(b=Number(b),isNaN(b)||(a.Li=b))}function Zn(a,b){a.ph=Number(b)||0;var c=String(a.ph);c.indexOf("e")!=-1&&(c=a.ph.toLocaleString("en-US",{maximumFractionDigits:20}));var d=c.indexOf(".");a.vm=d==-1?b?0:null:c.length-d-1}
 Wn.prototype.fe=function(a){if(a===null)return null;a=String(a);a=a.replace(/O/ig,"0");a=a.replace(/,/g,"");a=a.replace(/infinity/i,"Infinity");a=Number(a||0);if(isNaN(a))return null;a=Math.min(Math.max(a,this.Ni),this.Li);this.ph&&isFinite(a)&&(a=Math.round(a/this.ph)*this.ph);this.vm!=null&&(a=Number(a.toFixed(this.vm)));return a};Wn.prototype.cp=function(){var a=Wn.l.cp.call(this);this.Ni>-Infinity&&xh(a,"valuemin",this.Ni);this.Li<Infinity&&xh(a,"valuemax",this.Li);return a};
 v(Pb,"field_number",Wn);function $n(a,b,c,d,e){this.mh=ao;this.ot=typeof a==="string"?a:"";this.rb=new Ja(0,0);e&&this.Gb(e);b&&(this.vg=b);e||bo(this,c,d)}F($n,Kn);$n.M=function(a){var b=kb(a.variable);return new $n(b,void 0,void 0,void 0,a)};g=$n.prototype;g.Lf=!0;g.Gb=function(a){$n.l.Gb.call(this,a);bo(this,a.variableTypes,a.defaultType)};g.Yf=function(){if(!this.jc){var a=gl(this.m.i,null,this.ot,this.nt);this.bd(a.S())}};g.Po=function(){return $n.l.Po.call(this)&&(!this.F().Kl||this.m.type!="variables_get")};
@@ -717,7 +907,7 @@ Q.math_random_int=function(a){var b=P(Q,a,"FROM",Q.ua)||"0";a=P(Q,a,"TO",Q.ua)||
 Q.math_atan2=function(a){var b=P(Q,a,"X",Q.ua)||"0";return["Math.atan2("+(P(Q,a,"Y",Q.ua)||"0")+", "+b+") / Math.PI * 180",Q.Oh]};Q.nu={};Q.procedures_defreturn=function(a){var b=Q.Ca.getName(I(a,"NAME"),"PROCEDURE"),c="";Q.ac&&(c+=qi(Q.ac,a));Q.ub&&(c+=qi(Q.ub,a));c&&(c=oi(c,Q.Mb));var d="";Q.Jj&&(d=oi(qi(Q.Jj,a),Q.Mb));var e=ri(a,"STACK"),f=P(Q,a,"RETURN",Q.ua)||"",h="";e&&f&&(h=c);f&&(f=Q.Mb+"return "+f+";\n");for(var l=[],m=a.le(),n=0;n<m.length;n++)l[n]=Q.Ca.getName(m[n],"VARIABLE");c="function "+b+"("+l.join(", ")+") {\n"+c+d+e+h+f+"}";c=Q.wl(a,c);Q.Vg["%"+b]=c;return null};Q.procedures_defnoreturn=Q.procedures_defreturn;
 Q.procedures_callreturn=function(a){for(var b=Q.Ca.getName(I(a,"NAME"),"PROCEDURE"),c=[],d=a.le(),e=0;e<d.length;e++)c[e]=P(Q,a,"ARG"+e,Q.ua)||"null";return[b+"("+c.join(", ")+")",Q.Ga]};Q.procedures_callnoreturn=function(a){return Q.procedures_callreturn(a)[0]+";\n"};Q.procedures_ifreturn=function(a){var b="if ("+(P(Q,a,"CONDITION",Q.ua)||"false")+") {\n";Q.ub&&(b+=oi(qi(Q.ub,a),Q.Mb));a.$e?(a=P(Q,a,"VALUE",Q.ua)||"null",b+=Q.Mb+"return "+a+";\n"):b+=Q.Mb+"return;\n";return b+"}\n"};Q.Bv={};Q.text=function(a){return[Q.qh(I(a,"TEXT")),Q.Oe]};Q.Fv={};Q.variables_get=function(a){return[Q.Ca.getName(I(a,"VAR"),"VARIABLE"),Q.Oe]};Q.variables_set=function(a){var b=P(Q,a,"VALUE",Q.Kf)||"0";return Q.Ca.getName(I(a,"VAR"),"VARIABLE")+" = "+b+";\n"};function mo(){var a=[[U("Turtle.moveForward",!1),"moveForward"],[U("Turtle.moveBackward",!1),"moveBackward"]],b=[[U("Turtle.turnRight",!1),"turnRight"],[U("Turtle.turnLeft",!1),"turnLeft"]];Lh("turtle_turn_arrows",function(){var c=Xh(Hd(this,"DIR"));c[0][0]+=" \u21bb";c[1][0]+=" \u21ba"});ol([{type:"turtle_move",message0:"%1%2",args0:[{type:"field_dropdown",name:"DIR",options:a},{type:"input_value",name:"VALUE",check:"Number"}],previousStatement:null,nextStatement:null,colour:160,tooltip:U("Turtle.moveTooltip",
 !1)},{type:"turtle_move_internal",message0:"%1%2",args0:[{type:"field_dropdown",name:"DIR",options:a},{type:"field_dropdown",name:"VALUE",options:[["20","20"],["50","50"],["100","100"],["150","150"]]}],previousStatement:null,nextStatement:null,colour:160,tooltip:U("Turtle.moveTooltip",!1)},{type:"turtle_turn",message0:"%1%2",args0:[{type:"field_dropdown",name:"DIR",options:b},{type:"input_value",name:"VALUE",check:"Number"}],previousStatement:null,nextStatement:null,colour:160,tooltip:U("Turtle.turnTooltip",
-!1),extensions:["turtle_turn_arrows"]},{type:"turtle_turn_internal",message0:"%1%2",args0:[{type:"field_dropdown",name:"DIR",options:b},{type:"field_dropdown",name:"VALUE",options:[["1\u00b0","1"],["45\u00b0","45"],["72\u00b0","72"],["90\u00b0","90"],["120\u00b0","120"],["144\u00b0","144"]]}],previousStatement:null,nextStatement:null,colour:160,tooltip:U("Turtle.turnTooltip",!1),extensions:["turtle_turn_arrows"]},{type:"turtle_width",message0:U("Turtle.setWidth",!1)+"%1",args0:[{type:"input_value",
+!1),extensions:["turtle_turn_arrows"]},{type:"turtle_turn_internal",message0:"%1%2",args0:[{type:"field_dropdown",name:"DIR",options:b},{type:"field_angle",name:"VALUE",angle:90}],previousStatement:null,nextStatement:null,colour:160,tooltip:U("Turtle.turnTooltip",!1),extensions:["turtle_turn_arrows"]},{type:"turtle_width",message0:U("Turtle.setWidth",!1)+"%1",args0:[{type:"input_value",
 name:"WIDTH",check:"Number"}],previousStatement:null,nextStatement:null,colour:160,tooltip:U("Turtle.widthTooltip",!1)},{type:"turtle_pen",message0:"%1",args0:[{type:"field_dropdown",name:"PEN",options:[[U("Turtle.penUp",!1),"penUp"],[U("Turtle.penDown",!1),"penDown"]]}],previousStatement:null,nextStatement:null,colour:160,tooltip:U("Turtle.penTooltip",!1)},{type:"turtle_colour",message0:U("Turtle.setColour",!1)+"%1",args0:[{type:"input_value",name:"COLOUR",check:"Colour"}],previousStatement:null,
 nextStatement:null,colour:"%{BKY_COLOUR_HUE}",tooltip:U("Turtle.colourTooltip",!1)},{type:"turtle_colour_internal",message0:U("Turtle.setColour",!1)+"%1",args0:[{type:"field_colour",name:"COLOUR",colour:"#ff0000"}],previousStatement:null,nextStatement:null,colour:"%{BKY_COLOUR_HUE}",tooltip:U("Turtle.colourTooltip",!1)},{type:"turtle_visibility",message0:"%1",args0:[{type:"field_dropdown",name:"VISIBILITY",options:[[U("Turtle.hideTurtle",!1),"hideTurtle"],[U("Turtle.showTurtle",!1),"showTurtle"]]}],
 previousStatement:null,nextStatement:null,colour:160,tooltip:U("Turtle.turtleVisibilityTooltip",!1)},{type:"turtle_print",message0:U("Turtle.print",!1)+"%1",args0:[{type:"input_value",name:"TEXT"}],previousStatement:null,nextStatement:null,colour:160,tooltip:U("Turtle.printTooltip",!1),helpUrl:U("Turtle.printHelpUrl",!1)},{type:"turtle_font",message0:U("Turtle.font",!1)+"%1%2"+U("Turtle.fontSize",!1)+"%3%4%5",args0:[{type:"field_dropdown",name:"FONT",options:[["Arial","Arial"],["Courier New","Courier New"],
