@@ -1,4 +1,5 @@
 import { LEVEL_ORDER } from "./level-order.js";
+import { CURRICULUM_META } from "./curriculum-meta.js";
 import { levels01 } from "./levels/levels-01.js";
 import { levels02 } from "./levels/levels-02.js";
 import { levels03 } from "./levels/levels-03.js";
@@ -45,8 +46,13 @@ const allLevels = [
   ...levels21,
 ];
 
-const byId = new Map(allLevels.map((level) => [level.id, level]));
-if (byId.size !== allLevels.length || new Set(LEVEL_ORDER).size !== allLevels.length ||
+const decoratedLevels = allLevels.map((level) => {
+  const meta = CURRICULUM_META[level.id];
+  if (!meta) throw new Error(`Missing curriculum metadata for "${level.id}".`);
+  return { ...level, ...meta };
+});
+const byId = new Map(decoratedLevels.map((level) => [level.id, level]));
+if (byId.size !== decoratedLevels.length || new Set(LEVEL_ORDER).size !== decoratedLevels.length ||
     LEVEL_ORDER.some((id) => !byId.has(id))) {
   throw new Error("Curriculum order must contain every level ID exactly once.");
 }
