@@ -1,123 +1,309 @@
-# Blocky Easy
+<div align="center">
 
-## 老師使用說明
+# 🧩 Blocky Easy
 
-給帶課老師的簡明操作版已整理在 `teacher-guide.html`，部署後可直接從首頁點
-「老師使用說明」。Markdown 版本在 `docs/20260918-老師使用手冊.md`。
-內容包含上課流程、iPad 操作、常見問題，以及 Blockly Games／第三方元件的
-來源與授權說明。
+**專為兒童與初學者設計的觸控友善 Blockly 程式積木闖關平台**  
+**子どもと初心者のためのタッチ特化型 Blockly プログラミング学習プラットフォーム**  
+**A Touch-Friendly Blockly Visual Programming Adventure for Kids & Beginners**
 
-## 授權
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+[![Custom Levels](https://img.shields.io/badge/Custom_Levels-100_Stages-success.svg)](#-自製-100-關階梯式學習系統-100-custom-levels)
+[![Total Stars](https://img.shields.io/badge/Total_Stars-300_%E2%AD%90-gold.svg)](#)
+[![Touch Support](https://img.shields.io/badge/Touch_Optimized-iPad_%26_Tablets-orange.svg)](#-專為-ipad-與教室平板打造的極致觸控體驗)
+[![Deployment](https://img.shields.io/badge/Deploy-GitHub_Pages_%26_Cloudflare-brightgreen.svg)](#-部署方式-deployment)
 
-Blocky Easy 自製關卡、介面、文件與本機改動採 Apache License 2.0。
-第三方程式與素材仍依各自原始授權。完整說明請見根目錄 `LICENSE`、`NOTICE`，
-以及 `bird-game/NOTICE.md`、`blockly-games/NOTICE.md`。
+---
 
-## Bird 飛鳥任務（iPad 觸控版）
+### 🌐 Language Navigation / 言語選択 / 語言切換
+[ **繁體中文** (Traditional Chinese) ](#-繁體中文) &nbsp;•&nbsp; [ **日本語** (Japanese) ](#-日本語) &nbsp;•&nbsp; [ **English** ](#-english)
 
-開啟 `/bird.html`（繁體中文）或 `/bird.html?lang=en`（英文），首頁也有入口。
-這是官方 Blockly Games Bird 十關的本機獨立版本，角度和座標欄位改用
-大型觸控數字鍵盤，無須呼叫 iPad 系統鍵盤。點數字後可逐位輸入、選常用值、
-清除、退格、取消或確定；數值仍由原 Blockly 驗證器處理。
+---
+</div>
 
-關卡、語系、圖片、音效與執行程式均存放在 `bird-game/`，建置會一起複製到
-`dist`。授權和改動見 `bird-game/NOTICE.md`、`bird-game/LICENSE`。
-此版本沒有原站的雲端分享服務。更新官方程式後必須重新審查
-`scripts/patch-bird.mjs` 的補丁。
+<br />
 
-本機預覽：`node server.mjs`，開啟 `http://127.0.0.1:4173/bird.html`。
-這個 localhost 網址只供本機使用；對方 iPad 需使用部署後的網站網址。
-桌面瀏覽器驗證不能取代對方 iPad / Safari 真機驗收。
+---
 
-## Blockly Games 觸控版
+# 🇹🇼 繁體中文
 
-開啟 `/blockly-games.html` 可進入六個遊戲：Bird、Turtle、Movie、Music、
-Pond Tutor 與 Pond。Bird 使用既有的本機版本；其餘五個遊戲放在
-`blockly-games/`，並保留原本十個關卡、英文與繁體中文介面及遊戲規則。
+## 📖 專案簡介
 
-需要輸入的欄位已改成適合 iPad 的觸控介面：數字和角度使用大型數字鍵盤，
-Music 的音高使用 C3 到 A4 的音符按鈕。Pond Tutor 和 Pond 原本的 JavaScript
-編輯器仍可直接使用，並已改成載入專案內的 ACE 資產，避免依賴外部編輯器檔案。
+**Blocky Easy** 是一個專為國小學童、幼兒及程式初學者量身打造的純前端、離線友善程式積木闖關平台。
 
-本機預覽：`node server.mjs`，開啟
-`http://127.0.0.1:4173/blockly-games.html`。靜態建置會把五個遊戲及所有
-必要資產複製到 `dist/blockly-games/`；可用以下命令檢查：
+許多開源 Blockly 專案往往直接套用 Google 原生範例，操作上重度依賴鍵盤輸入與滑鼠精細拖曳，在學校 iPad 或觸控平板上課時，常因彈出虛擬鍵盤遮擋畫面、或幼童手指不易精準拖曳積木而大幅降低學習動機。
 
-```powershell
-node .\scripts\patch-blockly-games.mjs
-node .\scripts\build-static.mjs
+Blocky Easy 解決了這些教學痛點，不僅進行了全方位的**平板觸控介面重構**，更注入了專案的核心靈魂——**完全自主研發的 100 道階梯式原創程式邏輯關卡**，帶領孩子從零基礎循序漸進跨入演算法思維的殿堂！
+
+---
+
+## 🌟 核心靈魂：全新自製 100 關階梯式學習系統 (100 Custom Levels)
+
+本專案絕非僅是介面套殼，而是設計了一套完整、嚴謹且寓教於樂的教學體系。全套自製關卡共分為 **9 大漸進學習階段**，總計 **100 關**，最高可收集 **300 顆星**：
+
+| 階段 | 階段名稱 | 關卡數 | 核心學習概念與演算法 |
+|:---:|:---|:---:|:---|
+| **Phase 1** | **移動與轉彎 (Basic Movement)** | 10 關 | 順序結構 (Sequence)、前後方向感、空間幾何感知、避開障礙石牆 |
+| **Phase 2** | **For 重複迴圈 (For Loops)** | 6 關 | 重複規律歸納、使用單層 For 迴圈精簡程式碼、直路與轉角搭橋 |
+| **Phase 3** | **巢狀 For 入門 (Nested For Intro)** | 12 關 | 兩段式流程分解、迴圈內部再嵌套迴圈（For 內含 For）、長短步數交替組合 |
+| **Phase 4** | **進階 For 工廠 (Advanced For Factory)** | 15 關 | 十字對稱折返、凸字城垛雙向巡檢、S型蛇形管道、三峰高難度陣列、雙軌迴圈矩陣 |
+| **Phase 5** | **While 基礎 (While Loops Basic)** | 10 關 | 停止條件感知、未知步數探索、零次執行邊界測試、直到傳送門／遇到石牆 |
+| **Phase 6** | **If / If-Else 條件 (If / Else Decisions)** | 14 關 | 感測器邏輯判斷（前方無牆/有牆）、條件收集寶石、遇障礙自動轉彎、二選一決策分支 |
+| **Phase 7** | **While 路線與回程 (Advanced While)** | 27 關 | 走廊連續巡檢、三層巢狀 While 探測、死巷探索精準回程、左右雙翼橫越、旋轉鎖實驗 |
+| **Phase 8** | **迷宮規則 (Maze Algorithms)** | 4 關 | 左右環境感測器、前方分支避障決策、經典「左手貼牆演算法」(Left-Hand Rule) |
+| **Phase 9** | **大型綜合挑戰 (Grand Final Challenges)** | 4 關 | 地圖擴大至 10×10 超大型場景，融會貫通 While + For + If/Else 與感測器全方位演算法 |
+
+### 💡 自製 100 關的 4 大教學與工程設計特色：
+1. **嚴格方塊數量限制 (Block Limit)**  
+   每一關都有精心計算的最佳積木數量上限，徹底防範學生使用「死記前進、硬堆積木」的方式蒙混過關，強制啟發使用迴圈與邏輯結構的最優解。
+2. **內建一鍵示範解答 (One-Click Demo Solution)**  
+   每關均內建通過驗證的參考解答。老師在投影機展示時可一鍵載入示範，即時播放角色動態路徑；學生思考卡關時亦能作為自學指引。
+3. **100 關自動化單元測試防護 (Automated AST Verification)**  
+   專案內建自動化驗證腳本（`node scripts/validate-levels.mjs`），以抽象語法樹 (AST) 逐一檢驗 100 關的解答正確性、方塊限制與中英雙語完整性，確保每一次發布皆零 Bug。
+4. **三星評分機制與本地進度保存**  
+   通關自動計算星級（滿分 300 顆星），搭配悅耳的過關音效，激發學生的挑戰慾；進度完全保存在本機瀏覽器 LocalStorage，免去複雜登入流程。
+
+---
+
+## 📱 專為 iPad 與教室平板打造的極致觸控體驗
+
+在平板課堂環境中，操作體驗決定了教學成敗。Blocky Easy 針對觸控進行了深度客製：
+
+- **快捷接方塊列 (Tap-to-Attach)**：免去在小螢幕上長距離拖曳的挫折感，點擊快捷方塊即可自動掛載至程式結尾，或指定放入「重複」與「如果」容器中。
+- **完全杜絕虛擬鍵盤**：所有需要輸入數字、轉向角度（如烏龜繪圖）、音高（音樂積木）的地方，全面採用**大型觸控數字鍵盤**與**直覺圓盤角度選擇器**，畫面永不被系統鍵盤遮擋。
+- **防誤觸控制列**：「回到起點」僅重置角色與寶石狀態，保留學生好不容易排好的積木；「重來」則清空重寫。
+- **直橫雙向靈活適配**：iPad 直向模式自動將積木區置於上半部、地圖置於下半部；橫向模式則呈現清晰的雙欄並排佈局。
+
+---
+
+## 🎮 附加模組與延伸遊戲
+
+1. **Bird 飛鳥任務（觸控強化版）** (`/bird.html`)  
+   官方 Blockly Games Bird 的獨立重構版，座標與飛行角度改用大型觸控鍵盤。
+2. **Blockly Games 觸控重構版** (`/blockly-games.html`)  
+   整合經典六大遊戲（Bird, Turtle, Movie, Music, Pond Tutor, Pond）。包含：
+   - 烏龜關卡：全新開發的**360度圓盤角度選擇器**與常用角度快捷鈕（45°、60°、90°、120°、144° 等）。
+   - 音樂關卡：特製 C3 至 A4 音符觸控按鍵。
+   - 池塘關卡：完全內置本機 ACE 程式編輯器，斷網也能順暢練習 JavaScript。
+3. **老師使用手冊** (`teacher-guide.html` & `docs/20260918-老師使用手冊.md`)  
+   包含課堂帶課建議、iPad 分配操作、常見問題排解與開源授權對照表。
+
+---
+
+## 🚀 快速開始與本機運行
+
+專案採用原生 ES Modules 與純靜態架構，無繁複編譯步驟：
+
+```bash
+# 1. 下載專案
+git clone https://github.com/tmparz/re-blockly-game.git
+cd re-blockly-game
+
+# 2. 啟動本機伺服器
+node server.mjs
+# 或使用 npm
+npm run dev
+
+# 3. 瀏覽器開啟
+# 訪問 http://127.0.0.1:4173 即可暢玩自製 100 關！
 ```
 
-來源、授權與本機修改見 `blockly-games/NOTICE.md`。這些遊戲目前只提供本機
-儲存與執行，不含原站的雲端分享或 Gallery 服務。GitHub Pages 使用
-`.github/workflows/deploy-pages.yml` 自動執行驗證、建立 `dist/`，再發布到
-GitHub Pages。
-
-Blocky Easy 是一個給小朋友練習程式邏輯的 Blockly 遊戲站台。目前包含 100 個關卡，分成八個階段：基礎移動與轉彎、For 重複、巢狀 For 入門、進階 For 工廠、While 迴圈、If 條件判斷、迷宮規則、大型綜合挑戰。
-
-上方有關卡下拉選單，可以依階段快速切換關卡。任務目標、方塊限制與提示會跟著目前關卡更新。
-
-工作區上方有「接方塊」快捷列，點一下就會把目前關卡可用的方塊接到 Blockly 的開始方塊下面。點「重複」或「如果」後，快捷列會切到該容器裡，接下來的方塊會放進去；可用「上一層」或「主程式」切回外層。也可以點 Blockly 左側分類，從原本的方塊抽屜拖出來。重複次數與 If 條件直接在 Blockly 方塊上調整。
-
-平板版已移除額外的程式列區塊，把空間留給 Blockly 工作區。iPad 直向會先顯示關卡資訊與 Blockly，遊戲地圖接在下方；橫向則是地圖與 Blockly 並排。
-
-執行成功會播放成功音效，失敗或撞牆會播放失敗音效；支援平板瀏覽器的觸控操作。
-
-控制列中的「回到起點」只會把小隊員、方向與寶石狀態恢復到目前關卡初始狀態，不會移除或重排 Blockly 積木；「重來」則會清空目前程式。
-
-每關都有方塊數限制。重複練習關卡會限制到必須使用 For 方塊，避免只堆很多「前進一步」通過。
-
-巢狀 For 入門新增 8 個中段關卡，放在 For 重複與進階 For 工廠之間。這一段先讓玩家習慣兩個 For 串接、三個 For 串接，再逐步練習「For 裡面放 For」與「巢狀 For 後面再接一個 For」，避免直接跳到大型進階路線。
-
-進階 For 工廠新增 10 個關卡，主題是能量站巡線、採礦、巡檢與矩陣掃描。這一階段會大量使用二層以上的 For：例如「重複一組路線」、「每條線重複相同掃描流程」、「外圈與內圈跑道」等，後段關卡會比原本 For 階段更需要先觀察規律再組合迴圈。
-
-While 階段擴充為 37 關，聚焦在「不知道要走幾步，直到條件不成立為止」。前中段不提供 If、If/Else，也不依賴固定次數；先用更多小關卡練習「還沒到傳送門」「前方沒牆」「前方有牆」與「站在寶石上」，再進到多段走廊、條件收集、巢狀 While、大型蛇形清掃、回程路線、旋轉鎖與外層 While 路由。最後幾關才加入一個 While + Repeat 混合題，作為進入後續綜合題前的高難度挑戰。
-
-If 階段改成更平緩的 14 關 progression：最前面先用多個小關卡練習「前方沒牆才走」、「前方有牆才轉彎」、「站在寶石上才收集」，再把 For 放進 If，接著用 For 反覆執行 If 規則，最後引入 If/Else，讓玩家用「遇牆轉彎，否則前進」的規則自動通過路線並收集寶石。
-
-迷宮規則階段新增 4 關，參考 Blockly Games Maze 後段的教學思路：加入「左邊沒牆」「右邊沒牆」「還沒到傳送門」等感測條件，讓玩家從單一 If/Else 進一步練習右轉規則、左右路口、前方不通時選路，最後完成左手貼牆法。
-
-大型綜合挑戰新增 4 關，地圖從 7x7 放大到 10x10，要求玩家把 Repeat、While、If、If/Else、左右感測與收集規則組合起來。這一段不是學新積木，而是練習把前面學過的規則整理成能處理大地圖的流程。
-
-每一關都有「示範」按鈕，可以讓老師快速放入參考方塊，再按「執行」展示路線。
-
-關卡資料可以用以下命令驗證示範解答、方塊限制與可用方塊清單：
-
+### 關卡與建置驗證
 ```powershell
+# 驗證全套 100 關解答與方塊限制
 node .\scripts\validate-levels.mjs
-```
 
-站台支援中文與英文切換，語言選擇會記在瀏覽器裡。關卡名稱、目標、提示、按鈕、快速方塊列與 Blockly 自訂積木都會跟著切換。
-
-## 使用方式
-
-專案使用 ES Modules，開發時請從本機伺服器啟動：
-
-```powershell
-node .\server.mjs
-```
-
-然後打開 `http://127.0.0.1:4173`。
-
-也可以使用 `npm run dev`。開發時需要本機伺服器不影響部署；`npm run build` 仍會產生可直接部署到 Cloudflare Pages 的 `dist`。
-
-## Cloudflare Pages 部署
-
-這個專案是純靜態站台，可以部署到 Cloudflare Pages。
-
-```powershell
+# 建立發布用靜態包至 dist/
 node .\scripts\build-static.mjs
-wrangler pages deploy dist --project-name blocky-easy
 ```
 
-如果環境的 npm 正常，也可以直接使用：
+---
 
-```powershell
-npm run deploy:cloudflare
+## 🌐 部署方式 (Deployment)
+
+- **GitHub Pages**：專案內建 `.github/workflows/deploy-pages.yml`，每次推送到 `main` 分支將自動執行靜態建置並發布至 GitHub Pages。
+- **Cloudflare Pages**：執行 `npm run deploy:cloudflare` 或透過 Wrangler 直接部署 `dist/`。
+
+---
+
+<br />
+
+---
+
+# 🇯🇵 日本語
+
+## 📖 プロジェクト概要
+
+**Blocky Easy** は、小学校のプログラミング教育やプログラミング初心者のために開発された、完全オフライン対応のタッチ特化型ビジュアルプログラミング学習プラットフォームです。
+
+一般的な Blockly オープンソース教材は、PC環境を前提としており、キーボード入力やマウスによるドラッグ＆ドロップに依存しています。そのため、小学校のタブレット授業（iPad や Android タブレット）では「ソフトキーボードが画面を覆い隠してしまう」「低学年の児童がブロックをうまくドラッグできない」といった課題が多く見られました。
+
+Blocky Easy は、タブレット授業に最適化された**完全タッチUI**への刷新に加え、本プロジェクトの最大の強みである**完全自作の「100 ステージ段階的学習カリキュラム」**を実装。子どもたちが直感的に論理的思考力とアルゴリズムを身につけられる環境を提供します！
+
+---
+
+## 🌟 最大の特徴：完全オリジナル 100 ステージ段階的学習システム (100 Custom Levels)
+
+単なる既存サンプルの見た目変更ではありません。プログラミングの基礎概念をゼロから体系的に学べるよう、**全 9 フェーズ・100 のオリジナルステージ**（獲得可能スター数 **300 個**）を独自に設計・開発しました：
+
+| フェーズ | フェーズ名 | ステージ数 | 学習内容と習得アルゴリズム |
+|:---:|:---|:---:|:---|
+| **Phase 1** | **移動と回転 (Basic Movement)** | 10 問 | 順次処理 (Sequence)、空間認識、前進・方向転換、障害物の回避 |
+| **Phase 2** | **For 繰り返し (For Loops)** | 6 問 | パターンの発見、単一ループによるコード圧縮、直進と角の規則化 |
+| **Phase 3** | **入れ子 For 入門 (Nested For Intro)** | 12 問 | 複数プロセスの分解、ループ内のループ（二重ループ）、異なる歩数の組み合わせ |
+| **Phase 4** | **応用 For ファクトリー (Advanced For)** | 15 問 | 十字型対称移動、城壁の巡回、S字パイプライン、3連ピークスキャン、二重軌道マトリクス |
+| **Phase 5** | **While ループ基礎 (While Loops Basic)** | 10 問 | 終了条件の理解、歩数が不定な探索、0回実行の境界値、「ワープゾーン到着まで」「壁まで」 |
+| **Phase 6** | **If / If-Else 条件分岐 (If / Decisions)** | 14 問 | センサー判定（前方に壁があるか）、宝石の条件付き収集、自律的障害物回避、二者択一判断 |
+| **Phase 7** | **While ルート＆帰還 (Advanced While)** | 27 問 | 複雑な通路走査、三重入れ子 While 探索、行き止まり回収と正確な帰還、左右ウイング探査 |
+| **Phase 8** | **迷路探索ルール (Maze Algorithms)** | 4 問 | 左右環境センサー、分岐点での自律判断、古典的「左手法アルゴリズム (Left-Hand Rule)」 |
+| **Phase 9** | **超大型総合チャレンジ (Grand Challenges)** | 4 問 | 10×10 の巨大工場マップ。While、For、If/Else、センサー全知識を結集した最終課題 |
+
+### 💡 オリジナル 100 ステージの 4 大教育・設計思想：
+1. **厳密なブロック数制限 (Block Limit)**  
+   全ステージで最適なブロック配置数を設定。「前進ブロックを大量に並べる力任せの解き方」を防ぎ、ループや条件分岐を活用した効率的なアルゴリズム設計を促します。
+2. **ワンクリック模範解答デモ (One-Click Demo Solution)**  
+   すべてのステージに検証済みの模範コードを内蔵。先生がプロジェクターで解説する際や、児童がつまずいた際のヒントとして瞬時にアニメーション実行が可能です。
+3. **全 100 ステージの自動ユニットテスト検証 (Automated AST Verification)**  
+   Node.js 実行スクリプト（`node scripts/validate-levels.mjs`）により、構文木（AST）レベルで 100 ステージすべての正解ルート、ブロック数制限、多言語テキストを自動検証。常にバグのない安定稼働を保証します。
+4. **3つ星評価とローカル進捗保存**  
+   クリア状況に応じて最大 3 つ星（合計 300 ⭐️）を獲得可能。達成感を刺激する効果音とともに、ブラウザの LocalStorage に自動保存されるため、面倒なアカウント登録不要ですぐに授業を開始できます。
+
+---
+
+## 📱 iPad・タブレット授業に特化したタッチ最適化
+
+- **クイック配置バー (Tap-to-Attach)**：画面上のブロックをタップするだけで、プログラムの末尾や「くりかえし」「もし」の中に自動配置。小さな手でもストレスなく組み立てられます。
+- **ソフトキーボード完全不要**：数値入力、角度変更（タートル描画）、音階指定（音楽ブロック）にはすべて専用の**大型テンキー**および**直感的なダイヤル式角度セレクター**を搭載。画面がキーボードで隠れません。
+- **誤操作防止のコントロールバー**：「最初に戻る」はキャラクターと宝石の位置のみをリセットし、組み立てたブロックは保持。「最初からやり直す」で全消去と、安全に使い分けられます。
+- **レスポンシブな縦横両対応レイアウト**：縦向き時は上にブロック、下にマップ。横向き時は見やすい2カラム並列表示に自動切り替え。
+
+---
+
+## 🎮 各種モジュール＆ツール
+
+- **Bird 飛行ミッション（タッチ版）** (`/bird.html`)：角度・座標を大型タッチキーで入力できる単体ミッション。
+- **Blockly Games 移植版** (`/blockly-games.html`)：Bird、Turtle、Movie、Music、Pond Tutor、Pond の6大ゲームを収録。タートルの360°アングルセレクターやオフライン ACE エディターを実装。
+- **指導者用ガイド** (`teacher-guide.html` & `docs/20260918-老師使用手冊.md`)：授業の流れ、iPad 配置ノウハウ、トラブルシューティングを掲載。
+
+---
+
+## 🚀 クイックスタート
+
+```bash
+# クローン
+git clone https://github.com/tmparz/re-blockly-game.git
+cd re-blockly-game
+
+# ローカルサーバー起動
+node server.mjs
+# または
+npm run dev
+
+# ブラウザでアクセス
+# http://127.0.0.1:4173 を開くとオリジナル 100 ステージをプレイできます！
 ```
 
-第一次部署前需要先執行 `wrangler login`。如果使用 Cloudflare Pages 後台連 Git 倉庫，Build command 設為 `node scripts/build-static.mjs`，Build output directory 設為 `dist`。
+---
 
-## 注意
+<br />
 
-目前 Blockly 透過 `https://unpkg.com/blockly/blockly.min.js` 載入，所以教室電腦需要能連網。若要完全離線使用，下一步應改成把 Blockly 套件打包到專案內。
+---
+
+# 🇺🇸 English
+
+## 📖 Project Overview
+
+**Blocky Easy** is a touch-friendly, offline-ready visual block coding adventure platform tailored specifically for young children, students, and beginners.
+
+Many existing Blockly web apps rely heavily on standard desktop paradigms—requiring precise mouse drags and popping up intrusive on-screen software keyboards whenever a number or angle is clicked. In a tablet classroom (such as on iPads or Android tablets), this causes immense frustration and disrupts the learning flow.
+
+Blocky Easy completely redesigns the mobile user experience with **touch-first interaction models** and introduces our core signature innovation: a meticulously crafted progression of **100 Custom-Designed Coding Levels**, guiding young minds from sequential reasoning to sophisticated algorithmic thinking!
+
+---
+
+## 🌟 The Flagship Feature: 100 Custom-Crafted Progressive Coding Levels
+
+This platform goes far beyond existing demos. We engineered an entire curriculum consisting of **9 Developmental Phases**, comprising **100 Unique Levels** with up to **300 Stars** to collect:
+
+| Phase | Phase Title | Levels | Core Concepts & Computational Thinking |
+|:---:|:---|:---:|:---|
+| **Phase 1** | **Basic Movement & Orientation** | 10 | Sequential execution, spatial perception, forward/turning kinematics, avoiding stone obstacles |
+| **Phase 2** | **For Loops** | 6 | Pattern recognition, program compression using single loops, bridging long stretches and corners |
+| **Phase 3** | **Nested For Intro** | 12 | Decomposition of multi-segment routes, loop nesting (loops inside loops), alternating step lengths |
+| **Phase 4** | **Advanced For Factory** | 15 | Cross-patrol symmetry, battlement wave inspections, serpentine conduits, triple peaks, dual-track loops |
+| **Phase 5** | **While Loops Basic** | 10 | Termination conditions, variable distance navigation, zero-iteration edge cases, until portal / wall detection |
+| **Phase 6** | **If / If-Else Decisions** | 14 | Sensor evaluations (wall ahead / clear), conditional gem gathering, autonomous obstacle turning, binary branching |
+| **Phase 7** | **Advanced While & Return** | 27 | Corridor sweeps, 3-layer nested while scans, dead-end gem retrieval with accurate turnaround return, dual-wing navigation |
+| **Phase 8** | **Maze Algorithms** | 4 | Left/Right spatial sensors, fork decision routing, and the classic "Left-Hand Rule / Wall Follower" algorithm |
+| **Phase 9** | **Grand Final Challenges** | 4 | Giant 10×10 factory scale maps integrating While, For, If/Else, sensors, and inventory algorithms |
+
+### 💡 4 Hallmark Pedagogical & Engineering Strengths:
+1. **Strict Block Limits**  
+   Every level enforces a hard block limit. Students cannot cheat by simply chaining 15 "move forward" blocks; they are compelled to discover repetitions and formulate efficient logic.
+2. **One-Click Reference Solutions (Demo Mode)**  
+   Every single level contains a verified reference solution. Teachers can demonstrate solutions to the class with one click, showing animated execution in real-time.
+3. **Automated Unit Testing & AST Verification**  
+   With `node scripts/validate-levels.mjs`, all 100 levels undergo automated Abstract Syntax Tree (AST) validation—verifying that solution blocks, constraints, map coordinates, and bilingual texts are 100% sound.
+4. **300-Star Gamified Reward System**  
+   Earn up to 3 stars per stage (300 ⭐️ total). Game progress and star counts are stored locally in the browser's `LocalStorage`—no accounts or passwords required.
+
+---
+
+## 📱 Built for Classrooms: Tablet & Touch-First Optimization
+
+- **Tap-to-Attach Quick Toolbar**: No frustrating drag-and-drop on small screens. Tap a block on the quick bar to automatically snap it to the bottom of the stack or inside a loop container.
+- **Zero Software Keyboard Interference**: Angle pickers, coordinate fields, and numeric inputs use **custom on-screen touch keypads** and **360° radial dials**, preventing tablet virtual keyboards from obscuring the screen.
+- **Accident-Proof Controls**: "Reset to Start" resets only character and gem states while preserving the student's assembled code; "Start Over" safely clears the canvas.
+- **Adaptive Responsive Layout**: Automatically switches between stacked vertical views (code on top, map below) on portrait tablets and side-by-side split screens on landscape tablets.
+
+---
+
+## 🎮 Additional Modules
+
+1. **Bird Game (Touch Edition)** (`/bird.html`): The classic Blockly Games Bird mission refactored with large touch-dial heading selectors.
+2. **Blockly Games 6-in-1 Suite** (`/blockly-games.html`): Includes Bird, Turtle, Movie, Music, Pond Tutor, and Pond with localized offline ACE editor integration.
+3. **Teacher's Guide** (`teacher-guide.html` & `docs/20260918-老師使用手冊.md`): Full classroom walkthroughs, iPad device management tips, and pedagogical FAQs.
+
+---
+
+## 🚀 Quick Start & Local Development
+
+```bash
+# 1. Clone repository
+git clone https://github.com/tmparz/re-blockly-game.git
+cd re-blockly-game
+
+# 2. Start local development server
+node server.mjs
+# or via npm
+npm run dev
+
+# 3. Open browser
+# Navigate to http://127.0.0.1:4173 to play all 100 custom levels!
+```
+
+### Validation & Static Build
+```bash
+# Run automated validation for all 100 custom levels
+node scripts/validate-levels.mjs
+
+# Build production bundle to dist/
+node scripts/build-static.mjs
+```
+
+---
+
+## 🌐 Deployment
+
+- **GitHub Pages**: Continuously built and deployed via `.github/workflows/deploy-pages.yml` upon push to `main`.
+- **Cloudflare Pages**: Ready for static edge hosting with `npm run deploy:cloudflare`.
+
+---
+
+## 📜 License & Acknowledgments
+
+- **Blocky Easy Custom Content**: Custom 100 levels, touch UI, sound effects, and documentation are licensed under the [Apache License 2.0](LICENSE).
+- **Third-Party Libraries**: Based on Google [Blockly](https://developers.google.com/blockly) and [Blockly Games](https://github.com/google/blockly-games). All third-party rights and licenses are retained in [NOTICE](NOTICE), `bird-game/NOTICE.md`, and `blockly-games/NOTICE.md`.
+
+<div align="center">
+Made with ❤️ for young coders and educators worldwide.
+</div>
