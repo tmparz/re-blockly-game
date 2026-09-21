@@ -5,12 +5,18 @@ import { validateCurriculumLevel } from "./level-validation/curriculum-checks.mj
 
 const problems = [];
 const ids = new Set();
+const objectives = new Set();
+const skills = new Set();
 let lastStageIndex = -1;
 
 problems.push(...validateTextTranslations());
 levels.forEach((level, index) => {
   if (ids.has(level.id)) problems.push(`${index + 1} ${level.id}: duplicate level id`);
   ids.add(level.id);
+  if (objectives.has(level.objective)) problems.push(`${index + 1} ${level.id}: duplicate learning objective`);
+  objectives.add(level.objective);
+  if (skills.has(level.newSkill)) problems.push(`${index + 1} ${level.id}: duplicate newSkill key "${level.newSkill}"`);
+  skills.add(level.newSkill);
   const currentStageIndex = stageOrder.get(level.stage);
   if (currentStageIndex !== undefined) {
     if (currentStageIndex < lastStageIndex) {
