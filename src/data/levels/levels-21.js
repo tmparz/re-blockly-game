@@ -4,7 +4,7 @@ export const levels21 = [
 {
     id: "challenge-left-hand-maze",
     stage: "challenge",
-    title: "大型：左手法支線採集",
+    title: "大型：左手法支線採集（遷移）",
     concept: "通用規則與回程空檢查",
     goalText: "探索 8x8 迷宮的死巷支線，收齊四顆寶石，再到右上方出口。",
     hint: "沿用左手貼牆法，再加上 If（站在寶石上）。回到走過的格子時，已收集的寶石不會再成立。",
@@ -52,10 +52,10 @@ export const levels21 = [
 {
     id: "challenge-final-factory",
     stage: "challenge",
-    title: "大型：多支線工廠驗收",
-    concept: "規則泛化與完整採集",
-    goalText: "在 10x10 工廠探索三條死巷，收齊七顆寶石，再到右上方出口。",
-    hint: "不必依地圖長度數步數。沿用左手貼牆與有寶石才收集的規則；每條支線都會回程，走過出口也要先確認寶石收齊。",
+    title: "最終關：演算法泛化驗收",
+    concept: "同一演算法跨地圖泛化",
+    goalText: "不改核心左手法與收集規則，把同一套演算法直接用在 10x10 工廠，收齊七顆寶石並抵達出口。",
+    hint: "先不要為 10x10 地圖增加特例。沿用上一關的左手貼牆＋有寶石才收集；這關要驗證的是「地圖變大，演算法仍然有效」。",
     grid: {"cols":10,"rows":10},
     start: {"x":0,"y":9,"dir":"E"},
     goal: {"x":9,"y":0},
