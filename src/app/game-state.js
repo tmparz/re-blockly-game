@@ -21,6 +21,7 @@ export function cloneStart(level) {
     collected: new Set(),
     usedTypes: new Set(),
     repeatDepth: 0,
+    whileDepth: 0,
   };
 }
 
