@@ -4,10 +4,15 @@ import { keyOf } from "./utils.mjs";
 const types = new Set(["move_forward", "turn_left", "turn_right", "collect_gem",
   "repeat_times", "while_loop", "if_condition", "if_else_condition"]);
 const conditions = new Set(["FRONT_CLEAR", "FRONT_BLOCKED", "LEFT_CLEAR", "RIGHT_CLEAR", "NOT_DONE", "ON_GEM"]);
+const roles = new Set(["introduce", "practice", "transfer", "integrate", "generalize"]);
 
 export function validateCurriculumLevel(level, index) {
   const problems = [];
   const fail = (message) => problems.push(`${index + 1} ${level.id}: ${message}`);
+  if (!level.objective?.trim()) fail("missing learning objective");
+  if (!roles.has(level.role)) fail(`invalid pedagogy role: ${level.role}`);
+  if (!level.newSkill?.trim()) fail("missing newSkill curriculum key");
+  if (!Array.isArray(level.reinforces)) fail("reinforces must be an array");
   if (level.start.x === level.goal.x && level.start.y === level.goal.y && !level.gems.length) {
     fail("start is already a completed mission; a patrol needs observable objectives");
   }
@@ -16,6 +21,9 @@ export function validateCurriculumLevel(level, index) {
   }
   if (level.minRepeatDepth && (!Number.isInteger(level.minRepeatDepth) || level.minRepeatDepth < 2)) {
     fail("invalid minimum repeat depth");
+  }
+  if (level.minWhileDepth && (!Number.isInteger(level.minWhileDepth) || level.minWhileDepth < 2)) {
+    fail("invalid minimum while depth");
   }
   function visit(sequence) {
     for (const item of sequence) {
