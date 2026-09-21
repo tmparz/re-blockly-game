@@ -119,7 +119,7 @@ export function evaluateWin() {
     return { ok: false, message: t("practiceDepth", { depth: level.minRepeatDepth }) };
   }
   if (runtime.state.whileDepth < (level.minWhileDepth || 0)) {
-    return { ok: false, message: `這一關要真的使用 ${level.minWhileDepth} 層 While。` };
+    return { ok: false, message: t("practiceWhileDepth", { depth: level.minWhileDepth }) };
   }
 
   const blockCount = countLessonBlocks();
