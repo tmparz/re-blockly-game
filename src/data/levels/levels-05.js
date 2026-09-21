@@ -2,10 +2,10 @@ export const levels05 = [
 {
     id: "nested-for-three-samplers",
     stage: "nested_for",
-    title: "三段採樣",
-    concept: "三個 For 組合",
+    title: "三段採樣：找共同規律",
+    concept: "巢狀前置：辨識可重複流程",
     goalText: "完成三段採樣路線，依序收集三個能量樣本。",
-    hint: "三段都是走 3 步再收集；中間用左轉與右轉接起來。",
+    hint: "先觀察三段都有「走 3 步再收集」。這關先把共同結構看出來；下一關會把共同結構真正收進巢狀 For。",
     grid: { cols: 7, rows: 7 },
     start: { x: 0, y: 6, dir: "E" },
     goal: { x: 6, y: 3 },
