@@ -46,6 +46,9 @@ export function loadLevel(index) {
   if (level.minRepeatDepth) {
     els.levelGoal.textContent += " " + t("practiceDepthRequired", { depth: level.minRepeatDepth });
   }
+  if (level.minWhileDepth) {
+    els.levelGoal.textContent += " " + t("practiceWhileDepthRequired", { depth: level.minWhileDepth });
+  }
   els.levelConcept.textContent = levelText(level, "concept");
   els.blockLimit.textContent = t("blockLimit", { limit: getBlockLimit(level) });
   els.mapTitle.textContent = levelText(level, "title") || t("mapTitleFallback");
