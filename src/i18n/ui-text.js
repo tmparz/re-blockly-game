@@ -2,8 +2,10 @@ export const UI_TEXT = {
   zh: {
     practiceRequired: "本關需使用：{blocks}。",
     practiceDepthRequired: "重複方塊至少巢狀 {depth} 層。",
+    practiceWhileDepthRequired: "While 方塊至少巢狀 {depth} 層。",
     practiceMissing: "已到出口；請讓「{blocks}」實際控制動作，完成本關練習。",
     practiceDepth: "請讓動作在至少 {depth} 層巢狀重複內執行，完成本關練習。",
+    practiceWhileDepth: "請讓動作在至少 {depth} 層巢狀 While 內執行，完成本關練習。",
     addBlocksFirst: "先放一些動作方塊，再按執行。",
     addToElse: "接到否則裡",
     addToIf: "接到如果裡",
@@ -108,8 +110,10 @@ export const UI_TEXT = {
   en: {
     practiceRequired: "Use: {blocks}.",
     practiceDepthRequired: "Nest Repeat blocks at least {depth} layers deep.",
+    practiceWhileDepthRequired: "Nest While blocks at least {depth} layers deep.",
     practiceMissing: "You reached the exit. Use {blocks} to control an action and complete this lesson.",
     practiceDepth: "Run an action inside at least {depth} nested Repeat layers to complete this lesson.",
+    practiceWhileDepth: "Run an action inside at least {depth} nested While layers to complete this lesson.",
     addBlocksFirst: "Add some action blocks before running.",
     addToElse: "Add inside Else",
     addToIf: "Add inside If",
