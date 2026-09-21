@@ -77,6 +77,8 @@ export async function runCommandList(commands, commandTotal) {
       types.forEach((type) => runtime.state.usedTypes.add(type));
       runtime.state.repeatDepth = Math.max(runtime.state.repeatDepth,
         types.filter((type) => type === "repeat_times").length);
+      runtime.state.whileDepth = Math.max(runtime.state.whileDepth,
+        types.filter((type) => type === "while_loop").length);
     }
 
     const stepResult = evaluateWin(commandTotal);
