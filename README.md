@@ -42,9 +42,9 @@ Blocky Easy 解決了這些教學痛點，不僅進行了全方位的**平板觸
 
 | 階段 | 階段名稱 | 關卡數 | 核心學習概念與演算法 |
 |:---:|:---|:---:|:---|
-| **Phase 1** | **移動與轉彎 (Basic Movement)** | 10 關 | 順序結構 (Sequence)、前後方向感、空間幾何感知、避開障礙石牆 |
-| **Phase 2** | **For 重複迴圈 (For Loops)** | 6 關 | 重複規律歸納、使用單層 For 迴圈精簡程式碼、直路與轉角搭橋 |
-| **Phase 3** | **巢狀 For 入門 (Nested For Intro)** | 12 關 | 兩段式流程分解、迴圈內部再嵌套迴圈（For 內含 For）、長短步數交替組合 |
+| **Phase 1** | **移動與轉彎 (Basic Movement)** | 8 關 | 順序結構 (Sequence)、前後方向感、空間幾何感知、避開障礙石牆 |
+| **Phase 2** | **For 重複迴圈 (For Loops)** | 10 關 | 重複規律歸納、使用單層 For 迴圈精簡程式碼、直路與轉角搭橋 |
+| **Phase 3** | **巢狀 For 入門 (Nested For Intro)** | 8 關 | 兩段式流程分解、迴圈內部再嵌套迴圈（For 內含 For）、長短步數交替組合 |
 | **Phase 4** | **進階 For 工廠 (Advanced For Factory)** | 15 關 | 十字對稱折返、凸字城垛雙向巡檢、S型蛇形管道、三峰高難度陣列、雙軌迴圈矩陣 |
 | **Phase 5** | **While 基礎 (While Loops Basic)** | 10 關 | 停止條件感知、未知步數探索、零次執行邊界測試、直到傳送門／遇到石牆 |
 | **Phase 6** | **If / If-Else 條件 (If / Else Decisions)** | 14 關 | 感測器邏輯判斷（前方無牆/有牆）、條件收集寶石、遇障礙自動轉彎、二選一決策分支 |
@@ -61,6 +61,8 @@ Blocky Easy 解決了這些教學痛點，不僅進行了全方位的**平板觸
    專案內建自動化驗證腳本（`node scripts/validate-levels.mjs`），以抽象語法樹 (AST) 逐一檢驗 100 關的解答正確性、方塊限制與中英雙語完整性，確保每一次發布皆零 Bug。
 4. **三星評分機制與本地進度保存**  
    通關自動計算星級（滿分 300 顆星），搭配悅耳的過關音效，激發學生的挑戰慾；進度完全保存在本機瀏覽器 LocalStorage，免去複雜登入流程。
+5. **每關都有可稽核的教學目的**  
+   100 關各自定義學習目標、教學角色（新概念／練習／遷移／整合／泛化）、新能力鍵與複習能力；驗證器同時檢查目標不可重複，並對巢狀 For／While 與混合 If/Else 結構設定實際過關要求。
 
 ---
 
@@ -147,9 +149,9 @@ Blocky Easy は、タブレット授業に最適化された**完全タッチUI*
 
 | フェーズ | フェーズ名 | ステージ数 | 学習内容と習得アルゴリズム |
 |:---:|:---|:---:|:---|
-| **Phase 1** | **移動と回転 (Basic Movement)** | 10 問 | 順次処理 (Sequence)、空間認識、前進・方向転換、障害物の回避 |
-| **Phase 2** | **For 繰り返し (For Loops)** | 6 問 | パターンの発見、単一ループによるコード圧縮、直進と角の規則化 |
-| **Phase 3** | **入れ子 For 入門 (Nested For Intro)** | 12 問 | 複数プロセスの分解、ループ内のループ（二重ループ）、異なる歩数の組み合わせ |
+| **Phase 1** | **移動と回転 (Basic Movement)** | 8 問 | 順次処理 (Sequence)、空間認識、前進・方向転換、障害物の回避 |
+| **Phase 2** | **For 繰り返し (For Loops)** | 10 問 | パターンの発見、単一ループによるコード圧縮、直進と角の規則化 |
+| **Phase 3** | **入れ子 For 入門 (Nested For Intro)** | 8 問 | 複数プロセスの分解、ループ内のループ（二重ループ）、異なる歩数の組み合わせ |
 | **Phase 4** | **応用 For ファクトリー (Advanced For)** | 15 問 | 十字型対称移動、城壁の巡回、S字パイプライン、3連ピークスキャン、二重軌道マトリクス |
 | **Phase 5** | **While ループ基礎 (While Loops Basic)** | 10 問 | 終了条件の理解、歩数が不定な探索、0回実行の境界値、「ワープゾーン到着まで」「壁まで」 |
 | **Phase 6** | **If / If-Else 条件分岐 (If / Decisions)** | 14 問 | センサー判定（前方に壁があるか）、宝石の条件付き収集、自律的障害物回避、二者択一判断 |
@@ -226,9 +228,9 @@ This platform goes far beyond existing demos. We engineered an entire curriculum
 
 | Phase | Phase Title | Levels | Core Concepts & Computational Thinking |
 |:---:|:---|:---:|:---|
-| **Phase 1** | **Basic Movement & Orientation** | 10 | Sequential execution, spatial perception, forward/turning kinematics, avoiding stone obstacles |
-| **Phase 2** | **For Loops** | 6 | Pattern recognition, program compression using single loops, bridging long stretches and corners |
-| **Phase 3** | **Nested For Intro** | 12 | Decomposition of multi-segment routes, loop nesting (loops inside loops), alternating step lengths |
+| **Phase 1** | **Basic Movement & Orientation** | 8 | Sequential execution, spatial perception, forward/turning kinematics, avoiding stone obstacles |
+| **Phase 2** | **For Loops** | 10 | Pattern recognition, program compression using single loops, bridging long stretches and corners |
+| **Phase 3** | **Nested For Intro** | 8 | Decomposition of multi-segment routes, loop nesting (loops inside loops), alternating step lengths |
 | **Phase 4** | **Advanced For Factory** | 15 | Cross-patrol symmetry, battlement wave inspections, serpentine conduits, triple peaks, dual-track loops |
 | **Phase 5** | **While Loops Basic** | 10 | Termination conditions, variable distance navigation, zero-iteration edge cases, until portal / wall detection |
 | **Phase 6** | **If / If-Else Decisions** | 14 | Sensor evaluations (wall ahead / clear), conditional gem gathering, autonomous obstacle turning, binary branching |
