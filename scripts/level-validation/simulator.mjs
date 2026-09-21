@@ -3,7 +3,7 @@ import { keyOf } from "./utils.mjs";
 import { missingPractice } from "../../src/data/lesson-rules.js";
 
 export function traceLevel(level, solution = level.solution) {
-  const stats = { actions: 0, steps: [], usedTypes: new Set(), repeatDepth: 0, conditions: {}, visits: {}, executed: new Set() };
+  const stats = { actions: 0, steps: [], usedTypes: new Set(), repeatDepth: 0, whileDepth: 0, conditions: {}, visits: {}, executed: new Set() };
   const walls = new Set(level.walls.map(keyOf));
   const gemKeys = new Set(level.gems.map(keyOf));
   const state = {
@@ -29,7 +29,8 @@ export function traceLevel(level, solution = level.solution) {
     state.y === level.goal.y &&
     level.gems.every((gem) => state.collected.has(keyOf(gem)));
   const lessonDone = () => hasWon() && !missingPractice(level, stats.usedTypes).length &&
-    stats.repeatDepth >= (level.minRepeatDepth || 0);
+    stats.repeatDepth >= (level.minRepeatDepth || 0) &&
+    stats.whileDepth >= (level.minWhileDepth || 0);
 
   function check(condition, path) {
     const matched = conditionMatches(condition);
@@ -70,6 +71,7 @@ export function traceLevel(level, solution = level.solution) {
     if (stats.actions > 10000) throw new Error("action budget exceeded");
     parents.forEach((type) => stats.usedTypes.add(type));
     stats.repeatDepth = Math.max(stats.repeatDepth, parents.filter((type) => type === "repeat_times").length);
+    stats.whileDepth = Math.max(stats.whileDepth, parents.filter((type) => type === "while_loop").length);
     if (item.type === "move_forward") {
       const next = pointAhead();
       if (!inside(next) || walls.has(keyOf(next))) {
@@ -149,7 +151,7 @@ export function traceLevel(level, solution = level.solution) {
   try {
     const completed = runSequence(solution) || lessonDone();
     if (!completed) {
-      return { ok: false, stats, state, error: `ended at ${keyOf(state)} facing ${state.dir}, collected ${state.collected.size}/${level.gems.length}; missing practice: ${missingPractice(level, stats.usedTypes).join(", ")}; repeat depth ${stats.repeatDepth}` };
+      return { ok: false, stats, state, error: `ended at ${keyOf(state)} facing ${state.dir}, collected ${state.collected.size}/${level.gems.length}; missing practice: ${missingPractice(level, stats.usedTypes).join(", ")}; repeat depth ${stats.repeatDepth}; while depth ${stats.whileDepth}` };
     }
   } catch (error) {
     return { ok: false, stats, state, error: error.message };
