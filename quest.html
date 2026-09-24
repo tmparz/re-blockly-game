@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Quest Lab · Blocky Easy</title>
+  <meta name="description" content="Grade 3 coding missions: debugging, functions and variables with touch-friendly Blockly blocks." />
+  <link rel="stylesheet" href="styles/quest.css" />
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="./"><small>Blocky Easy</small>Quest Lab</a>
+    <nav class="top-links">
+      <a href="./" data-i18n="navLevels">100 Levels</a>
+      <a href="story.html" data-i18n="navStory">Story Lab</a>
+      <a href="course.html" data-i18n="navCourse">Course Plan</a>
+    </nav>
+    <div class="total-stars"><span data-i18n="stars">Stars</span> ⭐ <strong id="totalStars">0</strong></div>
+    <div class="lang-switch" role="group" aria-label="Language">
+      <button type="button" data-lang="en">English</button>
+      <button type="button" data-lang="zh">中文</button>
+    </div>
+  </header>
+
+  <nav class="unit-tabs" id="unitTabs" aria-label="Units"></nav>
+
+  <main class="quest-shell">
+    <section class="panel mission-panel" aria-labelledby="missionTitle">
+      <div class="mission-head">
+        <div class="mission-dots" id="missionDots" role="group" aria-label="Missions"></div>
+        <p class="kicker" id="missionKicker"></p>
+        <h1 id="missionTitle"></h1>
+        <p class="story" id="missionStory"></p>
+        <div class="chips"><span class="chip" id="limitChip"></span></div>
+        <details class="hint" id="hintBox">
+          <summary data-i18n="hint">Need a hint?</summary>
+          <p id="missionHint"></p>
+        </details>
+      </div>
+      <div class="map-tabs" id="mapTabs" hidden></div>
+      <div class="board-wrap"><div class="board" id="board" role="img" aria-label="Mission map"></div></div>
+      <div class="controls">
+        <button class="btn btn-run" id="runButton" type="button">▶ <span data-i18n="run">Run</span></button>
+        <button class="btn btn-soft" id="resetButton" type="button">↺ <span data-i18n="reset">Robot back</span></button>
+        <button class="btn btn-soft" id="restartButton" type="button">🧹 <span data-i18n="restart">Start over</span></button>
+        <button class="btn btn-warm" id="answerButton" type="button">💡 <span data-i18n="answer">Answer</span></button>
+        <label class="speed"><span data-i18n="speed">Speed</span>
+          <input id="speed" type="range" min="180" max="780" step="60" value="480" />
+        </label>
+      </div>
+      <div class="result-row">
+        <p class="result" id="result" aria-live="polite"></p>
+        <button class="btn btn-next" id="nextButton" type="button" hidden><span data-i18n="next">Next mission</span> ➜</button>
+      </div>
+    </section>
+
+    <section class="panel workspace-panel" aria-label="Code">
+      <div class="workspace-head">
+        <h2 data-i18n="workspace">Code</h2>
+        <span class="chip" id="blockCount"></span>
+      </div>
+      <div id="blocklyDiv"></div>
+      <p class="load-warning" id="loadWarning" data-i18n="loadWarning" hidden></p>
+    </section>
+  </main>
+
+  <script src="https://unpkg.com/blockly/blockly.min.js"></script>
+  <script type="module" src="src/quest/app.js"></script>
+</body>
+</html>
