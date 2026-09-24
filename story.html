@@ -34,7 +34,7 @@
     .prop { position:absolute; font-size:60px; filter:drop-shadow(0 7px 4px rgba(0,0,0,.15)); user-select:none; }
     .tree { right:10%; bottom:46px; }
     .treasure { right:20%; bottom:30px; font-size:48px; }
-    .actor { position:absolute; bottom:28px; left:12%; width:92px; text-align:center; transition:left .55s ease, transform .3s ease, opacity .25s ease; z-index:3; }
+    .actor { cursor:pointer; position:absolute; bottom:28px; left:12%; width:92px; text-align:center; transition:left .55s ease, transform .3s ease, opacity .25s ease; z-index:3; }
     .actor[data-actor="dog"] { left:34%; }
     .actor[data-actor="robot"] { left:54%; }
     .actor-emoji { font-size:68px; line-height:1; filter:drop-shadow(0 8px 5px rgba(0,0,0,.18)); }
@@ -63,6 +63,8 @@
     <a href="./">100 關</a>
     <a href="bird.html">Bird</a>
     <a href="blockly-games.html">Blockly Games</a>
+    <a href="quest.html">Quest Lab</a>
+    <a href="course.html">課程規劃</a>
   </header>
 
   <main class="shell">
@@ -70,10 +72,10 @@
       <div class="panel-head">
         <div>
           <h1>🎬 小貓找寶藏</h1>
-          <p>把積木接在「故事開始」下面，按執行讓角色真的演出來。</p>
+          <p>把積木接在「故事開始」下面，按執行讓角色演出來。用「👆 當點擊」讓觀眾點角色時發生事情。</p>
         </div>
         <div class="chips">
-          <span class="chip">Event 事件</span><span class="chip">Sequence 順序</span><span class="chip">Timing 時間</span>
+          <span class="chip">Event 事件</span><span class="chip">Sequence 順序</span><span class="chip">Timing 時間</span><span class="chip">Loop 重複</span>
         </div>
       </div>
       <div class="stage-wrap">
@@ -104,9 +106,9 @@
     </section>
 
     <section class="panel lesson" aria-label="本堂課學習目標">
-      <div class="lesson-card"><strong>① Event</strong><span>知道故事從「故事開始」啟動。</span></div>
+      <div class="lesson-card"><strong>① Event</strong><span>「故事開始」和「👆 當點擊角色」都是事件：事情發生，程式才開始跑。</span></div>
       <div class="lesson-card"><strong>② Sequence</strong><span>改變積木順序，故事結果也會改變。</span></div>
-      <div class="lesson-card"><strong>③ Timing</strong><span>用等待讓不同角色輪流說話。</span></div>
+      <div class="lesson-card"><strong>③ Timing &amp; Loop</strong><span>用等待讓角色輪流說話；用重複讓動作做好幾次。</span></div>
       <div class="lesson-card"><strong>④ Debug</strong><span>看到不合理的演出，自己找原因並修改。</span></div>
     </section>
   </main>
