@@ -35,6 +35,7 @@ jobs:
           node scripts/validate-levels.mjs
           node scripts/test-curriculum.mjs
           node scripts/test-quests.mjs
+          node scripts/test-story.mjs
 
       - name: Build static site
         run: node scripts/build-static.mjs

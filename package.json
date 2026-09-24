@@ -10,7 +10,8 @@
     "test:curriculum": "node scripts/test-curriculum.mjs",
     "audit:curriculum": "node scripts/audit-curriculum.mjs",
     "test:quests": "node scripts/test-quests.mjs",
-    "check": "node scripts/check-source-lines.mjs && node scripts/validate-levels.mjs && node scripts/test-curriculum.mjs && node scripts/test-quests.mjs",
+    "test:story": "node scripts/test-story.mjs",
+    "check": "node scripts/check-source-lines.mjs && node scripts/validate-levels.mjs && node scripts/test-curriculum.mjs && node scripts/test-quests.mjs && node scripts/test-story.mjs",
     "build": "node scripts/check-source-lines.mjs && node scripts/build-static.mjs",
     "deploy:cloudflare": "npm run build && wrangler pages deploy dist --project-name blocky-easy"
   }
