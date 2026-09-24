@@ -4,7 +4,17 @@ import { extname, join, relative, resolve } from "node:path";
 const root = resolve(".");
 const maxLines = 300;
 const extensions = new Set([".css", ".html", ".js", ".mjs"]);
-const roots = ["app.js", "index.html", "styles.css", "server.mjs", "src", "styles", "scripts"];
+const roots = [
+  "app.js",
+  "index.html",
+  "styles.css",
+  "story.html",
+  "story.js",
+  "server.mjs",
+  "src",
+  "styles",
+  "scripts",
+];
 
 async function sourceFiles(path) {
   const entries = await readdir(path, { withFileTypes: true });
