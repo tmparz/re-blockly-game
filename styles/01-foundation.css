@@ -67,6 +67,9 @@ svg {
   color: #f8fbff;
 }
 
+.topbar > a:not(.brand) { color: #bfe0ff; font-weight: 700; text-decoration: none; }
+.topbar > a:not(.brand):hover { color: #ffffff; text-decoration: underline; }
+
 .brand {
   display: inline-flex;
   align-items: center;
