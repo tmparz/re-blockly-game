@@ -12,6 +12,8 @@ const files = [
   "teacher-guide.html",
   "story.html",
   "story.js",
+  "quest.html",
+  "course.html",
 ];
 const directories = ["src", "styles", "bird-game", "blockly-games"];
 

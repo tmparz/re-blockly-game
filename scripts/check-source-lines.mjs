@@ -10,6 +10,7 @@ const roots = [
   "styles.css",
   "story.html",
   "story.js",
+  "quest.html",
   "server.mjs",
   "src",
   "styles",

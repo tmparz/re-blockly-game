@@ -88,6 +88,12 @@ Blocky Easy 解決了這些教學痛點，不僅進行了全方位的**平板觸
    - 池塘關卡：完全內置本機 ACE 程式編輯器，斷網也能順暢練習 JavaScript。
 3. **老師使用手冊** (`teacher-guide.html` & `docs/20260918-老師使用手冊.md`)  
    包含課堂帶課建議、iPad 分配操作、常見問題排解與開源授權對照表。
+4. **第二階段課程規劃 Code Builders** (`/course.html`)  
+   給完成 100 關、Bird、Turtle 的國小三年級學生的 12 週課程：除錯 → 函式 → 變數 → 事件 → 期末專題，對照 CSTA 1B 標準，含每週進度、學習目標、不插電暖身、出場小卡與專題評量規準。
+5. **Quest Lab 任務實驗室** (`/quest.html`)  
+   29 個新任務、3 個單元：🐞 Bug Hunt（10 關，每關從有錯的程式開始修）、🧩 Function Factory（10 關，定義／呼叫函式）、🔢 Counting Robots（9 關，計數器變數，多數關卡同時用 2–3 張地圖測試）。預設英文、可切換中文，函式名稱與數字皆用下拉選單，不需鍵盤。以 `node scripts/test-quests.mjs` 驗證每關解答通過、起始程式必定失敗。
+6. **Story Lab 事件版** (`/story.html`)  
+   新增「👆 當點擊角色」事件積木與「🔁 重複」積木，作為事件單元與期末互動故事專題的創作環境。
 
 ---
 
@@ -185,6 +191,8 @@ Blocky Easy は、タブレット授業に最適化された**完全タッチUI*
 - **Bird 飛行ミッション（タッチ版）** (`/bird.html`)：角度・座標を大型タッチキーで入力できる単体ミッション。
 - **Blockly Games 移植版** (`/blockly-games.html`)：Bird、Turtle、Movie、Music、Pond Tutor、Pond の6大ゲームを収録。タートルの360°アングルセレクターやオフライン ACE エディターを実装。
 - **指導者用ガイド** (`teacher-guide.html` & `docs/20260918-老師使用手冊.md`)：授業の流れ、iPad 配置ノウハウ、トラブルシューティングを掲載。
+- **第2段階カリキュラム** (`/course.html`)：小学3年生向け12週間計画（デバッグ → 関数 → 変数 → イベント → 最終プロジェクト）。
+- **Quest Lab** (`/quest.html`)：Bug Hunt・Function Factory・Counting Robots の3ユニット、全29ミッション。
 
 ---
 
@@ -264,6 +272,9 @@ This platform goes far beyond existing demos. We engineered an entire curriculum
 1. **Bird Game (Touch Edition)** (`/bird.html`): The classic Blockly Games Bird mission refactored with large touch-dial heading selectors.
 2. **Blockly Games 6-in-1 Suite** (`/blockly-games.html`): Includes Bird, Turtle, Movie, Music, Pond Tutor, and Pond with localized offline ACE editor integration.
 3. **Teacher's Guide** (`teacher-guide.html` & `docs/20260918-老師使用手冊.md`): Full classroom walkthroughs, iPad device management tips, and pedagogical FAQs.
+4. **Course Plan, Part 2 — Code Builders** (`/course.html`): A 12-week Grade 3 plan for students who finished the 100 levels, Bird and Turtle: debugging → functions → variables → events → capstone, mapped to CSTA 1B standards.
+5. **Quest Lab** (`/quest.html`): 29 new missions in 3 units — Bug Hunt (fix broken starter code), Function Factory (define and call functions), Counting Robots (a counter variable, tested on several maps at once). English by default with a 中文 toggle; validated by `node scripts/test-quests.mjs`.
+6. **Story Lab with events** (`/story.html`): New “when clicked” event block and repeat block for interactive stories and the capstone project.
 
 ---
 
