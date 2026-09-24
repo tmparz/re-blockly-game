@@ -1,0 +1,86 @@
+// Story Lab text. Language choice is shared with Quest Lab (English by default).
+import { lang, pick, setLang } from "../quest/i18n.js";
+
+export { lang, pick, setLang };
+
+const UI = {
+  en: {
+    pageTitle: "Story Lab · Blocky Easy",
+    challenges: "Challenges",
+    myStory: "My Story",
+    goals: "Goals",
+    run: "Run",
+    stop: "Stop",
+    reset: "Reset",
+    example: "Example",
+    clear: "Clear",
+    present: "Present",
+    exit: "Exit",
+    code: "Code",
+    blocks: "{n} blocks",
+    next: "Next",
+    ready: "Press ▶ Run to play your story. Tap a character to fire its “when clicked” code.",
+    playing: "Playing…",
+    stopped: "Stopped.",
+    resetDone: "Stage reset. Your blocks are still here.",
+    confirmExample: "Load the example? Your blocks for this challenge will be replaced.",
+    confirmClear: "Clear all blocks?",
+    exampleLoaded: "Example loaded. Press ▶ Run, then try changing it!",
+    cleared: "Cleared. Start building!",
+    complete: "Challenge complete! 🎉",
+    allGoals: "{done} / {total}",
+    noClick: "{name} has no “👆 when clicked” code yet.",
+    stepLimit: "A script took too many steps and was stopped.",
+    rubric: "Project checklist",
+    cat_events: "Events", cat_motion: "Motion", cat_looks: "Looks", cat_sound: "Sound",
+    cat_control: "Control", cat_score: "Score",
+    qa_toMain: "Tap a block to add it under “🎬 when Run”",
+    qa_after: "Adding after", qa_inside: "Adding inside", qa_insideElse: "Adding inside",
+    qa_intoElse: "", qa_out: "Out", qa_main: "when Run", qa_remove: "Delete",
+    say_default: "Hello!",
+    think_default: "Hmm…",
+  },
+  zh: {
+    pageTitle: "Story Lab 故事工作坊｜Blocky Easy",
+    challenges: "挑戰",
+    myStory: "我的故事",
+    goals: "目標",
+    run: "執行",
+    stop: "停止",
+    reset: "重置",
+    example: "範例",
+    clear: "清空",
+    present: "發表",
+    exit: "離開",
+    code: "程式",
+    blocks: "{n} 個方塊",
+    next: "下一關",
+    ready: "按 ▶ 執行播放故事。點舞台上的角色，會執行它的「當被點擊」程式。",
+    playing: "播放中…",
+    stopped: "已停止。",
+    resetDone: "舞台已重置，積木都還在。",
+    confirmExample: "要載入範例嗎？這個挑戰目前的積木會被取代。",
+    confirmClear: "要清空所有積木嗎？",
+    exampleLoaded: "已載入範例。按 ▶ 執行看看，再試著改改看！",
+    cleared: "已清空，開始創作吧！",
+    complete: "挑戰完成！🎉",
+    allGoals: "{done} / {total}",
+    noClick: "{name} 還沒有「👆 當被點擊」的程式。",
+    stepLimit: "有一段程式跑太多步，已經先停下來。",
+    rubric: "專題檢查表",
+    cat_events: "事件", cat_motion: "動作", cat_looks: "外觀", cat_sound: "聲音",
+    cat_control: "控制", cat_score: "分數",
+    qa_toMain: "點方塊，就會接到「🎬 按下執行時」下面",
+    qa_after: "接在後面：", qa_inside: "放進裡面：", qa_insideElse: "放進：",
+    qa_intoElse: "", qa_out: "跳出", qa_main: "按下執行時", qa_remove: "刪除",
+    say_default: "你好！",
+    think_default: "嗯……",
+  },
+};
+
+export function t(name, params = {}) {
+  const text = UI[lang][name] ?? UI.en[name] ?? name;
+  return text.replace(/\{(\w+)\}/g, (_, token) => String(params[token] ?? ""));
+}
+
+export const L = (en, zh) => (lang === "zh" ? zh : en);

@@ -127,9 +127,9 @@ export function createQuickAdd({ workspace, root, rootType, text }) {
   });
 
   return {
-    setItems(next) {
+    setItems(next, { keepTarget = false } = {}) {
       items = next;
-      target = null;
+      if (!keepTarget) target = null;
       chips.innerHTML = "";
       items.forEach((item, index) => {
         const chip = document.createElement("button");
