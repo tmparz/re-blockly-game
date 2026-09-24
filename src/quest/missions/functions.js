@@ -1,0 +1,205 @@
+// Unit 2 · Function Factory: name a chunk of code once, then use it again and again.
+export const functionFactory = [
+  {
+    id: "fn-1",
+    title: { en: "Meet a Function", zh: "認識函式" },
+    story: {
+      en: "The purple block \"hop\" is a function: a name for a group of steps. Hop moves 2 squares. Use hop to reach the flag.",
+      zh: "紫色的「跳兩格」是一個函式：幫一組步驟取的名字。跳兩格會前進 2 格。用它走到旗子。",
+    },
+    hint: { en: "6 squares ÷ 2 squares per hop = how many hops?", zh: "6 格 ÷ 每次跳 2 格 = 要跳幾次？" },
+    maps: [[">.....G"]],
+    blocks: ["move", "def", "call"],
+    functions: ["hop"],
+    require: { call: 3 },
+    starter: { main: [{ call: "hop" }], defs: { hop: ["move", "move"] } },
+    solution: { main: [{ call: "hop" }, { call: "hop" }, { call: "hop" }], defs: { hop: ["move", "move"] } },
+  },
+  {
+    id: "fn-2",
+    title: { en: "Fill the Function", zh: "把函式填滿" },
+    story: {
+      en: "The main program already calls \"corner\" 3 times, but corner is empty! Put the right steps inside corner.",
+      zh: "主程式已經呼叫「轉角」3 次，但轉角裡面是空的！把正確的步驟放進去。",
+    },
+    hint: { en: "One corner = walk 2 squares, then turn.", zh: "一個轉角 = 走 2 格，再轉彎。" },
+    maps: [[">..", "##.", "G.."]],
+    blocks: ["move", "left", "right", "def", "call"],
+    functions: ["corner"],
+    require: { call: 3 },
+    starter: { main: [{ call: "corner" }, { call: "corner" }, { call: "corner" }], defs: { corner: [] } },
+    solution: {
+      main: [{ call: "corner" }, { call: "corner" }, { call: "corner" }],
+      defs: { corner: ["move", "move", "right"] },
+    },
+  },
+  {
+    id: "fn-3",
+    title: { en: "Stairs, Walk, Stairs", zh: "樓梯、走路、樓梯" },
+    story: {
+      en: "There are stairs, then a flat road, then more stairs. Build a \"stairs\" function for ONE step, and use it 4 times.",
+      zh: "先是樓梯，接著是平路，然後又是樓梯。做一個「下樓梯」函式代表「一階」，用它 4 次。",
+    },
+    hint: { en: "One step: move, turn right, move, turn left.", zh: "一階：前進、右轉、前進、左轉。" },
+    maps: [[">.######", "#..#####", "##....##", "#####..#", "######.G"]],
+    blocks: ["move", "left", "right", "repeat", "def", "call"],
+    functions: ["stairs"],
+    require: { call: 2 },
+    starter: { main: [], defs: { stairs: [] } },
+    solution: {
+      main: [{ call: "stairs" }, { call: "stairs" }, "move", "move", { call: "stairs" }, { call: "stairs" }, "move"],
+      defs: { stairs: ["move", "right", "move", "left"] },
+    },
+  },
+  {
+    id: "fn-4",
+    title: { en: "A Loop in a Function", zh: "函式裡有迴圈" },
+    story: {
+      en: "Each side of the room has a row of 3 gems. Make \"gem row\" collect one row. A function can hold a loop!",
+      zh: "房間每一邊都有一排 3 顆寶石。做一個「寶石列」撿完一排。函式裡面也可以放迴圈！",
+    },
+    hint: { en: "gem row = repeat 3 (move, pick up). Then repeat the row and a turn.", zh: "寶石列 = 重複 3 次（前進、撿起）。再用迴圈重複「寶石列＋轉彎」。" },
+    maps: [[">***", "###*", "G##*", "****"]],
+    blocks: ["move", "right", "pick", "repeat", "def", "call"],
+    functions: ["row"],
+    require: { call: 1 },
+    starter: { main: [], defs: { row: [] } },
+    solution: {
+      main: [{ repeat: 3, do: [{ call: "row" }, "right"] }, "move"],
+      defs: { row: [{ repeat: 3, do: ["move", "pick"] }] },
+    },
+  },
+  {
+    id: "fn-5",
+    title: { en: "Visit the Rooms", zh: "拜訪小房間" },
+    story: {
+      en: "Three little rooms each hide a gem. The hallway gaps are all different, so a loop won't work. Make a \"visit room\" function!",
+      zh: "三個小房間各藏一顆寶石。走廊間距都不一樣，所以迴圈不好用。做一個「進房間」函式！",
+    },
+    hint: {
+      en: "visit room: turn left, move, pick up, turn right twice, move, turn left.",
+      zh: "進房間：左轉、前進、撿起、右轉兩次、前進、左轉。",
+    },
+    maps: [["##*##**##", ">.......G"]],
+    blocks: ["move", "left", "right", "pick", "repeat", "def", "call"],
+    functions: ["room"],
+    require: { call: 3 },
+    starter: { main: [], defs: { room: [] } },
+    solution: {
+      main: [
+        "move", "move", { call: "room" }, "move", "move", "move",
+        { call: "room" }, "move", { call: "room" }, "move", "move",
+      ],
+      defs: { room: ["left", "move", "pick", "right", "right", "move", "left"] },
+    },
+  },
+  {
+    id: "fn-6",
+    title: { en: "Functions Calling Functions", zh: "函式呼叫函式" },
+    story: {
+      en: "\"turn around\" is ready. Build \"visit room\" and use turn around INSIDE it. Functions can use other functions!",
+      zh: "「向後轉」已經做好了。完成「進房間」，並在裡面使用向後轉。函式可以使用別的函式！",
+    },
+    hint: { en: "visit room: left, move, pick up, turn around, move, left.", zh: "進房間：左轉、前進、撿起、向後轉、前進、左轉。" },
+    maps: [["#*#**##", ">.....G"]],
+    blocks: ["move", "left", "right", "pick", "def", "call"],
+    functions: ["room", "turnAround"],
+    require: { call: 4 },
+    starter: {
+      main: ["move", { call: "room" }, "move", "move", { call: "room" }, "move", { call: "room" }, "move", "move"],
+      defs: { room: [], turnAround: ["right", "right"] },
+    },
+    solution: {
+      main: ["move", { call: "room" }, "move", "move", { call: "room" }, "move", { call: "room" }, "move", "move"],
+      defs: { room: ["left", "move", "pick", { call: "turnAround" }, "move", "left"], turnAround: ["right", "right"] },
+    },
+  },
+  {
+    id: "fn-7",
+    title: { en: "One Function, Three Maps", zh: "一個函式，三張地圖" },
+    story: {
+      en: "The gems move around on every map! Make a \"hallway\" function that walks 4 squares and only picks up a gem when there is one.",
+      zh: "每張地圖的寶石位置都不同！做一個「走廊」函式：走 4 格，有寶石才撿。",
+    },
+    hint: {
+      en: "hallway = repeat 4 (move, if on a gem: pick up). Your code must pass ALL 3 maps.",
+      zh: "走廊 = 重複 4 次（前進、如果在寶石上就撿起）。程式要通過全部 3 張地圖。",
+    },
+    maps: [
+      [">.*.*", "    .", "    *", "    .", "G.*.."],
+      [">*...", "    .", "    *", "    .", "G*..*"],
+      [">...*", "    *", "    .", "    *", "G..*."],
+    ],
+    blocks: ["move", "right", "pick", "repeat", "if", "def", "call"],
+    functions: ["hall"],
+    require: { call: 2 },
+    starter: { main: [], defs: { hall: [] } },
+    solution: {
+      main: [{ repeat: 2, do: [{ call: "hall" }, "right"] }, { call: "hall" }],
+      defs: { hall: [{ repeat: 4, do: ["move", { if: "gemHere", do: ["pick"] }] }] },
+    },
+  },
+  {
+    id: "fn-8",
+    title: { en: "Fix It Once", zh: "修一次就好" },
+    story: {
+      en: "The \"climb\" function has a bug. The good news: when you fix a function, every place that uses it is fixed too!",
+      zh: "「爬一階」函式有錯誤。好消息是：修好函式之後，所有用到它的地方都一起修好了！",
+    },
+    hint: { en: "Climbing UP means turning left first.", zh: "往「上」爬要先左轉。" },
+    maps: [["####.G", "###..#", "##..##", "#..###", ">.####"]],
+    blocks: ["move", "left", "right", "repeat", "def", "call"],
+    functions: ["climb"],
+    require: { call: 1 },
+    starter: { main: [{ repeat: 4, do: [{ call: "climb" }] }, "move"], defs: { climb: ["move", "right", "move", "left"] } },
+    solution: { main: [{ repeat: 4, do: [{ call: "climb" }] }, "move"], defs: { climb: ["move", "left", "move", "right"] } },
+  },
+  {
+    id: "fn-9",
+    title: { en: "Castle Towers", zh: "城堡塔樓" },
+    story: {
+      en: "Climb over each tower and grab the gem on top. The flat parts are different lengths, so use a \"tower\" function.",
+      zh: "爬過每一座塔，撿起塔頂的寶石。平地長度不一樣，所以用「城塔」函式。",
+    },
+    hint: {
+      en: "tower: up 2, pick up, across 1, down 2, face right again.",
+      zh: "城塔：往上 2 格、撿起、橫走 1 格、往下 2 格、再面向右邊。",
+    },
+    maps: [["#*.#*.*.#", "#..#....#", ">.......G"]],
+    blocks: ["move", "left", "right", "pick", "repeat", "def", "call"],
+    functions: ["tower"],
+    require: { call: 3 },
+    starter: { main: [], defs: { tower: [] } },
+    solution: {
+      main: ["move", { call: "tower" }, "move", "move", { call: "tower" }, "move", { call: "tower" }, "move"],
+      defs: { tower: ["left", "move", "move", "pick", "right", "move", "right", "move", "move", "left"] },
+    },
+  },
+  {
+    id: "fn-10",
+    title: { en: "Function Boss", zh: "函式魔王關" },
+    story: {
+      en: "Towers above, rooms below! Build TWO functions and plan the main program like a recipe.",
+      zh: "上面有塔、下面有房間！做兩個函式，再像寫食譜一樣規劃主程式。",
+    },
+    hint: {
+      en: "Rooms are BELOW the road this time: turn right to go in.",
+      zh: "這次房間在路的「下方」：要右轉才能進去。",
+    },
+    maps: [["#*.##*.##", "#..##..##", ">.......G", "###*##**#"]],
+    blocks: ["move", "left", "right", "pick", "repeat", "def", "call"],
+    functions: ["tower", "room"],
+    require: { def: 2, call: 5 },
+    starter: { main: [], defs: { tower: [], room: [] } },
+    solution: {
+      main: [
+        "move", { call: "tower" }, "move", { call: "room" }, "move", "move",
+        { call: "tower" }, { call: "room" }, "move", { call: "room" }, "move",
+      ],
+      defs: {
+        tower: ["left", "move", "move", "pick", "right", "move", "right", "move", "move", "left"],
+        room: ["right", "move", "pick", "right", "right", "move", "right"],
+      },
+    },
+  },
+];
