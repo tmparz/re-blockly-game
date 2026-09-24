@@ -113,16 +113,42 @@ const TYPES = {
   set: "q_set", change: "q_change",
 };
 
-export function toolboxFor(mission) {
-  const contents = [];
+const CHIP_COLOUR = {
+  move: COLOURS.move, left: COLOURS.turn, right: COLOURS.turn, pick: COLOURS.gem, say: COLOURS.data,
+  repeat: COLOURS.loop, until: COLOURS.loop, untilCount: COLOURS.loop, if: COLOURS.logic, ifElse: COLOURS.logic,
+  set: COLOURS.data, change: COLOURS.data,
+};
+const CHIP_LABEL = {
+  move: () => L("⬆️ move", "⬆️ 前進"),
+  left: () => L("↺ left", "↺ 左轉"),
+  right: () => L("↻ right", "↻ 右轉"),
+  pick: () => L("💎 pick up", "💎 撿起"),
+  say: () => L("💬 say", "💬 說出"),
+  repeat: () => L("🔁 repeat", "🔁 重複"),
+  until: () => L("🔁 until 🏁", "🔁 直到 🏁"),
+  untilCount: () => L("🔁 until =", "🔁 直到 ="),
+  if: () => L("❓ if", "❓ 如果"),
+  ifElse: () => L("❓ if / else", "❓ 如果／否則"),
+  set: () => L("🔢 set", "🔢 設為"),
+  change: () => L("🔢 change", "🔢 改變"),
+};
+
+// Chips for the tap-to-add bar, in the same order as the toolbox.
+export function quickItems(mission) {
+  const hex = (hue) => Blockly.utils.colour.hueToHex(hue);
+  const items = [];
   for (const op of mission.blocks) {
-    if (op === "def") {
-      mission.functions.forEach((name) => contents.push({ kind: "block", type: "q_def", fields: { NAME: name } }));
-    } else if (op === "call") {
-      mission.functions.forEach((name) => contents.push({ kind: "block", type: "q_call", fields: { NAME: name } }));
+    if (op === "def" || op === "call") {
+      mission.functions.forEach((name) => items.push({
+        type: op === "def" ? "q_def" : "q_call",
+        fields: { NAME: name },
+        unique: op === "def",
+        label: op === "def" ? `${L("define", "定義")} ${functionLabel(name)}` : functionLabel(name),
+        colour: hex(COLOURS.fn),
+      }));
     } else {
-      contents.push({ kind: "block", type: TYPES[op] });
+      items.push({ type: TYPES[op], label: CHIP_LABEL[op](), colour: hex(CHIP_COLOUR[op]) });
     }
   }
-  return { kind: "flyoutToolbox", contents };
+  return items;
 }

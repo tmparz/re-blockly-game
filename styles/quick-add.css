@@ -1,0 +1,74 @@
+/* Tap-to-add bar shared by Quest Lab and Story Lab (src/quest/quick-add.js). */
+.quick-add {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px 10px;
+  border-bottom: 1px solid #dde3ec;
+  background: #f8fafc;
+}
+
+.qa-chips {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
+}
+
+.qa-chip {
+  flex: none;
+  min-height: 46px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--chip, #5b80a5);
+  color: #fff;
+  box-shadow: inset 0 -3px 0 rgba(0, 0, 0, .18);
+  font: inherit;
+  font-size: 16px;
+  font-weight: 800;
+  white-space: nowrap;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.qa-chip:active { transform: translateY(2px); box-shadow: none; }
+
+.qa-target {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+}
+
+.qa-label {
+  flex: 1 1 180px;
+  min-width: 0;
+  overflow: hidden;
+  color: #344054;
+  font-size: 14px;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.qa-btn {
+  min-height: 40px;
+  padding: 0 12px;
+  border: 1px solid #d0d7e2;
+  border-radius: 10px;
+  background: #fff;
+  color: #344054;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.qa-delete { color: #b42318; }
+.qa-chip:focus-visible, .qa-btn:focus-visible { outline: 3px solid #1d6fe0; outline-offset: 2px; }

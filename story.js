@@ -1,3 +1,5 @@
+import { createQuickAdd } from "./src/quest/quick-add.js";
+
 const STORAGE_KEY = "blocky-easy-story-lab-v1";
 
 const actors = {
@@ -57,23 +59,32 @@ Blockly.defineBlocksWithJsonArray([
   ], previousStatement:null, nextStatement:null, colour:200 }
 ]);
 
-const toolbox = {
-  kind:"categoryToolbox",
-  contents:[
-    { kind:"category", name:"事件 Events", colour:"#6d5bd0", contents:[{kind:"block", type:"story_start"},{kind:"block", type:"story_when_clicked"}] },
-    { kind:"category", name:"角色 Actor", colour:"#e66a32", contents:[{kind:"block", type:"story_say"},{kind:"block", type:"story_move"},{kind:"block", type:"story_visibility"}] },
-    { kind:"category", name:"時間 Timing", colour:"#d9a219", contents:[{kind:"block", type:"story_wait"},{kind:"block", type:"story_repeat"}] },
-    { kind:"category", name:"場景 Scene", colour:"#8757c8", contents:[{kind:"block", type:"story_background"}] }
-  ]
-};
-
 const workspace = Blockly.inject("blocklyDiv", {
-  toolbox,
   media:"https://unpkg.com/blockly/media/",
   trashcan:true,
-  zoom:{ controls:true, wheel:true, startScale:.92, maxScale:1.4, minScale:.55, scaleSpeed:1.1 },
+  zoom:{ controls:true, wheel:true, startScale:innerWidth < 600 ? .85 : 1, maxScale:1.6, minScale:.55, scaleSpeed:1.1 },
   move:{ scrollbars:true, drag:true, wheel:true },
 });
+
+const hue = (h) => Blockly.utils.colour.hueToHex(h);
+const quickAdd = createQuickAdd({
+  workspace,
+  root: document.querySelector("#quickAdd"),
+  rootType: "story_start",
+  text: { toMain: "點方塊就會接到「故事開始」最後面 Tap to add", after: "接在後面：", inside: "放進裡面：",
+    insideElse: "放進：", intoElse: "", out: "跳出 Out", main: "故事開始", remove: "刪除" },
+});
+quickAdd.setItems([
+  { type: "story_start", label: "🎬 故事開始", colour: hue(255), unique: true },
+  { type: "story_when_clicked", label: "👆 當點擊", colour: hue(255) },
+  { type: "story_say", label: "💬 說", colour: hue(15) },
+  { type: "story_move", label: "🚶 移動", colour: hue(120) },
+  { type: "story_wait", label: "⏱ 等待", colour: hue(45) },
+  { type: "story_repeat", label: "🔁 重複", colour: hue(42) },
+  { type: "story_background", label: "🖼 換場景", colour: hue(285) },
+  { type: "story_visibility", label: "👀 出現/隱藏", colour: hue(200) },
+]);
+new ResizeObserver(() => Blockly.svgResize(workspace)).observe(document.querySelector("#blocklyDiv"));
 
 function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
 
@@ -218,6 +229,7 @@ function loadState(state) {
   workspace.clear();
   Blockly.serialization.workspaces.load(state, workspace);
   saveWorkspace();
+  quickAdd.reset();
 }
 
 function loadInitial() {
@@ -240,7 +252,7 @@ document.querySelector("#runBtn").addEventListener("click", runStory);
 Object.entries(actors).forEach(([key, el]) => el.addEventListener("click", () => handleActorClick(key)));
 document.querySelector("#resetBtn").addEventListener("click", () => { resetStage(); setStatus("舞台已重置，積木保留。"); });
 document.querySelector("#demoBtn").addEventListener("click", () => { loadState(demoState()); resetStage(); setStatus("已載入示範：小貓找寶藏。按執行看看！"); });
-document.querySelector("#clearBtn").addEventListener("click", () => { workspace.clear(); saveWorkspace(); setStatus("工作區已清空，可以重新創作。"); });
+document.querySelector("#clearBtn").addEventListener("click", () => { workspace.clear(); saveWorkspace(); quickAdd.reset(); setStatus("工作區已清空，可以重新創作。"); });
 
 resetStage();
 loadInitial();
