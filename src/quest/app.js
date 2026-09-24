@@ -1,7 +1,8 @@
 import { UNITS } from "./missions/index.js";
 import { evaluate } from "./engine.js";
 import { countBlocks, programFromState, stateFromDsl } from "./program.js";
-import { BLOCK_LABELS, defineQuestBlocks, setFunctionNames, toolboxFor } from "./blocks.js";
+import { BLOCK_LABELS, defineQuestBlocks, quickItems, setFunctionNames } from "./blocks.js";
+import { createQuickAdd } from "./quick-add.js";
 import { createBoard } from "./board.js";
 import { lang, pick, setLang, t } from "./i18n.js";
 import { loadProgress, saveProgress } from "./storage.js";
@@ -12,6 +13,7 @@ const board = createBoard($("#board"));
 const view = { unit: 0, mission: 0, map: 0, runToken: 0, results: null };
 let workspace = null;
 let loading = false;
+let quickAdd = null;
 
 const currentUnit = () => UNITS[view.unit];
 const currentMission = () => currentUnit().missions[view.mission];
@@ -48,8 +50,9 @@ function renderUnitTabs() {
     button.type = "button";
     button.className = "unit-tab";
     button.setAttribute("aria-pressed", String(index === view.unit));
-    button.innerHTML = `<span class="unit-icon">${unit.icon}</span><span><strong></strong><small></small></span>`;
-    button.querySelector("strong").textContent = pick(unit.title);
+    button.innerHTML = `<span class="unit-icon">${unit.icon}</span><span><strong class="full"></strong><strong class="short"></strong><small></small></span>`;
+    button.querySelector(".full").textContent = pick(unit.title);
+    button.querySelector(".short").textContent = pick(unit.short);
     button.querySelector("small").textContent = `${pick(unit.concept)} · ⭐ ${stars}/${unit.missions.length * 3}`;
     button.addEventListener("click", () => selectMission(index, 0));
     $("#unitTabs").append(button);
@@ -74,14 +77,14 @@ function renderMissionDots() {
 function renderMapTabs() {
   const mission = currentMission();
   $("#mapTabs").hidden = mission.maps.length < 2;
-  $("#mapTabs").innerHTML = `<span>${t("maps")}</span>`;
+  $("#mapTabs").innerHTML = "";
   mission.maps.forEach((_, index) => {
     const button = document.createElement("button");
     button.type = "button";
     button.className = "map-tab";
     const outcome = view.results?.[index];
     button.dataset.outcome = outcome ? (outcome.ok ? "pass" : "fail") : "";
-    button.textContent = `${t("map", { n: index + 1 })}${outcome ? (outcome.ok ? " ✓" : " ✗") : ""}`;
+    button.innerHTML = `<span class="full">${t("map")}</span>${index + 1}${outcome ? (outcome.ok ? " ✓" : " ✗") : ""}`;
     button.setAttribute("aria-pressed", String(index === view.map));
     button.addEventListener("click", () => showMap(index));
     $("#mapTabs").append(button);
@@ -110,6 +113,7 @@ function loadState(state) {
   workspace.cleanUp();
   workspace.scroll(24, 24);
   loading = false;
+  quickAdd.reset();
   updateBlockCount();
 }
 
@@ -132,7 +136,7 @@ function selectMission(unitIndex, missionIndex) {
   setResult(t("ready"));
 
   setFunctionNames(mission.functions);
-  workspace.updateToolbox(toolboxFor(mission));
+  quickAdd.setItems(quickItems(mission));
   loadState(progress.code[mission.id] ?? stateFromDsl(mission.starter));
   renderUnitTabs();
   renderMissionDots();
@@ -239,11 +243,10 @@ function boot() {
   }
   defineQuestBlocks();
   workspace = Blockly.inject("blocklyDiv", {
-    toolbox: toolboxFor(UNITS[0].missions[0]),
     media: "https://unpkg.com/blockly/media/",
     trashcan: true,
     maxInstances: { q_start: 1 },
-    zoom: { controls: true, wheel: false, startScale: innerWidth < 600 ? 0.9 : 1.25, maxScale: 1.8, minScale: 0.5 },
+    zoom: { controls: true, wheel: false, startScale: innerWidth < 600 ? 0.9 : 1.1, maxScale: 1.8, minScale: 0.5 },
     move: { scrollbars: true, drag: true, wheel: true },
   });
   workspace.addChangeListener((event) => {
@@ -251,6 +254,13 @@ function boot() {
     progress.code[currentMission().id] = Blockly.serialization.workspaces.save(workspace);
     saveProgress(progress);
     updateBlockCount();
+  });
+  quickAdd = createQuickAdd({
+    workspace,
+    root: $("#quickAdd"),
+    rootType: "q_start",
+    text: Object.fromEntries(["toMain", "after", "inside", "insideElse", "intoElse", "out", "main", "remove"]
+      .map((name) => [name, t(`qa_${name}`)])),
   });
   new ResizeObserver(() => Blockly.svgResize(workspace)).observe($("#blocklyDiv"));
   bindControls();
