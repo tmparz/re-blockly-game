@@ -158,13 +158,14 @@ export function evaluate(program, level) {
   const blocks = program.main ? countBlocks(program) : 0;
   const base = { ok: false, blocks, maps: [], stars: 0 };
   if (!program.main) return { ...base, reason: "noStart" };
-  if (blocks > level.maxBlocks) return { ...base, reason: "tooManyBlocks" };
-  const used = usage(program);
-  for (const [op, n] of Object.entries(level.require ?? {})) {
-    if ((used[op] ?? 0) < n) return { ...base, reason: "require", op, n };
-  }
+  // Run first so students can test any partial program; the limits below only decide whether it counts as a win.
   const maps = level.maps.map((rows) => runMap(program, level, rows));
   const failed = maps.find((result) => !result.ok);
   if (failed) return { ...base, maps, reason: failed.reason, failedIndex: maps.indexOf(failed) };
+  if (blocks > level.maxBlocks) return { ...base, maps, reason: "tooManyBlocks" };
+  const used = usage(program);
+  for (const [op, n] of Object.entries(level.require ?? {})) {
+    if ((used[op] ?? 0) < n) return { ...base, maps, reason: "require", op, n };
+  }
   return { ...base, ok: true, maps, reason: "success", stars: blocks <= level.best ? 3 : 2 };
 }

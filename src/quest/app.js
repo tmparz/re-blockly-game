@@ -163,7 +163,7 @@ async function run() {
     setResult(describeFailure(evaluation, mission), "fail");
     return;
   }
-  const index = evaluation.ok ? view.map : evaluation.failedIndex;
+  const index = evaluation.failedIndex ?? view.map;
   showMap(index);
   const token = view.runToken;
   $("#runButton").disabled = true;
@@ -201,16 +201,39 @@ function nextTarget() {
   return null;
 }
 
+// In-page confirm: window.confirm() is silently suppressed in iframes and some tablet/classroom browsers.
+function askConfirm(message) {
+  return new Promise((resolve) => {
+    const overlay = document.createElement("div");
+    overlay.className = "confirm-overlay";
+    overlay.innerHTML = `<div class="confirm-box" role="alertdialog" aria-modal="true"><p></p><div class="confirm-actions"><button type="button" class="btn btn-soft" data-ok="0"></button><button type="button" class="btn btn-warm" data-ok="1"></button></div></div>`;
+    overlay.querySelector("p").textContent = message;
+    overlay.querySelector('[data-ok="0"]').textContent = t("cancel");
+    overlay.querySelector('[data-ok="1"]').textContent = t("ok");
+    const close = (ok) => {
+      overlay.remove();
+      resolve(ok);
+    };
+    overlay.addEventListener("click", (event) => {
+      if (event.target === overlay) close(false);
+      const ok = event.target.closest("[data-ok]")?.dataset.ok;
+      if (ok != null) close(ok === "1");
+    });
+    document.body.append(overlay);
+    overlay.querySelector('[data-ok="1"]').focus();
+  });
+}
+
 function bindControls() {
   $("#runButton").addEventListener("click", run);
   $("#resetButton").addEventListener("click", () => showMap(view.map));
-  $("#restartButton").addEventListener("click", () => {
-    if (!confirm(t("confirmRestart"))) return;
+  $("#restartButton").addEventListener("click", async () => {
+    if (!(await askConfirm(t("confirmRestart")))) return;
     loadState(stateFromDsl(currentMission().starter));
     showMap(view.map);
   });
-  $("#answerButton").addEventListener("click", () => {
-    if (!confirm(t("confirmAnswer"))) return;
+  $("#answerButton").addEventListener("click", async () => {
+    if (!(await askConfirm(t("confirmAnswer")))) return;
     loadState(stateFromDsl(currentMission().solution));
     showMap(view.map);
     setResult(t("answerLoaded"));

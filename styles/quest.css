@@ -228,3 +228,8 @@ button, input { font: inherit; }
   .btn-run { grid-column: 1 / -1; }
   .workspace-panel { height: 80vh; }
 }
+
+.confirm-overlay { position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; padding: 16px; background: rgba(16, 24, 40, .45); }
+.confirm-box { width: min(360px, 100%); padding: 20px; border-radius: 18px; background: var(--card); box-shadow: 0 20px 50px rgba(16, 24, 40, .3); }
+.confirm-box p { margin: 0 0 16px; font-size: 17px; font-weight: 700; line-height: 1.5; }
+.confirm-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
