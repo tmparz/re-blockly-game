@@ -13,6 +13,18 @@ export const FUNCTION_LABELS = {
   hall: ["🛤️", "hallway", "走廊"],
   climb: ["🧗", "climb", "爬一階"],
   tower: ["🏰", "tower", "城塔"],
+  dash: ["🏃", "dash", "衝三格"],
+  grab: ["🧺", "grab", "走走撿"],
+  rock: ["🪨", "over rock", "翻石頭"],
+  gemStep: ["💎", "gem step", "階梯撿寶"],
+  pocketUp: ["⤴️", "up pocket", "上口袋"],
+  pocketDown: ["⤵️", "down pocket", "下口袋"],
+  hurdle: ["🏅", "hurdle", "跨欄"],
+  walk: ["🧭", "smart walk", "聰明走"],
+  peak: ["⛰️", "peak", "爬山頭"],
+  up: ["↗️", "up", "上一階"],
+  down: ["↘️", "down", "下一階"],
+  smart: ["🤖", "smart step", "聰明一步"],
 };
 
 const functionLabel = (name) => {

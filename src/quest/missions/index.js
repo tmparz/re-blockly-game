@@ -2,6 +2,8 @@ import { countBlocks, parseProgram } from "../program.js";
 import { bugHunt } from "./bug-hunt.js";
 import { functionFactory } from "./functions.js";
 import { counting } from "./counting.js";
+import { functionGymEasy } from "./function-gym-easy.js";
+import { functionGymHard } from "./function-gym-hard.js";
 
 const decorate = (unitId) => (mission) => {
   const best = countBlocks(parseProgram(mission.solution));
@@ -24,6 +26,14 @@ export const UNITS = [
     short: { en: "Functions", zh: "函式" },
     concept: { en: "Functions", zh: "函式 Functions" },
     missions: functionFactory.map(decorate("functions")),
+  },
+  {
+    id: "fngym",
+    icon: "🏋️",
+    title: { en: "Function Gym", zh: "函式練功房" },
+    short: { en: "Fn Gym", zh: "練功房" },
+    concept: { en: "Functions: easy → hard", zh: "函式：簡單到困難" },
+    missions: [...functionGymEasy, ...functionGymHard].map(decorate("fngym")),
   },
   {
     id: "counting",

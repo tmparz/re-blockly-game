@@ -126,7 +126,8 @@ function selectMission(unitIndex, missionIndex) {
   saveProgress(progress);
   history.replaceState(null, "", `?unit=${currentUnit().id}&m=${missionIndex + 1}`);
 
-  $("#missionKicker").textContent = `${currentUnit().icon} ${pick(currentUnit().title)} · ${t("mission", { n: missionIndex + 1 })}`;
+  const tier = mission.tier ? ` · ${t(`tier_${mission.tier}`)}` : "";
+  $("#missionKicker").textContent = `${currentUnit().icon} ${pick(currentUnit().title)} · ${t("mission", { n: missionIndex + 1 })}${tier}`;
   $("#missionTitle").textContent = pick(mission.title);
   $("#missionStory").textContent = pick(mission.story);
   $("#missionHint").textContent = pick(mission.hint);
