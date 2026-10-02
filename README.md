@@ -91,7 +91,7 @@ Blocky Easy 解決了這些教學痛點，不僅進行了全方位的**平板觸
 4. **第二階段課程規劃 Code Builders** (`/course.html`)  
    給完成 100 關、Bird、Turtle 的國小三年級學生的 12 週課程：除錯 → 函式 → 變數 → 事件 → 期末專題，對照 CSTA 1B 標準，含每週進度、學習目標、不插電暖身、出場小卡與專題評量規準。
 5. **Quest Lab 任務實驗室** (`/quest.html`)  
-   41 個新任務、4 個單元：🐞 Bug Hunt（10 關，每關從有錯的程式開始修）、🧩 Function Factory（10 關，定義／呼叫函式）、🏋️ Function Gym 函式練功房（12 關，簡單／中等／困難三段加強練習）、🔢 Counting Robots（9 關，計數器變數，多數關卡同時用 2–3 張地圖測試）。預設英文、可切換中文，函式名稱與數字皆用下拉選單，不需鍵盤。以 `node scripts/test-quests.mjs` 驗證每關解答通過、起始程式必定失敗。
+   39 個新任務、3 個單元：🐞 Bug Hunt（10 關，每關從有錯的程式開始修）、🧩 Function Factory（20 關，簡單→中等→困難，每關一個新觀念）、🔢 Counting Robots（9 關，計數器變數，多數關卡同時用 2–3 張地圖測試）。預設英文、可切換中文，函式名稱與數字皆用下拉選單，不需鍵盤。以 `node scripts/test-quests.mjs` 驗證每關解答通過、起始程式必定失敗。
 6. **Story Lab 故事工作坊** (`/story.html`)  
    6 個插畫場景、4 個角色、23 種積木（事件／動作／外觀／聲音／控制／分數），支援「👆 當被點擊」、「📣 廣播／📩 當收到」訊息與多段程式同時執行。8 個事件挑戰（即時打勾的目標清單＋完成彩帶），最後做「抓小龍」小遊戲；「✨ 我的故事」用期末專題檢查表自由創作，「🎦 發表」全螢幕播放。`node scripts/test-story.mjs` 驗證每個範例達成所有目標。
 
@@ -192,7 +192,7 @@ Blocky Easy は、タブレット授業に最適化された**完全タッチUI*
 - **Blockly Games 移植版** (`/blockly-games.html`)：Bird、Turtle、Movie、Music、Pond Tutor、Pond の6大ゲームを収録。タートルの360°アングルセレクターやオフライン ACE エディターを実装。
 - **指導者用ガイド** (`teacher-guide.html` & `docs/20260918-老師使用手冊.md`)：授業の流れ、iPad 配置ノウハウ、トラブルシューティングを掲載。
 - **第2段階カリキュラム** (`/course.html`)：小学3年生向け12週間計画（デバッグ → 関数 → 変数 → イベント → 最終プロジェクト）。
-- **Quest Lab** (`/quest.html`)：Bug Hunt・Function Factory・Function Gym・Counting Robots の4ユニット、全41ミッション。
+- **Quest Lab** (`/quest.html`)：Bug Hunt・Function Factory・Counting Robots の3ユニット、全39ミッション。
 
 ---
 
@@ -273,7 +273,7 @@ This platform goes far beyond existing demos. We engineered an entire curriculum
 2. **Blockly Games 6-in-1 Suite** (`/blockly-games.html`): Includes Bird, Turtle, Movie, Music, Pond Tutor, and Pond with localized offline ACE editor integration.
 3. **Teacher's Guide** (`teacher-guide.html` & `docs/20260918-老師使用手冊.md`): Full classroom walkthroughs, iPad device management tips, and pedagogical FAQs.
 4. **Course Plan, Part 2 — Code Builders** (`/course.html`): A 12-week Grade 3 plan for students who finished the 100 levels, Bird and Turtle: debugging → functions → variables → events → capstone, mapped to CSTA 1B standards.
-5. **Quest Lab** (`/quest.html`): 41 new missions in 4 units — Bug Hunt (fix broken starter code), Function Factory (define and call functions), Function Gym (12 extra function missions, easy → medium → hard), Counting Robots (a counter variable, tested on several maps at once). English by default with a 中文 toggle; validated by `node scripts/test-quests.mjs`.
+5. **Quest Lab** (`/quest.html`): 39 new missions in 3 units — Bug Hunt (fix broken starter code), Function Factory (20 missions, easy → hard, one new idea each), Counting Robots (a counter variable, tested on several maps at once). English by default with a 中文 toggle; validated by `node scripts/test-quests.mjs`.
 6. **Story Lab** (`/story.html`): Illustrated scenes, 4 characters and 23 blocks (events, motion, looks, sound, control, score) with click events, broadcast messages and parallel scripts. 8 challenges with live goal checklists end in a “Catch the Dragon” game; “My Story” is the capstone with the project rubric as a checklist and a full-screen Present mode.
 
 ---

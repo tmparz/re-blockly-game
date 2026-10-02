@@ -2,8 +2,17 @@ import { countBlocks, parseProgram } from "../program.js";
 import { bugHunt } from "./bug-hunt.js";
 import { functionFactory } from "./functions.js";
 import { counting } from "./counting.js";
-import { functionGymEasy } from "./function-gym-easy.js";
-import { functionGymHard } from "./function-gym-hard.js";
+import { functionBasics } from "./functions-basics.js";
+import { functionAdvanced } from "./functions-advanced.js";
+import { FUNCTION_PATH } from "./function-path.js";
+
+const functionPool = new Map([...functionFactory, ...functionBasics, ...functionAdvanced].map((m) => [m.id, m]));
+if (functionPool.size !== FUNCTION_PATH.length) throw new Error("Every function mission must appear in FUNCTION_PATH once.");
+const functionMissions = FUNCTION_PATH.map(([id, tier, lesson]) => {
+  const mission = functionPool.get(id);
+  if (!mission) throw new Error(`FUNCTION_PATH lists unknown mission "${id}".`);
+  return { ...mission, tier, lesson };
+});
 
 const decorate = (unitId) => (mission) => {
   const best = countBlocks(parseProgram(mission.solution));
@@ -25,15 +34,7 @@ export const UNITS = [
     title: { en: "Function Factory", zh: "函式工廠" },
     short: { en: "Functions", zh: "函式" },
     concept: { en: "Functions", zh: "函式 Functions" },
-    missions: functionFactory.map(decorate("functions")),
-  },
-  {
-    id: "fngym",
-    icon: "🏋️",
-    title: { en: "Function Gym", zh: "函式練功房" },
-    short: { en: "Fn Gym", zh: "練功房" },
-    concept: { en: "Functions: easy → hard", zh: "函式：簡單到困難" },
-    missions: [...functionGymEasy, ...functionGymHard].map(decorate("fngym")),
+    missions: functionMissions.map(decorate("functions")),
   },
   {
     id: "counting",

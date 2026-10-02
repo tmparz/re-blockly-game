@@ -140,42 +140,6 @@ export const functionFactory = [
     },
   },
   {
-    id: "fn-8",
-    title: { en: "Fix It Once", zh: "修一次就好" },
-    story: {
-      en: "The \"climb\" function has a bug. The good news: when you fix a function, every place that uses it is fixed too!",
-      zh: "「爬一階」函式有錯誤。好消息是：修好函式之後，所有用到它的地方都一起修好了！",
-    },
-    hint: { en: "Climbing UP means turning left first.", zh: "往「上」爬要先左轉。" },
-    maps: [["####.G", "###..#", "##..##", "#..###", ">.####"]],
-    blocks: ["move", "left", "right", "repeat", "def", "call"],
-    functions: ["climb"],
-    require: { call: 1 },
-    starter: { main: [{ repeat: 4, do: [{ call: "climb" }] }, "move"], defs: { climb: ["move", "right", "move", "left"] } },
-    solution: { main: [{ repeat: 4, do: [{ call: "climb" }] }, "move"], defs: { climb: ["move", "left", "move", "right"] } },
-  },
-  {
-    id: "fn-9",
-    title: { en: "Castle Towers", zh: "城堡塔樓" },
-    story: {
-      en: "Climb over each tower and grab the gem on top. The flat parts are different lengths, so use a \"tower\" function.",
-      zh: "爬過每一座塔，撿起塔頂的寶石。平地長度不一樣，所以用「城塔」函式。",
-    },
-    hint: {
-      en: "tower: up 2, pick up, across 1, down 2, face right again.",
-      zh: "城塔：往上 2 格、撿起、橫走 1 格、往下 2 格、再面向右邊。",
-    },
-    maps: [["#*.#*.*.#", "#..#....#", ">.......G"]],
-    blocks: ["move", "left", "right", "pick", "repeat", "def", "call"],
-    functions: ["tower"],
-    require: { call: 3 },
-    starter: { main: [], defs: { tower: [] } },
-    solution: {
-      main: ["move", { call: "tower" }, "move", "move", { call: "tower" }, "move", { call: "tower" }, "move"],
-      defs: { tower: ["left", "move", "move", "pick", "right", "move", "right", "move", "move", "left"] },
-    },
-  },
-  {
     id: "fn-10",
     title: { en: "Function Boss", zh: "函式魔王關" },
     story: {
@@ -183,8 +147,8 @@ export const functionFactory = [
       zh: "上面有塔、下面有房間！做兩個函式，再像寫食譜一樣規劃主程式。",
     },
     hint: {
-      en: "Rooms are BELOW the road this time: turn right to go in.",
-      zh: "這次房間在路的「下方」：要右轉才能進去。",
+      en: "tower: left, move, move, pick up, right, move, right, move, move, left. Rooms are BELOW the road: turn right to go in.",
+      zh: "城塔：左轉、前進、前進、撿起、右轉、前進、右轉、前進、前進、左轉。這次房間在路的「下方」：要右轉才能進去。",
     },
     maps: [["#*.##*.##", "#..##..##", ">.......G", "###*##**#"]],
     blocks: ["move", "left", "right", "pick", "repeat", "def", "call"],

@@ -130,6 +130,8 @@ function selectMission(unitIndex, missionIndex) {
   $("#missionKicker").textContent = `${currentUnit().icon} ${pick(currentUnit().title)} · ${t("mission", { n: missionIndex + 1 })}${tier}`;
   $("#missionTitle").textContent = pick(mission.title);
   $("#missionStory").textContent = pick(mission.story);
+  $("#missionLesson").hidden = !mission.lesson;
+  $("#missionLesson").textContent = mission.lesson ? `🎯 ${pick(mission.lesson)}` : "";
   $("#missionHint").textContent = pick(mission.hint);
   $("#hintBox").open = false;
   $("#limitChip").textContent = t("limit", { max: mission.maxBlocks, best: mission.best });
@@ -250,7 +252,8 @@ function bindControls() {
 
 function initialSelection() {
   const params = new URLSearchParams(location.search);
-  const unitId = params.get("unit") ?? progress.last?.unit;
+  const rawUnit = params.get("unit") ?? progress.last?.unit;
+  const unitId = rawUnit === "fngym" ? "functions" : rawUnit; // Function Gym was merged into Function Factory.
   const unitIndex = Math.max(0, UNITS.findIndex((unit) => unit.id === unitId));
   const fromUrl = Number(params.get("m")) - 1;
   const fromLast = progress.last?.unit === UNITS[unitIndex].id ? progress.last.mission : 0;

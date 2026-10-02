@@ -1,10 +1,9 @@
-// Unit · Function Gym (hard): functions with loops, decisions and other functions inside.
+// Function Factory advanced: functions with loops, decisions and other functions inside.
 const ROCK = ["left", "move", "right", "move", "move", "right", "move", "left"];
 
-export const functionGymHard = [
+export const functionAdvanced = [
   {
     id: "fg-9",
-    tier: "hard",
     title: { en: "Hurdle Race", zh: "跨欄賽跑" },
     story: {
       en: "Every map has a different number of hurdles. Make \"hurdle\" jump ONE hurdle and take one step, then repeat it until the flag.",
@@ -27,7 +26,6 @@ export const functionGymHard = [
   },
   {
     id: "fg-10",
-    tier: "hard",
     title: { en: "Smart Walker", zh: "聰明走路" },
     story: {
       en: "One function can solve every maze! \"smart walk\" looks around: go forward if it can, otherwise turn toward the open path.",
@@ -53,7 +51,6 @@ export const functionGymHard = [
   },
   {
     id: "fg-11",
-    tier: "hard",
     title: { en: "Mountains of Functions", zh: "函式疊疊山" },
     story: {
       en: "\"up\" is ready. Build \"down\", then build \"peak\" out of up and down. A function can be made of other functions!",
@@ -79,8 +76,7 @@ export const functionGymHard = [
   },
   {
     id: "fg-12",
-    tier: "hard",
-    title: { en: "Function Gym Boss", zh: "練功房魔王" },
+    title: { en: "Final Boss", zh: "終極魔王" },
     story: {
       en: "Gems and rocks are in different places on every map. \"smart step\" picks up a gem if there is one, then walks or climbs over a rock.",
       zh: "每張地圖的寶石和石頭位置都不一樣。「聰明一步」：有寶石就撿，前面有路就走，沒路就翻石頭。",

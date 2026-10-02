@@ -1,8 +1,7 @@
-// Unit · Function Gym (easy + medium): learn what a function is, then build your own.
-export const functionGymEasy = [
+// Function Factory basics: what a function is and why we use one, then writing your own.
+export const functionBasics = [
   {
     id: "fg-1",
-    tier: "easy",
     title: { en: "Press the Recipe", zh: "按下食譜" },
     story: {
       en: "A function is like a recipe card. \"hop\" is already written: it moves 2 squares. Put ONE \"hop\" under ▶ when Run and watch what it does.",
@@ -17,8 +16,23 @@ export const functionGymEasy = [
     solution: { main: [{ call: "hop" }], defs: { hop: ["move", "move"] } },
   },
   {
+    id: "fg-13",
+    title: { en: "Pick the Right Recipe", zh: "挑對的食譜" },
+    story: {
+      en: "There are two recipes now: \"hop\" moves 2 squares and \"dash\" moves 3. The flag is 5 squares away. Which ones do you need?",
+      zh: "現在有兩張食譜：「跳兩格」走 2 格、「衝三格」走 3 格。旗子在 5 格外，要用哪幾個？",
+    },
+    hint: { en: "2 + 3 = 5. Using the wrong one makes Robo hit the wall, so press Run and look!", zh: "2 + 3 = 5。用錯的話 Robo 會撞牆，按執行看看就知道！" },
+    maps: [[">....G"]],
+    blocks: ["move", "def", "call"],
+    functions: ["hop", "dash"],
+    require: { call: 2 },
+    maxBlocks: 9,
+    starter: { main: [], defs: { hop: ["move", "move"], dash: ["move", "move", "move"] } },
+    solution: { main: [{ call: "hop" }, { call: "dash" }], defs: { hop: ["move", "move"], dash: ["move", "move", "move"] } },
+  },
+  {
     id: "fg-2",
-    tier: "easy",
     title: { en: "Too Many Blocks", zh: "方塊太多了" },
     story: {
       en: "This program works, but it uses too many blocks! \"dash\" moves 3 squares. Replace the 6 move blocks with dash.",
@@ -34,7 +48,6 @@ export const functionGymEasy = [
   },
   {
     id: "fg-3",
-    tier: "easy",
     title: { en: "Fix Once, Fixed Everywhere", zh: "改一次，全部都好" },
     story: {
       en: "The main program uses \"dash\" 3 times, but dash only moves 2 squares. Don't touch the main program: fix dash itself!",
@@ -50,7 +63,6 @@ export const functionGymEasy = [
   },
   {
     id: "fg-4",
-    tier: "easy",
     title: { en: "Dash Around the Corner", zh: "衝過轉角" },
     story: {
       en: "Use \"dash\" to go right, turn, then dash again to reach the flag.",
@@ -66,7 +78,6 @@ export const functionGymEasy = [
   },
   {
     id: "fg-5",
-    tier: "medium",
     title: { en: "Write Your Own Recipe", zh: "自己寫食譜" },
     story: {
       en: "Now YOU write the function. Make \"grab\" walk 2 squares and pick up the gem. Then use it 3 times.",
@@ -81,30 +92,7 @@ export const functionGymEasy = [
     solution: { main: [{ call: "grab" }, { call: "grab" }, { call: "grab" }, "move"], defs: { grab: ["move", "move", "pick"] } },
   },
   {
-    id: "fg-6",
-    tier: "medium",
-    title: { en: "Spot the Pattern", zh: "找出重複的動作" },
-    story: {
-      en: "Two rocks block the road. Climbing over a rock is always the same steps. Put those steps in \"over rock\".",
-      zh: "路上有兩顆石頭。翻過石頭的動作每次都一樣，把這些步驟放進「翻石頭」。",
-    },
-    hint: {
-      en: "over rock: left, move, right, move, move, right, move, left. Try ONE rock first and press Run!",
-      zh: "翻石頭：左轉、前進、右轉、前進、前進、右轉、前進、左轉。先只翻一顆，按執行看看！",
-    },
-    maps: [[" .....", ">.#.#.G"]],
-    blocks: ["move", "left", "right", "def", "call"],
-    functions: ["rock"],
-    require: { call: 2 },
-    starter: { main: [], defs: { rock: [] } },
-    solution: {
-      main: ["move", { call: "rock" }, { call: "rock" }, "move"],
-      defs: { rock: ["left", "move", "right", "move", "move", "right", "move", "left"] },
-    },
-  },
-  {
     id: "fg-7",
-    tier: "medium",
     title: { en: "Repeat the Function", zh: "重複使用函式" },
     story: {
       en: "Every stair has a gem. Make \"gem step\" for ONE stair, then put it inside a repeat.",
@@ -123,7 +111,6 @@ export const functionGymEasy = [
   },
   {
     id: "fg-8",
-    tier: "medium",
     title: { en: "Two Helpers", zh: "兩個小幫手" },
     story: {
       en: "Gems hide in pockets above AND below the road. Make one function for each kind of pocket.",
