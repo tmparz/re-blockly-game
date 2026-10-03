@@ -1,0 +1,193 @@
+// Advanced Unit 1 · Function Inputs: send a number into a function so one function fits many jobs.
+const walk = (n) => ({ call: "go", n });
+const turns = (n) => ({ call: "turns", n });
+const corner = (n) => ({ call: "corner", n });
+const WALK = { go: [{ repeatN: true, do: ["move"] }] };
+const TURNS = { turns: [{ repeatN: true, do: ["right"] }] };
+const SPIRAL = [">....", "#..G.", "#.##.", "#...."];
+const GROWING = [".....G", ".#####", ".#>.##", ".##.##", "....##"];
+
+export const inputs = [
+  {
+    id: "in-1",
+    title: { en: "Walk With a Number", zh: "帶著數字走" },
+    story: {
+      en: "Meet a new kind of function! \"walk\" has an input 🎛️: the number you send tells it how many squares to go. The flag is 4 squares away.",
+      zh: "認識新的函式！「走」有一個輸入 🎛️：你送進去的數字，決定它要走幾格。旗子在 4 格外。",
+    },
+    hint: { en: "Use \"do walk with 🎛️ 4\".", zh: "用「執行 走 輸入 🎛️ 4」。" },
+    maps: [[">...G"]],
+    blocks: ["move", "def", "callN", "repeatN"],
+    functions: ["go"],
+    require: { callN: 1 },
+    starter: { main: [], defs: WALK },
+    solution: { main: [walk(4)], defs: WALK },
+  },
+  {
+    id: "in-2",
+    title: { en: "Same Function, New Number", zh: "同一個函式，不同數字" },
+    story: {
+      en: "Walk 2 squares, turn right, then walk 3. You only need ONE function, just send it a different number each time.",
+      zh: "走 2 格、右轉、再走 3 格。只要「一個」函式，每次送不同的數字就好。",
+    },
+    hint: { en: "walk 2 → turn right → walk 3.", zh: "走 2 → 右轉 → 走 3。" },
+    maps: [[">..#", "##.#", "##.#", "##G#"]],
+    blocks: ["move", "right", "def", "callN", "repeatN"],
+    functions: ["go"],
+    require: { callN: 2 },
+    starter: { main: [walk(2)], defs: WALK },
+    solution: { main: [walk(2), "right", walk(3)], defs: WALK },
+  },
+  {
+    id: "in-3",
+    title: { en: "Fix the Numbers", zh: "修正數字" },
+    story: {
+      en: "Bonk! The function is fine, but the numbers are wrong. Count the squares and fix the inputs.",
+      zh: "砰！函式沒有錯，是數字錯了。數一數格子，把輸入改對。",
+    },
+    hint: { en: "Count the squares on each straight part: 3, then 2.", zh: "數一數每一段直線有幾格：先 3 格，再 2 格。" },
+    maps: [[">...", "###.", "###G"]],
+    blocks: ["move", "right", "def", "callN", "repeatN"],
+    functions: ["go"],
+    starter: { main: [walk(2), "right", walk(4)], defs: WALK },
+    solution: { main: [walk(3), "right", walk(2)], defs: WALK },
+  },
+  {
+    id: "in-4",
+    title: { en: "One Instead of Many", zh: "一個抵很多個" },
+    story: {
+      en: "Before, we needed \"hop\" for 2 and \"dash\" for 3. With an input, \"walk\" can do 2, 3, 5… any number!",
+      zh: "以前走 2 格要用「跳兩格」、走 3 格要用「衝三格」。有了輸入，「走」可以走 2、3、5……任何格數！",
+    },
+    hint: { en: "walk 2, right, walk 3, left, walk 5.", zh: "走 2、右轉、走 3、左轉、走 5。" },
+    maps: [[">..#####", "##.#####", "##.#####", "##.....G"]],
+    blocks: ["move", "left", "right", "def", "callN", "repeatN"],
+    functions: ["go"],
+    require: { callN: 3 },
+    starter: { main: [], defs: WALK },
+    solution: { main: [walk(2), "right", walk(3), "left", walk(5)], defs: WALK },
+  },
+  {
+    id: "in-5",
+    title: { en: "Inside the Function", zh: "函式的裡面" },
+    story: {
+      en: "The main program is ready, but \"walk\" is empty. Inside it, use \"repeat 🎛️ input times\": it repeats as many times as the number that was sent.",
+      zh: "主程式寫好了，但「走」是空的。在裡面用「重複 🎛️ 輸入 次」：送進來幾，它就重複幾次。",
+    },
+    hint: { en: "Inside \"define walk\": repeat 🎛️ input times → move.", zh: "在「定義 走」裡面：重複 🎛️ 輸入 次 → 前進。" },
+    maps: [[">...", "###.", "###.", "###G"]],
+    blocks: ["move", "right", "def", "callN", "repeatN"],
+    functions: ["go"],
+    starter: { main: [walk(3), "right", walk(3)], defs: { go: [] } },
+    solution: { main: [walk(3), "right", walk(3)], defs: WALK },
+  },
+  {
+    id: "in-6",
+    title: { en: "Gem Rows", zh: "寶石列" },
+    story: {
+      en: "Write a \"gem row\" function that moves AND picks up, as many times as the input says. Then use it for both rows.",
+      zh: "寫一個「寶石列」函式：照輸入的次數，前進並撿起寶石。然後兩排都用它。",
+    },
+    hint: { en: "gem row: repeat input times (move, pick up). Main: row 3, right, row 2, move.", zh: "寶石列：重複 輸入 次（前進、撿起）。主程式：寶石列 3、右轉、寶石列 2、前進。" },
+    maps: [[">***", "###*", "###*", "###G"]],
+    blocks: ["move", "right", "pick", "def", "callN", "repeatN"],
+    functions: ["row"],
+    require: { callN: 2 },
+    starter: { main: [], defs: { row: [] } },
+    solution: { main: [{ call: "row", n: 3 }, "right", { call: "row", n: 2 }, "move"], defs: { row: [{ repeatN: true, do: ["move", "pick"] }] } },
+  },
+  {
+    id: "in-7",
+    title: { en: "The Spiral", zh: "漩渦" },
+    story: {
+      en: "Walk the spiral to the middle. Each straight part has a different length. Look for the pattern in the numbers!",
+      zh: "沿著漩渦走到中間。每一段直線長度都不一樣，找找看數字有什麼規律！",
+    },
+    hint: { en: "4, 3, 3, 2, 2, with a right turn between each.", zh: "4、3、3、2、2，每段中間右轉。" },
+    maps: [SPIRAL],
+    blocks: ["move", "right", "def", "callN", "repeatN"],
+    functions: ["go"],
+    require: { callN: 5 },
+    starter: { main: [], defs: WALK },
+    solution: { main: [walk(4), "right", walk(3), "right", walk(3), "right", walk(2), "right", walk(2)], defs: WALK },
+  },
+  {
+    id: "in-8",
+    title: { en: "Turn Right Three Times", zh: "右轉三次" },
+    story: {
+      en: "There is no turn-left block today! \"turn right ×\" turns right as many times as the input. What does 3 right turns make?",
+      zh: "今天沒有左轉方塊！「右轉幾次」會照輸入的數字右轉。右轉 3 次會變成什麼？",
+    },
+    hint: { en: "Right, right, right = left! walk 2 → turn ×3 → walk 2.", zh: "右、右、右 = 左轉！走 2 → 右轉 3 次 → 走 2。" },
+    maps: [["##G", "##.", ">.."]],
+    blocks: ["move", "right", "def", "callN", "repeatN"],
+    functions: ["go", "turns"],
+    require: { callN: 3 },
+    starter: { main: [walk(2)], defs: { ...WALK, ...TURNS } },
+    solution: { main: [walk(2), turns(3), walk(2)], defs: { ...WALK, ...TURNS } },
+  },
+  {
+    id: "in-9",
+    title: { en: "Turn Around", zh: "向後轉" },
+    story: {
+      en: "Go get the gem, then come all the way back to the flag. Write \"turn right ×\" yourself. Which number turns Robo around?",
+      zh: "去撿寶石，再一路走回旗子。自己寫「右轉幾次」。輸入多少，Robo 會向後轉？",
+    },
+    hint: { en: "turn ×: repeat input times → turn right. Main: walk 2, pick up, turn ×2, walk 4.", zh: "右轉幾次：重複 輸入 次 → 右轉。主程式：走 2、撿起、右轉 2 次、走 4。" },
+    maps: [["G.>.*"]],
+    blocks: ["move", "right", "pick", "def", "callN", "repeatN"],
+    functions: ["go", "turns"],
+    require: { callN: 3 },
+    starter: { main: [], defs: { ...WALK, turns: [] } },
+    solution: { main: [walk(2), "pick", turns(2), walk(4)], defs: { ...WALK, ...TURNS } },
+  },
+  {
+    id: "in-10",
+    title: { en: "Corner Function", zh: "轉角函式" },
+    story: {
+      en: "The spiral again, but shorter! Make \"corner\" walk the input AND turn right, so each straight part is just one block.",
+      zh: "又是漩渦，但這次要更短！讓「轉角」走輸入的格數「並且」右轉，每一段只要一個方塊。",
+    },
+    hint: { en: "corner: repeat input times (move), then turn right. Main: corner 4, 3, 3, 2, 2.", zh: "轉角：重複 輸入 次（前進），再右轉。主程式：轉角 4、3、3、2、2。" },
+    maps: [SPIRAL],
+    blocks: ["move", "right", "def", "callN", "repeatN"],
+    functions: ["corner"],
+    require: { callN: 5 },
+    starter: { main: [], defs: { corner: [] } },
+    solution: { main: [corner(4), corner(3), corner(3), corner(2), corner(2)], defs: { corner: [{ repeatN: true, do: ["move"] }, "right"] } },
+  },
+  {
+    id: "in-11",
+    title: { en: "The Growing Spiral", zh: "越來越大的漩渦" },
+    story: {
+      en: "1, 2, 3, 4, 5: every part is 1 longer. Too many blocks to write by hand! Send the 🔢 counter as the input and add 1 each time.",
+      zh: "1、2、3、4、5：每一段多 1 格。一個一個寫方塊會太多！把 🔢 計數器當作輸入送進去，每次加 1。",
+    },
+    hint: { en: "Set counter to 1 → repeat 5 times (walk with 🔢 counter, turn right, change counter +1).", zh: "計數器設為 1 → 重複 5 次（走 輸入 🔢 計數器、右轉、計數器 +1）。" },
+    maps: [GROWING],
+    blocks: ["move", "right", "repeat", "set", "change", "def", "callN", "repeatN"],
+    functions: ["go"],
+    starter: { main: [], defs: WALK },
+    solution: { main: [{ set: 1 }, { repeat: 5, do: [walk("c"), "right", { change: 1 }] }], defs: WALK },
+  },
+  {
+    id: "in-12",
+    title: { en: "Spiral Treasure", zh: "漩渦寶藏" },
+    story: {
+      en: "Boss mission! Two growing spirals of different sizes, with gems along the way. Write \"walk\" so it picks up gems, then repeat until the flag.",
+      zh: "魔王關！兩個大小不同的漩渦，路上有寶石。把「走」寫成會撿寶石，再重複直到旗子。",
+    },
+    hint: {
+      en: "walk: repeat input times (move, if on a gem → pick up). Main: set 1, repeat until 🏁 (walk with 🔢 counter, right, +1).",
+      zh: "走：重複 輸入 次（前進，如果站在寶石上 → 撿起）。主程式：設為 1，重複直到 🏁（走 輸入 🔢 計數器、右轉、+1）。",
+    },
+    maps: [["...*.G", "*#####", ".#>.##", ".##*##", ".*..##"], ["G###", ".###", ".#>.", ".##*", ".*.."]],
+    blocks: ["move", "right", "pick", "if", "until", "set", "change", "def", "callN", "repeatN"],
+    functions: ["go"],
+    starter: { main: [], defs: { go: [] } },
+    solution: {
+      main: [{ set: 1 }, { until: true, do: [walk("c"), "right", { change: 1 }] }],
+      defs: { go: [{ repeatN: true, do: ["move", { if: "gemHere", do: ["pick"] }] }] },
+    },
+  },
+];

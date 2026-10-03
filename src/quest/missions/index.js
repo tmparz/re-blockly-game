@@ -7,6 +7,8 @@ import { functionAdvanced } from "./functions-advanced.js";
 import { FUNCTION_PATH } from "./function-path.js";
 import { countingExtra } from "./counting-extra.js";
 import { COUNTING_PATH } from "./counting-path.js";
+import { inputs } from "./inputs.js";
+import { INPUTS_PATH } from "./inputs-path.js";
 
 // Orders a pool of missions by a learning path, adding each mission's tier and lesson.
 function followPath(name, missions, path) {
@@ -21,6 +23,7 @@ function followPath(name, missions, path) {
 
 const functionMissions = followPath("function", [...functionFactory, ...functionBasics, ...functionAdvanced], FUNCTION_PATH);
 const countingMissions = followPath("counting", [...counting, ...countingExtra], COUNTING_PATH);
+const inputMissions = followPath("inputs", inputs, INPUTS_PATH);
 
 const decorate = (unitId) => (mission) => {
   const best = countBlocks(parseProgram(mission.solution));
@@ -51,6 +54,15 @@ export const UNITS = [
     short: { en: "Counting", zh: "數數" },
     concept: { en: "Variables", zh: "變數 Variables" },
     missions: countingMissions.map(decorate("counting")),
+  },
+  // Advanced course (Part 3) starts here.
+  {
+    id: "inputs",
+    icon: "🎛️",
+    title: { en: "Function Inputs", zh: "函式參數" },
+    short: { en: "Inputs", zh: "參數" },
+    concept: { en: "Parameters", zh: "參數 Parameters" },
+    missions: inputMissions.map(decorate("inputs")),
   },
 ];
 

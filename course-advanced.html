@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>第三階段課程規劃｜Blocky Easy</title>
+  <meta name="description" content="Advanced coding course, part 3: function inputs, comparisons, two variables, randomness, algorithms and a game capstone — a 12-week plan." />
+  <style>
+    :root { --ink:#1d2939; --muted:#5d6b82; --line:#dde3ec; --card:#fff; --page:#f3f6fb; --brand:#4f6ef7; --soft:#eef2ff; --warm:#fff3d6; --ok:#e9f9ef; color-scheme:light; }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--ink); background:var(--page); font-family:"Noto Sans TC",system-ui,-apple-system,"Segoe UI",sans-serif; line-height:1.65; }
+    a { color:#3246c9; }
+    header { padding:26px 18px 30px; background:linear-gradient(135deg,#eef2ff,#fdf2ff 60%,#fff7e6); border-bottom:1px solid var(--line); }
+    .wrap { width:min(1080px,100%); margin:0 auto; }
+    nav { display:flex; flex-wrap:wrap; gap:14px; font-weight:700; }
+    nav a { text-decoration:none; }
+    h1 { margin:18px 0 6px; font-size:clamp(28px,5vw,46px); line-height:1.15; letter-spacing:-.02em; }
+    .lead { max-width:820px; margin:0; color:#3d4a60; font-size:18px; }
+    main { padding:10px 18px 60px; }
+    h2 { margin:42px 0 12px; font-size:clamp(22px,3vw,30px); line-height:1.3; }
+    h3 { margin:0 0 6px; font-size:20px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:12px; }
+    .card { padding:16px 18px; border:1px solid var(--line); border-radius:18px; background:var(--card); }
+    .card p { margin:6px 0; }
+    .done { background:var(--ok); }
+    .tag { display:inline-block; margin:2px 4px 2px 0; padding:2px 9px; border-radius:999px; background:var(--soft); color:#3246c9; font-size:13px; font-weight:700; }
+    .table-wrap { overflow-x:auto; border:1px solid var(--line); border-radius:16px; background:var(--card); }
+    table { width:100%; min-width:720px; border-collapse:collapse; }
+    th, td { padding:10px 12px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; }
+    th { background:#f6f8fc; font-size:14px; }
+    tr:last-child td { border-bottom:0; }
+    td:first-child { white-space:nowrap; font-weight:800; }
+    .unit { margin-top:16px; padding:0; overflow:hidden; }
+    .unit-head { display:flex; flex-wrap:wrap; align-items:center; gap:10px 16px; padding:16px 18px; border-bottom:1px solid var(--line); background:#fbfcff; }
+    .unit-head .icon { font-size:38px; line-height:1; }
+    .unit-head h3 { margin:0; }
+    .unit-head p { margin:0; color:var(--muted); }
+    .unit-head .go { margin-left:auto; display:inline-flex; align-items:center; min-height:44px; padding:0 16px; border-radius:12px; background:var(--brand); color:#fff; font-weight:800; text-decoration:none; }
+    .unit-body { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:4px 22px; padding:14px 18px 18px; }
+    .unit-body h4 { margin:10px 0 4px; font-size:15px; color:#3246c9; }
+    .unit-body ul, .unit-body ol { margin:0; padding-left:20px; }
+    .unit-body li { margin:3px 0; }
+    .en { color:#0f5132; font-weight:600; }
+    .poster { padding:18px 20px; border:3px dashed #f0b429; border-radius:18px; background:var(--warm); }
+    .poster ol { margin:6px 0 0; font-size:19px; font-weight:700; }
+    .print { display:inline-flex; align-items:center; min-height:44px; margin-top:14px; padding:0 16px; border:0; border-radius:12px; background:#1d2939; color:#fff; font:inherit; font-weight:800; cursor:pointer; }
+    .status { display:inline-block; padding:2px 10px; border-radius:999px; font-size:13px; font-weight:800; white-space:nowrap; }
+    .ready { background:var(--ok); color:#0f5132; }
+    .soon { background:var(--warm); color:#7a4b00; }
+    footer { padding:22px 18px 40px; border-top:1px solid var(--line); background:#fff; color:var(--muted); }
+    @media print { header{background:none} nav,.print,.go{display:none} body{background:#fff} .card{break-inside:avoid} }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <nav><a href="./">← 100 關</a><a href="course.html">第二階段課程</a><a href="quest.html?unit=inputs">Quest Lab</a><a href="story.html">Story Lab</a><a href="teacher-guide.html">老師使用說明</a></nav>
+      <h1>第三階段課程：Code Inventors 💡</h1>
+      <p class="lead">給完成第二階段（Code Builders）的學生，適合國小四年級或進度快的三年級。學生已經會除錯、寫函式、用一個計數器、用事件做出產品；這一階段把每個觀念「升級」：<strong>函式可以帶輸入、條件可以比大小、變數可以有兩個、程式可以有隨機</strong>，還要學會比較哪個演算法比較好，最後做出一個完整的遊戲。</p>
+      <button class="print" type="button" onclick="print()">🖨️ 列印這份課程規劃</button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <h2>1. 從第二階段升級什麼？</h2>
+    <div class="grid">
+      <div class="card"><h3>🧩 → 🎛️ 函式</h3><p>以前「跳兩格」只能走 2 格。現在函式可以帶一個<strong>輸入（參數）</strong>：「走 3」、「走 5」都用同一個函式。</p></div>
+      <div class="card"><h3>❓ → ⚖️ 條件</h3><p>以前只能問「前面有路嗎？」「分數 = 5 嗎？」。現在可以<strong>比大小</strong>：計數器 &gt; 3、&lt; 2，以及兩個條件一起判斷。</p></div>
+      <div class="card"><h3>🔢 → 🎒 變數</h3><p>以前只有一個計數器。現在 Robo 有<strong>兩個變數</strong>（寶石和電池），要想清楚每個方塊在改哪一個。</p></div>
+      <div class="card"><h3>🎬 → 🎲 產品</h3><p>以前的產品每次都一樣。加上<strong>隨機</strong>、計時和生命值，做出每次玩都不一樣的遊戲。</p></div>
+    </div>
+
+    <h2>2. 12 週總覽</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>週</th><th>單元／活動</th><th>主要內容</th><th>狀態</th></tr></thead>
+        <tbody>
+        <tr><td>第 1 週</td><td>🎛️ <a href="quest.html?unit=inputs&m=1">Function Inputs 1–6</a></td><td>不插電「點餐機」：同一道菜，客人說幾份就做幾份。輸入是送進函式的數字；同一個函式送不同數字；修正數字；自己寫「重複 輸入 次」。</td><td><span class="status ready">✅ 可以上課</span></td></tr>
+        <tr><td>第 2 週</td><td>🎛️ <a href="quest.html?unit=inputs&m=7">Function Inputs 7–12</a></td><td>漩渦裡的數字規律、右轉 3 次 = 左轉、轉角函式、把計數器當輸入（越來越大的漩渦）、魔王關。</td><td><span class="status ready">✅ 可以上課</span></td></tr>
+        <tr><td>第 3 週</td><td>⚖️ Compare &amp; Decide 1–6</td><td>大於、小於、等於；「計數器 &gt; 3 才開門」；用比較讓迴圈停下來。</td><td><span class="status soon">🚧 開發中</span></td></tr>
+        <tr><td>第 4 週</td><td>⚖️ Compare &amp; Decide 7–12</td><td>如果裡面再放如果（巢狀判斷）、兩個條件一起判斷（而且／或者）、找出邊界的 bug（&gt; 還是 ≥）。</td><td><span class="status soon">🚧 開發中</span></td></tr>
+        <tr><td>第 5 週</td><td>🎒 Two Variables 1–6</td><td>不插電「兩個盒子」；寶石和步數同時數；說出指定的那一個；放錯盒子的 bug。</td><td><span class="status soon">🚧 開發中</span></td></tr>
+        <tr><td>第 6 週</td><td>🎒 Two Variables 7–12</td><td>電池用完就停、用一個變數決定另一個、兩個變數 + 參數的魔王關。</td><td><span class="status soon">🚧 開發中</span></td></tr>
+        <tr><td>第 7 週</td><td>🎲 Random &amp; Game Rules 1–4</td><td>Story Lab：隨機數字、每次玩都不一樣、計時器變數。</td><td><span class="status soon">🚧 開發中</span></td></tr>
+        <tr><td>第 8 週</td><td>🎲 Random &amp; Game Rules 5–8</td><td>生命值、遊戲結束畫面、難度慢慢變高、做出一個完整的小遊戲。</td><td><span class="status soon">🚧 開發中</span></td></tr>
+        <tr><td>第 9 週</td><td>🧪 Algorithm Race 演算法比賽</td><td>兩個程式都能過關，哪個比較好？比較方塊數和步數；用追蹤表算出 Robo 走了幾步。</td><td><span class="status soon">🚧 開發中</span></td></tr>
+        <tr><td>第 10 週</td><td>🚀 期末專題：遊戲企劃</td><td>寫遊戲規則（怎麼贏、怎麼輸、分數、時間）、畫畫面、列出 v0.1 到 v1.0 的功能。</td><td><span class="status soon">🚧 開發中</span></td></tr>
+        <tr><td>第 11 週</td><td>🚀 期末專題：製作、試玩、改編</td><td>兩人一組製作；交換試玩並改編同學的遊戲，<strong>標示原作者</strong>。</td><td><span class="status soon">🚧 開發中</span></td></tr>
+        <tr><td>第 12 週</td><td>🚀 遊戲發表會</td><td>上台展示：用了哪些變數、哪裡用了參數和比較、試玩後改了什麼。</td><td><span class="status soon">🚧 開發中</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>3. 單元細節</h2>
+    <article class="card unit">
+      <div class="unit-head"><span class="icon">🎛️</span><div><h3>單元 1：Function Inputs 函式參數（第 1–2 週，12 關）</h3><p>函式可以帶一個數字輸入。「執行 走 輸入 🎛️ 3」會把 3 送進去，函式裡的「重複 🎛️ 輸入 次」就重複 3 次。1–4 🟢 簡單、5–8 🟡 中等、9–12 🔴 困難。</p></div><a class="go" href="quest.html?unit=inputs">開始 ➜</a></div>
+      <div class="unit-body">
+        <div><h4>學習目標</h4><ul><li class="en">I can send a number into a function (an input).</li><li class="en">I can use one function for many jobs by changing the input.</li><li class="en">I can write a function that uses its input.</li><li class="en">I can send a variable as the input.</li></ul></div>
+        <div><h4>關鍵字</h4><p><span class="tag">input</span><span class="tag">parameter</span><span class="tag">argument</span><span class="tag">pattern</span><span class="tag">generalize</span></p><h4>不插電暖身</h4><p>「點餐機」：一位學生當廚師，只會一道菜的做法（函式）。客人喊「2 份！」「5 份！」，廚師照同一個做法做不同份數。問：做法要改嗎？改的是什麼？</p></div>
+        <div><h4>重點觀念</h4><ul><li>第 3 關：函式沒錯、是數字錯，學會分辨「改輸入」和「改函式」。</li><li>第 4 關：一個有輸入的函式，取代以前的「跳兩格」和「衝三格」。</li><li>第 8 關：右轉 3 次 = 左轉，輸入不只能用在走路。</li><li>第 11 關：把計數器當輸入，接回第二階段的變數。</li><li>第 12 關：大小不同的兩個漩渦，用「重複 5 次」會撞牆，要用「重複直到 🏁」。</li></ul></div>
+      </div>
+    </article>
+
+    <article class="card unit">
+      <div class="unit-head"><span class="icon">⚖️</span><div><h3>單元 2：Compare &amp; Decide 比較與判斷（第 3–4 週，規劃中）</h3><p>條件可以比大小：計數器 &gt;、&lt;、= 某個數字；巢狀判斷；兩個條件一起判斷。</p></div></div>
+      <div class="unit-body">
+        <div><h4>學習目標</h4><ul><li class="en">I can compare two numbers with &gt;, &lt; and =.</li><li class="en">I can put an if inside another if.</li><li class="en">I can find a bug at the edge (&gt; or ≥).</li></ul></div>
+        <div><h4>不插電暖身</h4><p>「身高門」：比 120 公分高才能玩。剛好 120 可以嗎？引出 &gt; 和 ≥ 的差別。</p></div>
+      </div>
+    </article>
+
+    <article class="card unit">
+      <div class="unit-head"><span class="icon">🎒</span><div><h3>單元 3：Two Variables 兩個變數（第 5–6 週，規劃中）</h3><p>Robo 同時有「寶石」和「電池」兩個變數；每個方塊都要選它改的是哪一個。</p></div></div>
+      <div class="unit-body">
+        <div><h4>學習目標</h4><ul><li class="en">I can use two variables for two different things.</li><li class="en">I can choose which variable a block changes.</li><li class="en">I can use one variable to decide what happens to another.</li></ul></div>
+        <div><h4>不插電暖身</h4><p>兩個紙盒，一個裝寶石卡、一個裝電池卡。老師唸指令，學生把卡放進正確的盒子。</p></div>
+      </div>
+    </article>
+
+    <article class="card unit">
+      <div class="unit-head"><span class="icon">🎲</span><div><h3>單元 4：Random &amp; Game Rules 隨機與遊戲規則（第 7–8 週，規劃中）</h3><p>在 Story Lab 加入隨機數字、計時器和生命值，做出每次玩都不一樣的遊戲。</p></div></div>
+      <div class="unit-body">
+        <div><h4>學習目標</h4><ul><li class="en">I can use random numbers to make a game different every time.</li><li class="en">I can use a timer and lives to decide when the game ends.</li></ul></div>
+      </div>
+    </article>
+
+    <article class="card unit">
+      <div class="unit-head"><span class="icon">🧪</span><div><h3>單元 5：Algorithm Race 演算法比賽（第 9 週，規劃中）</h3><p>兩個程式都能過關，比一比誰的方塊少、誰走的步數少，並說明理由。</p></div></div>
+      <div class="unit-body">
+        <div><h4>學習目標</h4><ul><li class="en">I can compare two algorithms that solve the same problem.</li><li class="en">I can explain why one is better (fewer blocks or fewer steps).</li></ul></div>
+      </div>
+    </article>
+
+    <article class="card unit">
+      <div class="unit-head"><span class="icon">🚀</span><div><h3>單元 6：期末專題「我的遊戲」（第 10–12 週，規劃中）</h3><p>企劃 → 製作 → 交換試玩 → 改編並標示原作者 → 發表。</p></div></div>
+      <div class="unit-body">
+        <div><h4>評量規準（每項 1–3 分）</h4><ul><li><strong>變數</strong>：至少兩個變數，各有清楚的用途。</li><li><strong>規則</strong>：用比較決定輸贏。</li><li><strong>隨機</strong>：每次玩都有一點不一樣。</li><li><strong>迭代</strong>：試玩後至少改了一個地方，並說明原因。</li><li><strong>標示出處</strong>：改編別人的作品時寫出原作者。</li></ul></div>
+      </div>
+    </article>
+  </main>
+
+  <footer><div class="wrap">CSTA K–12 CS Standards 1B（Grades 3–5）：AP-08 比較演算法、AP-09 變數、AP-10 事件／迴圈／條件、AP-11 拆解、AP-12 改編、AP-13 迭代開發、AP-14 標示出處、AP-15 測試除錯、AP-16 合作角色、AP-17 說明設計。</div></footer>
+</body>
+</html>

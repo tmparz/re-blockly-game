@@ -68,9 +68,10 @@ export function runMap(program, level, rows) {
     s.turns += 1;
     push("turn", id);
   };
-  const execList = (nodes, depth) => nodes.forEach((node) => exec(node, depth));
+  // `input` is the number sent to the function that is running now (undefined in the main program).
+  const execList = (nodes, depth, input) => nodes.forEach((node) => exec(node, depth, input));
 
-  function exec(node, depth) {
+  function exec(node, depth, input) {
     tick(node.id);
     switch (node.op) {
       case "move": {
@@ -105,31 +106,37 @@ export function runMap(program, level, rows) {
         push("counter", node.id);
         break;
       case "repeat":
-        for (let i = 0; i < node.n; i += 1) execList(node.do, depth);
+        for (let i = 0; i < node.n; i += 1) execList(node.do, depth, input);
+        break;
+      case "repeatN":
+        if (input == null) throw new Halt("noInput", node.id);
+        for (let i = 0; i < input; i += 1) execList(node.do, depth, input);
         break;
       case "until":
         while (!atGoal()) {
           tick(node.id);
-          execList(node.do, depth);
+          execList(node.do, depth, input);
         }
         break;
       case "untilCount":
         while (s.counter !== node.n) {
           tick(node.id);
-          execList(node.do, depth);
+          execList(node.do, depth, input);
         }
         break;
       case "if":
-        if (test(node.cond)) execList(node.do, depth);
+        if (test(node.cond)) execList(node.do, depth, input);
         break;
       case "ifElse":
-        execList(test(node.cond) ? node.do : node.else, depth);
+        execList(test(node.cond) ? node.do : node.else, depth, input);
         break;
-      case "call": {
+      case "call":
+      case "callN": {
         const body = program.defs[node.name];
         if (!body) throw new Halt("missingDef", node.id);
         if (depth >= CALL_DEPTH_LIMIT) throw new Halt("recursion", node.id);
-        execList(body, depth + 1);
+        const sent = node.op === "callN" ? (node.n === "c" ? s.counter : node.n) : undefined;
+        execList(body, depth + 1, sent);
         break;
       }
       default:

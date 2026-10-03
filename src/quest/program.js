@@ -16,6 +16,8 @@ export const BLOCK_TYPE = {
   ifElse: "q_ifelse",
   def: "q_def",
   call: "q_call",
+  callN: "q_call_n",
+  repeatN: "q_repeat_n",
   set: "q_set",
   change: "q_change",
 };
@@ -28,12 +30,14 @@ function parseNode(item) {
   }
   if ("repeat" in item) return { op: "repeat", n: item.repeat, do: parseList(item.do) };
   if ("until" in item) return { op: "until", do: parseList(item.do) };
+  if ("repeatN" in item) return { op: "repeatN", do: parseList(item.do) };
   if ("untilCount" in item) return { op: "untilCount", n: item.untilCount, do: parseList(item.do) };
   if ("if" in item) {
     const node = { op: "else" in item ? "ifElse" : "if", cond: item.if, do: parseList(item.do) };
     if ("else" in item) node.else = parseList(item.else);
     return node;
   }
+  if ("call" in item && "n" in item) return { op: "callN", name: item.call, n: item.n };
   if ("call" in item) return { op: "call", name: item.call };
   if ("set" in item) return { op: "set", n: item.set };
   if ("change" in item) return { op: "change", n: item.change };
@@ -70,8 +74,10 @@ function nodeFrom(block) {
     node.n = Number(fields.TIMES ?? fields.N);
   }
   if (op === "if" || op === "ifElse") node.cond = fields.COND;
-  if (op === "call") node.name = fields.NAME;
-  if (["repeat", "until", "untilCount", "if", "ifElse"].includes(op)) node.do = inner("DO");
+  if (op === "call" || op === "callN") node.name = fields.NAME;
+  // A function input is a number, or "c" to send the current counter value.
+  if (op === "callN") node.n = fields.N === "c" ? "c" : Number(fields.N);
+  if (["repeat", "until", "untilCount", "repeatN", "if", "ifElse"].includes(op)) node.do = inner("DO");
   if (op === "ifElse") node.else = inner("ELSE");
   return node;
 }
@@ -98,6 +104,7 @@ function blockFrom(node) {
   if (["untilCount", "set", "change"].includes(node.op)) block.fields = { N: String(node.n) };
   if (node.op === "if" || node.op === "ifElse") block.fields = { COND: node.cond };
   if (node.op === "call") block.fields = { NAME: node.name };
+  if (node.op === "callN") block.fields = { NAME: node.name, N: String(node.n) };
   const inputs = {};
   const body = chainBlocks(node.do ?? []);
   if (body) inputs.DO = { block: body };

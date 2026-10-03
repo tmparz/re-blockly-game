@@ -26,6 +26,8 @@ export const FUNCTION_LABELS = {
   down: ["↘️", "down", "下一階"],
   smart: ["🤖", "smart step", "聰明一步"],
   countGem: ["🧮", "count gem", "撿起並數"],
+  go: ["🚶", "walk", "走"],
+  turns: ["🔃", "turn right ×", "右轉幾次"],
 };
 
 const functionLabel = (name) => {
@@ -72,6 +74,8 @@ export const BLOCK_LABELS = {
   ifElse: () => L("if / else", "如果／否則"),
   def: () => L("define", "定義"),
   call: () => L("🧩 do function", "🧩 執行函式"),
+  callN: () => L("🎛️ do function with input", "🎛️ 執行函式並輸入"),
+  repeatN: () => L("repeat 🎛️ input times", "重複 🎛️ 輸入 次"),
   set: () => L("set counter", "計數器設為"),
   change: () => L("change counter", "計數器改變"),
 };
@@ -87,6 +91,7 @@ export function defineQuestBlocks() {
     container("q_repeat", L("repeat %1 times", "重複 %1 次"),
       [{ type: "field_dropdown", name: "TIMES", options: numberOptions(range(2, 10)) }], COLOURS.loop),
     container("q_until", BLOCK_LABELS.until(), undefined, COLOURS.loop),
+    container("q_repeat_n", L("repeat 🎛️ input times", "重複 🎛️ 輸入 次"), undefined, COLOURS.fn),
     container("q_until_count", L("repeat until 🔢 counter = %1", "重複直到 🔢 計數器 = %1"),
       [{ type: "field_dropdown", name: "N", options: numberOptions(range(0, 10)) }], COLOURS.loop),
     container("q_if", L("if %1", "如果 %1"), [{ type: "field_dropdown", name: "COND", options: CONDITIONS() }], COLOURS.logic),
@@ -108,6 +113,19 @@ export function defineQuestBlocks() {
       this.setTooltip(L("The steps inside have a name. Call it to run them.", "裡面的步驟有了名字，呼叫它就會執行。"));
     },
   };
+  Blockly.Blocks.q_call_n = {
+    init() {
+      this.appendDummyInput()
+        .appendField(L("do", "執行"))
+        .appendField(new Blockly.FieldDropdown(functionOptions), "NAME")
+        .appendField(L("with 🎛️", "輸入 🎛️"))
+        .appendField(new Blockly.FieldDropdown(() => [...numberOptions(range(1, 9)), [L("🔢 counter", "🔢 計數器"), "c"]]), "N");
+      this.setPreviousStatement(true);
+      this.setNextStatement(true);
+      this.setColour(COLOURS.fn);
+      this.setTooltip(L("Sends a number into the function. Inside, \"repeat input times\" uses it.", "把一個數字送進函式，函式裡的「重複 輸入 次」會用到它。"));
+    },
+  };
   Blockly.Blocks.q_call = {
     init() {
       this.appendDummyInput()
@@ -123,13 +141,13 @@ export function defineQuestBlocks() {
 const TYPES = {
   move: "q_move", left: "q_left", right: "q_right", pick: "q_pick", say: "q_say",
   repeat: "q_repeat", until: "q_until", untilCount: "q_until_count", if: "q_if", ifElse: "q_ifelse",
-  set: "q_set", change: "q_change",
+  set: "q_set", change: "q_change", repeatN: "q_repeat_n",
 };
 
 const CHIP_COLOUR = {
   move: COLOURS.move, left: COLOURS.turn, right: COLOURS.turn, pick: COLOURS.gem, say: COLOURS.data,
   repeat: COLOURS.loop, until: COLOURS.loop, untilCount: COLOURS.loop, if: COLOURS.logic, ifElse: COLOURS.logic,
-  set: COLOURS.data, change: COLOURS.data,
+  set: COLOURS.data, change: COLOURS.data, repeatN: COLOURS.fn,
 };
 const CHIP_LABEL = {
   move: () => L("⬆️ move", "⬆️ 前進"),
@@ -144,6 +162,7 @@ const CHIP_LABEL = {
   ifElse: () => L("❓ if / else", "❓ 如果／否則"),
   set: () => L("🔢 set", "🔢 設為"),
   change: () => L("🔢 change", "🔢 改變"),
+  repeatN: () => L("🔁 input times", "🔁 輸入 次"),
 };
 
 // Chips for the tap-to-add bar, in the same order as the toolbox.
@@ -158,6 +177,10 @@ export function quickItems(mission) {
         unique: op === "def",
         label: op === "def" ? `${L("define", "定義")} ${functionLabel(name)}` : functionLabel(name),
         colour: hex(COLOURS.fn),
+      }));
+    } else if (op === "callN") {
+      mission.functions.forEach((name) => items.push({
+        type: "q_call_n", fields: { NAME: name }, label: `${functionLabel(name)} 🎛️`, colour: hex(COLOURS.fn),
       }));
     } else {
       items.push({ type: TYPES[op], label: CHIP_LABEL[op](), colour: hex(CHIP_COLOUR[op]) });
