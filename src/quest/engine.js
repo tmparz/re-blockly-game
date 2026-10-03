@@ -29,6 +29,8 @@ const EXPECT = {
   steps: (s) => s.moves,
   turns: (s) => s.turns,
   battery: (s, level) => level.battery - s.moves,
+  points: (s, level) => s.picked.size * level.points,
+  value: (s, level) => level.value,
 };
 
 class Halt {

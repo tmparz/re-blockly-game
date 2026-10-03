@@ -5,14 +5,22 @@ import { counting } from "./counting.js";
 import { functionBasics } from "./functions-basics.js";
 import { functionAdvanced } from "./functions-advanced.js";
 import { FUNCTION_PATH } from "./function-path.js";
+import { countingExtra } from "./counting-extra.js";
+import { COUNTING_PATH } from "./counting-path.js";
 
-const functionPool = new Map([...functionFactory, ...functionBasics, ...functionAdvanced].map((m) => [m.id, m]));
-if (functionPool.size !== FUNCTION_PATH.length) throw new Error("Every function mission must appear in FUNCTION_PATH once.");
-const functionMissions = FUNCTION_PATH.map(([id, tier, lesson]) => {
-  const mission = functionPool.get(id);
-  if (!mission) throw new Error(`FUNCTION_PATH lists unknown mission "${id}".`);
-  return { ...mission, tier, lesson };
-});
+// Orders a pool of missions by a learning path, adding each mission's tier and lesson.
+function followPath(name, missions, path) {
+  const pool = new Map(missions.map((m) => [m.id, m]));
+  if (pool.size !== path.length) throw new Error(`Every ${name} mission must appear in its path once.`);
+  return path.map(([id, tier, lesson]) => {
+    const mission = pool.get(id);
+    if (!mission) throw new Error(`The ${name} path lists unknown mission "${id}".`);
+    return { ...mission, tier, lesson };
+  });
+}
+
+const functionMissions = followPath("function", [...functionFactory, ...functionBasics, ...functionAdvanced], FUNCTION_PATH);
+const countingMissions = followPath("counting", [...counting, ...countingExtra], COUNTING_PATH);
 
 const decorate = (unitId) => (mission) => {
   const best = countBlocks(parseProgram(mission.solution));
@@ -42,7 +50,7 @@ export const UNITS = [
     title: { en: "Counting Robots", zh: "會數數的機器人" },
     short: { en: "Counting", zh: "數數" },
     concept: { en: "Variables", zh: "變數 Variables" },
-    missions: counting.map(decorate("counting")),
+    missions: countingMissions.map(decorate("counting")),
   },
 ];
 

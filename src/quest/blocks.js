@@ -25,6 +25,7 @@ export const FUNCTION_LABELS = {
   up: ["↗️", "up", "上一階"],
   down: ["↘️", "down", "下一階"],
   smart: ["🤖", "smart step", "聰明一步"],
+  countGem: ["🧮", "count gem", "撿起並數"],
 };
 
 const functionLabel = (name) => {
@@ -87,14 +88,14 @@ export function defineQuestBlocks() {
       [{ type: "field_dropdown", name: "TIMES", options: numberOptions(range(2, 10)) }], COLOURS.loop),
     container("q_until", BLOCK_LABELS.until(), undefined, COLOURS.loop),
     container("q_until_count", L("repeat until 🔢 counter = %1", "重複直到 🔢 計數器 = %1"),
-      [{ type: "field_dropdown", name: "N", options: numberOptions(range(1, 10)) }], COLOURS.loop),
+      [{ type: "field_dropdown", name: "N", options: numberOptions(range(0, 10)) }], COLOURS.loop),
     container("q_if", L("if %1", "如果 %1"), [{ type: "field_dropdown", name: "COND", options: CONDITIONS() }], COLOURS.logic),
     container("q_ifelse", L("if %1", "如果 %1"), [{ type: "field_dropdown", name: "COND", options: CONDITIONS() }],
       COLOURS.logic, { message2: L("else %1", "否則 %1"), args2: [{ type: "input_statement", name: "ELSE" }] }),
     statement("q_set", L("🔢 set counter to %1", "🔢 計數器設為 %1"), COLOURS.data,
       [{ type: "field_dropdown", name: "N", options: numberOptions(range(0, 10)) }]),
     statement("q_change", L("🔢 change counter by %1", "🔢 計數器改變 %1"), COLOURS.data,
-      [{ type: "field_dropdown", name: "N", options: [["+1", "1"], ["-1", "-1"]] }]),
+      [{ type: "field_dropdown", name: "N", options: [["+1", "1"], ["-1", "-1"], ["+2", "2"]] }]),
   ]);
 
   Blockly.Blocks.q_def = {
