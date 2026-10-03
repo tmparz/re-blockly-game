@@ -10,6 +10,7 @@ import { COUNTING_PATH } from "./counting-path.js";
 import { inputs } from "./inputs.js";
 import { INPUTS_PATH } from "./inputs-path.js";
 import { LOGIC_PATH, logic } from "./logic.js";
+import { VARIABLES_PATH, variables } from "./variables.js";
 
 // Orders a pool of missions by a learning path, adding each mission's tier and lesson.
 function followPath(name, missions, path) {
@@ -26,6 +27,7 @@ const functionMissions = followPath("function", [...functionFactory, ...function
 const countingMissions = followPath("counting", [...counting, ...countingExtra], COUNTING_PATH);
 const inputMissions = followPath("inputs", inputs, INPUTS_PATH);
 const logicMissions = followPath("logic", logic, LOGIC_PATH);
+const variableMissions = followPath("variables", variables, VARIABLES_PATH);
 
 const decorate = (unitId) => (mission) => {
   const best = countBlocks(parseProgram(mission.solution));
@@ -78,6 +80,15 @@ export const UNITS = [
     short: { en: "Logic", zh: "邏輯" },
     concept: { en: "Comparisons & Booleans", zh: "比較與布林邏輯" },
     missions: logicMissions.map(decorate("logic")),
+  },
+  {
+    id: "variables",
+    part: 3,
+    icon: "🎒",
+    title: { en: "Many Variables", zh: "多個變數" },
+    short: { en: "Variables+", zh: "變數+" },
+    concept: { en: "Variables & state", zh: "多個變數與狀態" },
+    missions: variableMissions.map(decorate("variables")),
   },
 ];
 
