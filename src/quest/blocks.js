@@ -1,5 +1,6 @@
 // Blockly blocks for Quest Lab. Every field is a dropdown, so no on-screen keyboard is needed.
 import { lang } from "./i18n.js";
+import { ADVANCED_LABELS, advancedChips, defineAdvancedBlocks, inputOptions } from "./blocks-advanced.js";
 
 const L = (en, zh) => (lang === "zh" ? zh : en);
 
@@ -78,6 +79,7 @@ export const BLOCK_LABELS = {
   repeatN: () => L("repeat 🎛️ input times", "重複 🎛️ 輸入 次"),
   set: () => L("set counter", "計數器設為"),
   change: () => L("change counter", "計數器改變"),
+  ...ADVANCED_LABELS,
 };
 
 export function defineQuestBlocks() {
@@ -119,13 +121,14 @@ export function defineQuestBlocks() {
         .appendField(L("do", "執行"))
         .appendField(new Blockly.FieldDropdown(functionOptions), "NAME")
         .appendField(L("with 🎛️", "輸入 🎛️"))
-        .appendField(new Blockly.FieldDropdown(() => [...numberOptions(range(1, 9)), [L("🔢 counter", "🔢 計數器"), "c"]]), "N");
+        .appendField(new Blockly.FieldDropdown(inputOptions), "N");
       this.setPreviousStatement(true);
       this.setNextStatement(true);
       this.setColour(COLOURS.fn);
       this.setTooltip(L("Sends a number into the function. Inside, \"repeat input times\" uses it.", "把一個數字送進函式，函式裡的「重複 輸入 次」會用到它。"));
     },
   };
+  defineAdvancedBlocks(functionOptions);
   Blockly.Blocks.q_call = {
     init() {
       this.appendDummyInput()
@@ -182,6 +185,8 @@ export function quickItems(mission) {
       mission.functions.forEach((name) => items.push({
         type: "q_call_n", fields: { NAME: name }, label: `${functionLabel(name)} 🎛️`, colour: hex(COLOURS.fn),
       }));
+    } else if (!TYPES[op]) {
+      items.push(...advancedChips(op, mission.functions ?? [], functionLabel));
     } else {
       items.push({ type: TYPES[op], label: CHIP_LABEL[op](), colour: hex(CHIP_COLOUR[op]) });
     }

@@ -9,6 +9,7 @@ import { countingExtra } from "./counting-extra.js";
 import { COUNTING_PATH } from "./counting-path.js";
 import { inputs } from "./inputs.js";
 import { INPUTS_PATH } from "./inputs-path.js";
+import { LOGIC_PATH, logic } from "./logic.js";
 
 // Orders a pool of missions by a learning path, adding each mission's tier and lesson.
 function followPath(name, missions, path) {
@@ -24,6 +25,7 @@ function followPath(name, missions, path) {
 const functionMissions = followPath("function", [...functionFactory, ...functionBasics, ...functionAdvanced], FUNCTION_PATH);
 const countingMissions = followPath("counting", [...counting, ...countingExtra], COUNTING_PATH);
 const inputMissions = followPath("inputs", inputs, INPUTS_PATH);
+const logicMissions = followPath("logic", logic, LOGIC_PATH);
 
 const decorate = (unitId) => (mission) => {
   const best = countBlocks(parseProgram(mission.solution));
@@ -33,6 +35,7 @@ const decorate = (unitId) => (mission) => {
 export const UNITS = [
   {
     id: "bugs",
+    part: 2,
     icon: "🐞",
     title: { en: "Bug Hunt", zh: "抓蟲大作戰" },
     short: { en: "Bugs", zh: "抓蟲" },
@@ -41,6 +44,7 @@ export const UNITS = [
   },
   {
     id: "functions",
+    part: 2,
     icon: "🧩",
     title: { en: "Function Factory", zh: "函式工廠" },
     short: { en: "Functions", zh: "函式" },
@@ -49,6 +53,7 @@ export const UNITS = [
   },
   {
     id: "counting",
+    part: 2,
     icon: "🔢",
     title: { en: "Counting Robots", zh: "會數數的機器人" },
     short: { en: "Counting", zh: "數數" },
@@ -58,11 +63,21 @@ export const UNITS = [
   // Advanced course (Part 3) starts here.
   {
     id: "inputs",
+    part: 3,
     icon: "🎛️",
     title: { en: "Function Inputs", zh: "函式參數" },
     short: { en: "Inputs", zh: "參數" },
     concept: { en: "Parameters", zh: "參數 Parameters" },
     missions: inputMissions.map(decorate("inputs")),
+  },
+  {
+    id: "logic",
+    part: 3,
+    icon: "⚖️",
+    title: { en: "Compare & Logic", zh: "比較與邏輯" },
+    short: { en: "Logic", zh: "邏輯" },
+    concept: { en: "Comparisons & Booleans", zh: "比較與布林邏輯" },
+    missions: logicMissions.map(decorate("logic")),
   },
 ];
 

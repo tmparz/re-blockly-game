@@ -17,7 +17,8 @@ export function createBoard(element) {
   let map = null;
   let robot = null;
   let bubble = null;
-  let counter = null;
+  let badges = null;
+  let options = { badges: [], list: null, label: (name) => name, start: {} };
 
   function place(x, y, rot) {
     robot.style.setProperty("--x", x);
@@ -25,7 +26,8 @@ export function createBoard(element) {
     robot.querySelector(".robot-body").style.transform = `rotate(${rot * 90}deg)`;
   }
 
-  function draw(rows, { showCounter = false } = {}) {
+  function draw(rows, nextOptions = {}) {
+    options = { ...options, ...nextOptions };
     map = parseMap(rows);
     element.innerHTML = "";
     element.style.setProperty("--cols", map.w);
@@ -47,15 +49,18 @@ export function createBoard(element) {
     robot.innerHTML = `<div class="robot-body">${ROBOT_SVG}</div><div class="bubble" hidden></div>`;
     bubble = robot.querySelector(".bubble");
     element.append(robot);
-    counter = document.createElement("div");
-    counter.className = "counter-badge";
-    counter.hidden = !showCounter;
-    element.append(counter);
+    badges = document.createElement("div");
+    badges.className = "counter-badge";
+    badges.hidden = !options.badges.length && !options.list;
+    element.append(badges);
     reset();
   }
 
-  function setCounter(value) {
-    counter.textContent = `🔢 ${value}`;
+  // Shows each variable's value, and the list in [brackets] when the mission has one.
+  function setBadges(vars = options.start, list = options.list) {
+    const parts = options.badges.map((name) => `${options.label(name)} ${vars[name] ?? 0}`);
+    if (options.list) parts.push(`📦 [${(list ?? []).join(", ")}]`);
+    badges.textContent = parts.join("  ·  ");
   }
 
   function reset() {
@@ -65,12 +70,12 @@ export function createBoard(element) {
     robot.classList.remove("no-anim", "bump");
     bubble.hidden = true;
     element.querySelectorAll(".gem").forEach((gem) => gem.classList.remove("taken"));
-    setCounter(0);
+    setBadges();
   }
 
   function apply(frame) {
     place(frame.x, frame.y, frame.rot);
-    setCounter(frame.counter);
+    setBadges(frame.vars, frame.list);
     if (frame.kind === "pick") element.querySelector(`[data-gem="${frame.gem}"]`)?.classList.add("taken");
     if (frame.kind === "say") {
       bubble.textContent = `💬 ${frame.value}`;

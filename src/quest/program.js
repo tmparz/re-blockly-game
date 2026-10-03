@@ -1,5 +1,6 @@
 // Program model shared by the browser and the Node validator.
 // Missions write programs in a compact DSL; Blockly JSON is converted to the same node tree.
+import { EXT_OPS, EXT_OP_OF_TYPE, token } from "./ops.js";
 
 const LEAVES = new Set(["move", "left", "right", "pick", "say"]);
 
@@ -21,13 +22,23 @@ export const BLOCK_TYPE = {
   set: "q_set",
   change: "q_change",
 };
-const OP_OF_TYPE = Object.fromEntries(Object.entries(BLOCK_TYPE).map(([op, type]) => [type, op]));
+const OP_OF_TYPE = { ...Object.fromEntries(Object.entries(BLOCK_TYPE).map(([op, type]) => [type, op])), ...EXT_OP_OF_TYPE };
+
+function parseExt(item) {
+  const spec = EXT_OPS[item.op];
+  const node = { op: item.op };
+  Object.values(spec.fields).forEach((prop) => { node[prop] = item[prop]; });
+  if (spec.body) node.do = parseList(item.do);
+  if (spec.else) node.else = parseList(item.else);
+  return node;
+}
 
 function parseNode(item) {
   if (typeof item === "string") {
     if (!LEAVES.has(item)) throw new Error(`Unknown step "${item}".`);
     return { op: item };
   }
+  if (item.op in EXT_OPS) return parseExt(item);
   if ("repeat" in item) return { op: "repeat", n: item.repeat, do: parseList(item.do) };
   if ("until" in item) return { op: "until", do: parseList(item.do) };
   if ("repeatN" in item) return { op: "repeatN", do: parseList(item.do) };
@@ -70,13 +81,20 @@ function nodeFrom(block) {
   const fields = block.fields ?? {};
   const inner = (name) => chainFrom(block.inputs?.[name]?.block);
   const node = { op, id: block.id };
+  const ext = EXT_OPS[op];
+  if (ext) {
+    Object.entries(ext.fields).forEach(([name, prop]) => { node[prop] = token(fields[name]); });
+    if (ext.body) node.do = inner("DO");
+    if (ext.else) node.else = inner("ELSE");
+    return node;
+  }
   if (op === "repeat" || op === "untilCount" || op === "set" || op === "change") {
     node.n = Number(fields.TIMES ?? fields.N);
   }
   if (op === "if" || op === "ifElse") node.cond = fields.COND;
   if (op === "call" || op === "callN") node.name = fields.NAME;
   // A function input is a number, or "c" to send the current counter value.
-  if (op === "callN") node.n = fields.N === "c" ? "c" : Number(fields.N);
+  if (op === "callN") node.n = token(fields.N);
   if (["repeat", "until", "untilCount", "repeatN", "if", "ifElse"].includes(op)) node.do = inner("DO");
   if (op === "ifElse") node.else = inner("ELSE");
   return node;
@@ -99,7 +117,11 @@ export function programFromState(state) {
 // ---- node tree -> Blockly serialization (starter code and demo solutions) ----
 
 function blockFrom(node) {
-  const block = { type: BLOCK_TYPE[node.op] };
+  const ext = EXT_OPS[node.op];
+  const block = { type: ext ? ext.type : BLOCK_TYPE[node.op] };
+  if (ext && Object.keys(ext.fields).length) {
+    block.fields = Object.fromEntries(Object.entries(ext.fields).map(([name, prop]) => [name, String(node[prop])]));
+  }
   if (node.op === "repeat") block.fields = { TIMES: String(node.n) };
   if (["untilCount", "set", "change"].includes(node.op)) block.fields = { N: String(node.n) };
   if (node.op === "if" || node.op === "ifElse") block.fields = { COND: node.cond };

@@ -31,6 +31,20 @@ for (const mission of ALL_MISSIONS) {
     if (!mission.functions?.includes(name)) fail(mission, `function "${name}" not listed`);
   }
 
+  // Every variable or special value the solution uses must be offered in this mission's dropdowns.
+  const offered = new Set([...(mission.vars ?? ["counter"]), ...(mission.tokens ?? []), "c"]);
+  const visit = (nodes) => nodes.forEach((node) => {
+    for (const prop of ["var", "value", "n"]) {
+      if (typeof node[prop] === "string" && !offered.has(node[prop])) fail(mission, `uses "${node[prop]}" but its dropdowns do not offer it`);
+    }
+    visit(node.do ?? []);
+    visit(node.else ?? []);
+  });
+  visit(solution.main);
+  Object.values(solution.defs).forEach(visit);
+  if (mission.lists && mission.lists.length !== mission.maps.length) fail(mission, "needs one list per map");
+  if (mission.wants && mission.wants.length !== mission.maps.length) fail(mission, "needs one answer per map");
+
   // Round-trip through Blockly JSON so the browser path is covered too.
   const roundTrip = programFromState(stateFromDsl(mission.solution));
   const result = evaluate(roundTrip, mission);

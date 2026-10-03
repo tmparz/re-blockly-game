@@ -1,7 +1,9 @@
 import { UNITS } from "./missions/index.js";
 import { evaluate } from "./engine.js";
 import { countBlocks, programFromState, stateFromDsl } from "./program.js";
-import { BLOCK_LABELS, defineQuestBlocks, quickItems, setFunctionNames } from "./blocks.js";
+import { defineQuestBlocks, quickItems, setFunctionNames } from "./blocks.js";
+import { setMissionContext, varLabel } from "./blocks-advanced.js";
+import { askConfirm, describeFailure } from "./ui.js";
 import { createQuickAdd } from "./quick-add.js";
 import { createBoard } from "./board.js";
 import { lang, pick, setLang, t } from "./i18n.js";
@@ -17,7 +19,13 @@ let quickAdd = null;
 
 const currentUnit = () => UNITS[view.unit];
 const currentMission = () => currentUnit().missions[view.mission];
-const usesCounter = (mission) => mission.blocks.includes("set") || mission.blocks.includes("say");
+// What the board shows under the map: the counter (Part 2), named variables and the list (Part 3).
+const boardOptions = (mission, index) => ({
+  badges: mission.vars ?? (mission.blocks.includes("set") || mission.blocks.includes("say") ? ["counter"] : []),
+  list: mission.lists || mission.blocks.includes("addList") ? mission.lists?.[index] ?? [] : null,
+  label: varLabel,
+  start: Array.isArray(mission.varStart) ? mission.varStart[index] : mission.varStart ?? {},
+});
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 function setResult(text, tone = "") {
@@ -42,9 +50,20 @@ function renderTotals() {
   $("#totalStars").textContent = `${total} / ${max}`;
 }
 
+// The tabs show one course part at a time; the dark button switches between Part 2 and Part 3.
 function renderUnitTabs() {
   $("#unitTabs").innerHTML = "";
+  const part = currentUnit().part;
+  const other = part === 2 ? 3 : 2;
+  const toggle = document.createElement("button");
+  toggle.type = "button";
+  toggle.className = "unit-tab part-switch";
+  toggle.textContent = t(`part${part}`);
+  toggle.title = t("switchPart", { name: t(`part${other}`) });
+  toggle.addEventListener("click", () => selectMission(UNITS.findIndex((unit) => unit.part === other), 0));
+  $("#unitTabs").append(toggle);
   UNITS.forEach((unit, index) => {
+    if (unit.part !== part) return;
     const stars = unit.missions.reduce((sum, m) => sum + (progress.stars[m.id] ?? 0), 0);
     const button = document.createElement("button");
     button.type = "button";
@@ -94,7 +113,7 @@ function renderMapTabs() {
 function showMap(index) {
   view.runToken += 1;
   view.map = index;
-  board.draw(currentMission().maps[index], { showCounter: usesCounter(currentMission()) });
+  board.draw(currentMission().maps[index], boardOptions(currentMission(), index));
   renderMapTabs();
 }
 
@@ -139,22 +158,12 @@ function selectMission(unitIndex, missionIndex) {
   setResult(t("ready"));
 
   setFunctionNames(mission.functions);
+  setMissionContext(mission);
   quickAdd.setItems(quickItems(mission));
   loadState(progress.code[mission.id] ?? stateFromDsl(mission.starter));
   renderUnitTabs();
   renderMissionDots();
   showMap(0);
-}
-
-function describeFailure(evaluation, mission) {
-  if (evaluation.reason === "require") {
-    return t("require", { block: BLOCK_LABELS[evaluation.op](), n: evaluation.n });
-  }
-  if (evaluation.reason === "tooManyBlocks") return t("tooManyBlocks", { count: evaluation.blocks, max: mission.maxBlocks });
-  const failed = evaluation.maps[evaluation.failedIndex];
-  const multi = mission.maps.length > 1 && evaluation.failedIndex != null;
-  const prefix = multi ? t("failedOnMap", { n: evaluation.failedIndex + 1 }) : "";
-  return prefix + t(evaluation.reason, { n: mission.win?.exactGems, want: failed?.want, said: failed?.said });
 }
 
 async function run() {
@@ -202,29 +211,6 @@ function nextTarget() {
   if (view.mission + 1 < currentUnit().missions.length) return [view.unit, view.mission + 1];
   if (view.unit + 1 < UNITS.length) return [view.unit + 1, 0];
   return null;
-}
-
-// In-page confirm: window.confirm() is silently suppressed in iframes and some tablet/classroom browsers.
-function askConfirm(message) {
-  return new Promise((resolve) => {
-    const overlay = document.createElement("div");
-    overlay.className = "confirm-overlay";
-    overlay.innerHTML = `<div class="confirm-box" role="alertdialog" aria-modal="true"><p></p><div class="confirm-actions"><button type="button" class="btn btn-soft" data-ok="0"></button><button type="button" class="btn btn-warm" data-ok="1"></button></div></div>`;
-    overlay.querySelector("p").textContent = message;
-    overlay.querySelector('[data-ok="0"]').textContent = t("cancel");
-    overlay.querySelector('[data-ok="1"]').textContent = t("ok");
-    const close = (ok) => {
-      overlay.remove();
-      resolve(ok);
-    };
-    overlay.addEventListener("click", (event) => {
-      if (event.target === overlay) close(false);
-      const ok = event.target.closest("[data-ok]")?.dataset.ok;
-      if (ok != null) close(ok === "1");
-    });
-    document.body.append(overlay);
-    overlay.querySelector('[data-ok="1"]').focus();
-  });
 }
 
 function bindControls() {
