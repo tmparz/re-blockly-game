@@ -1,11 +1,12 @@
 // Validates Story Lab challenges: every example meets all goals, every starter does not, text is bilingual.
 import { ALL_STORY_TASKS, checkGoals } from "../src/story/challenges.js";
 import { PRODUCT_STEPS, PRODUCT_TASKS } from "../src/story/product.js";
+import { GAME_STEPS, GAME_TASKS } from "../src/story/game.js";
 
 const errors = [];
 const ids = new Set();
 
-for (const task of [...ALL_STORY_TASKS, ...PRODUCT_TASKS]) {
+for (const task of [...ALL_STORY_TASKS, ...PRODUCT_TASKS, ...GAME_TASKS]) {
   const fail = (message) => errors.push(`${task.id}: ${message}`);
   if (ids.has(task.id)) fail("duplicate id");
   ids.add(task.id);
@@ -21,21 +22,23 @@ for (const task of [...ALL_STORY_TASKS, ...PRODUCT_TASKS]) {
   if (checkGoals(task, { blocks: { blocks: [] } }).some(Boolean)) fail("an empty workspace meets a goal");
 }
 
-// Product Studio grows one app: every version must still meet the goals of all earlier versions.
-PRODUCT_STEPS.forEach((step, index) => {
-  PRODUCT_STEPS.slice(0, index).forEach((earlier) => {
-    checkGoals(earlier, step.example).forEach((ok, i) => {
-      if (!ok) errors.push(`${step.id}: example breaks ${earlier.id} goal ${i + 1}: ${earlier.goals[i].text.en}`);
+// Product and Game Studio each grow one app: every version must still meet the goals of all earlier versions.
+for (const steps of [PRODUCT_STEPS, GAME_STEPS]) {
+  steps.forEach((step, index) => {
+    steps.slice(0, index).forEach((earlier) => {
+      checkGoals(earlier, step.example).forEach((ok, i) => {
+        if (!ok) errors.push(`${step.id}: example breaks ${earlier.id} goal ${i + 1}: ${earlier.goals[i].text.en}`);
+      });
     });
+    if (index && JSON.stringify(step.starter) !== JSON.stringify(steps[index - 1].example)) {
+      errors.push(`${step.id}: starter should be the previous version's example`);
+    }
   });
-  if (index && JSON.stringify(step.starter) !== JSON.stringify(PRODUCT_STEPS[index - 1].example)) {
-    errors.push(`${step.id}: starter should be the previous version's example`);
-  }
-});
+}
 
 if (errors.length) {
   console.error(errors.map((line) => `✗ ${line}`).join("\n"));
   process.exitCode = 1;
 } else {
-  console.log(`Validated ${ALL_STORY_TASKS.length} Story Lab tasks and ${PRODUCT_TASKS.length} Product Studio steps: examples meet all goals, starters do not, each version keeps the last one working.`);
+  console.log(`Validated ${ALL_STORY_TASKS.length} Story Lab tasks and ${PRODUCT_TASKS.length} Product Studio steps and ${GAME_TASKS.length} Game Studio steps: examples meet all goals, starters do not, each version keeps the last one working.`);
 }

@@ -4,7 +4,7 @@ import { SCENE_IDS, SCENE_NAMES } from "./scenes.js";
 import { SOUND_IDS } from "./sound.js";
 import { L, pick, t } from "./i18n.js";
 
-export const HUES = { events: 45, motion: 210, looks: 270, sound: 320, control: 30, score: 0 };
+export const HUES = { events: 45, motion: 210, looks: 270, sound: 320, control: 30, score: 0, game: 160 };
 
 const actorOptions = () => ACTOR_IDS.map((id) => [`${ACTORS[id].emoji} ${pick(ACTORS[id].name)}`, id]);
 const range = (from, to) => Array.from({ length: to - from + 1 }, (_, i) => [String(from + i), String(from + i)]);
@@ -16,6 +16,8 @@ const SOUND_LABELS = { pop: ["pop", "啵"], boing: ["boing", "彈簧"], drum: ["
 
 const hat = (type, message0, args0 = []) => ({ type, message0, args0, nextStatement: null, colour: HUES.events });
 const step = (type, message0, args0, hue) => ({ type, message0, args0, previousStatement: null, nextStatement: null, colour: hue });
+const gameVar = () => dropdown("VAR", [[L("⭐ score", "⭐ 分數"), "score"], [L("❤️ lives", "❤️ 生命"), "lives"], [L("⏱ time", "⏱ 時間"), "time"]]);
+const compare = () => dropdown("CMP", [["=", "eq"], [">", "gt"], ["<", "lt"], ["≥", "ge"], ["≤", "le"]]);
 const box = (type, message0, args0, hue, extra = {}) => ({
   ...step(type, message0, args0, hue),
   message1: "%1", args1: [{ type: "input_statement", name: "DO" }], ...extra,
@@ -60,6 +62,16 @@ export function defineStoryBlocks() {
     step("story_change_score", L("⭐ change score by %1", "⭐ 分數改變 %1"), [dropdown("N", [["+1", "1"], ["+2", "2"], ["-1", "-1"]])], HUES.score),
     box("story_if_score", L("⭐ if score = %1", "⭐ 如果分數 = %1"), [dropdown("N", range(0, 10))], HUES.score),
     step("story_say_score", L("%1 say the score", "%1 說出分數"), [actor], HUES.score),
+
+    // Game Studio (Part 3): several game variables, comparisons, randomness and game over.
+    step("story_set_var", L("%1 set to %2", "%1 設為 %2"), [gameVar(), dropdown("N", [...range(0, 10), ["15", "15"], ["20", "20"], ["30", "30"]])], HUES.game),
+    step("story_change_var", L("%1 change by %2", "%1 改變 %2"), [gameVar(), dropdown("N", [["+1", "1"], ["+2", "2"], ["-1", "-1"], ["-2", "-2"]])], HUES.game),
+    box("story_if_var", L("if %1 %2 %3", "如果 %1 %2 %3"), [gameVar(), compare(), dropdown("N", range(0, 10))], HUES.game),
+    box("story_until_var", L("🔁 repeat until %1 %2 %3", "🔁 重複直到 %1 %2 %3"), [gameVar(), compare(), dropdown("N", range(0, 10))], HUES.game),
+    step("story_random_var", L("%1 set to 🎲 random 1 to %2", "%1 設為 🎲 隨機 1 到 %2"), [gameVar(), dropdown("N", range(2, 10))], HUES.game),
+    box("story_if_chance", L("🎲 if a 1 in %1 chance", "🎲 如果 %1 次裡中 1 次"), [dropdown("N", range(2, 6))], HUES.game),
+    step("story_say_var", L("%1 say %2", "%1 說出 %2"), [actor, gameVar()], HUES.game),
+    step("story_stop_all", L("🛑 stop everything", "🛑 全部停止"), [], HUES.game),
   ]);
 }
 
@@ -74,6 +86,9 @@ const CATEGORY_BLOCKS = {
   control: [["story_wait", "⏱", "wait", "等待"], ["story_repeat", "🔁", "repeat", "重複"], ["story_forever", "♾️", "forever", "一直重複"]],
   score: [["story_set_score", "⭐", "set score", "設定分數"], ["story_change_score", "⭐", "change score", "改變分數"],
     ["story_if_score", "⭐", "if score =", "如果分數 ="], ["story_say_score", "💬", "say score", "說出分數"]],
+  game: [["story_set_var", "🎮", "set", "設為"], ["story_change_var", "🎮", "change", "改變"], ["story_if_var", "⚖️", "if", "如果"],
+    ["story_until_var", "🔁", "repeat until", "重複直到"], ["story_random_var", "🎲", "random", "隨機"],
+    ["story_if_chance", "🎲", "if chance", "如果機率"], ["story_say_var", "💬", "say", "說出"], ["story_stop_all", "🛑", "stop all", "全部停止"]],
 };
 
 export const CATEGORIES = Object.keys(CATEGORY_BLOCKS);

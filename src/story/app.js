@@ -1,5 +1,6 @@
 import { ALL_STORY_TASKS, CHALLENGES, checkGoals } from "./challenges.js";
 import { PRODUCT_STEPS, PRODUCT_TASKS } from "./product.js";
+import { GAME_STEPS, GAME_TASKS } from "./game.js";
 import { CATEGORIES, HUES, chipsFor, defineStoryBlocks } from "./blocks.js";
 import { createStage } from "./stage.js";
 import { createRuntime } from "./runtime.js";
@@ -11,8 +12,14 @@ import { createQuickAdd } from "../quest/quick-add.js";
 const STORAGE_KEY = "blocky-story-v2";
 const $ = (selector) => document.querySelector(selector);
 // Two tracks: the event/story challenges, and Product Studio (build one app version by version).
-const TRACKS = { story: ALL_STORY_TASKS, product: PRODUCT_TASKS };
-const CAPSTONES = { mine: "myStory", "my-product": "myProduct" };
+const TRACKS = { story: ALL_STORY_TASKS, product: PRODUCT_TASKS, game: GAME_TASKS };
+const CAPSTONES = { mine: "myStory", "my-product": "myProduct", "my-game": "myGame" };
+// Kicker label and number of guided steps for each track.
+const TRACK_INFO = {
+  story: () => [t("challenges"), CHALLENGES.length],
+  product: () => [`🛠️ ${t("productStudio")}`, PRODUCT_STEPS.length],
+  game: () => [`🎮 ${t("gameStudio")}`, GAME_STEPS.length],
+};
 const view = { track: "story", index: 0, category: "events", goals: [] };
 let progress = { done: {}, code: {}, last: null };
 let workspace = null;
@@ -46,7 +53,9 @@ function renderStaticText() {
 
 function renderTaskNav() {
   $("#taskNav").innerHTML = "";
-  const other = view.track === "story" ? "product" : "story";
+  // The dark button shows the current track; tapping it moves on to the next one.
+  const names = Object.keys(TRACKS);
+  const other = names[(names.indexOf(view.track) + 1) % names.length];
   const trackButton = document.createElement("button");
   trackButton.type = "button";
   trackButton.className = "task-dot track-switch";
@@ -129,8 +138,7 @@ function selectTask(index, track = view.track) {
   progress.last = current.id;
   save();
   history.replaceState(null, "", `?c=${current.id}`);
-  const total = view.track === "product" ? PRODUCT_STEPS.length : CHALLENGES.length;
-  const label = view.track === "product" ? `🛠️ ${t("productStudio")}` : t("challenges");
+  const [label, total] = TRACK_INFO[view.track]();
   const number = CAPSTONES[current.id] ? `✨ ${label}` : `${label} ${index + 1} / ${total}`;
   $("#taskKicker").textContent = number;
   $("#taskTitle").textContent = pick(current.title);

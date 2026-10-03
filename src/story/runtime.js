@@ -2,10 +2,12 @@
 import { play } from "./sound.js";
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const COMPARE = { eq: (a, b) => a === b, gt: (a, b) => a > b, lt: (a, b) => a < b, ge: (a, b) => a >= b, le: (a, b) => a <= b };
 const STEP_LIMIT = 400;
 
 export function createRuntime({ workspace, stage, onStatus }) {
   let generation = 0;
+  let gameOver = false; // set by "stop everything": taps do nothing until the next Run.
   const running = new Map();
 
   const hats = (type, field, value) => workspace.getTopBlocks(true)
@@ -26,6 +28,7 @@ export function createRuntime({ workspace, stage, onStatus }) {
   async function exec(block, ctx) {
     const f = (name) => block.getFieldValue(name);
     const inner = () => block.getInputTargetBlock("DO");
+    const test = () => COMPARE[f("CMP")](stage.getVar(f("VAR")), Number(f("N")));
     switch (block.type) {
       case "story_say": return stage.say(f("ACTOR"), f("TEXT"), Number(f("SECONDS")));
       case "story_think": return stage.say(f("ACTOR"), f("TEXT"), Number(f("SECONDS")), "think");
@@ -60,6 +63,27 @@ export function createRuntime({ workspace, stage, onStatus }) {
         if (stage.score === Number(f("N"))) await chain(inner(), ctx);
         return undefined;
       case "story_say_score": return stage.say(f("ACTOR"), String(stage.score), 2);
+      case "story_set_var": return stage.setVar(f("VAR"), Number(f("N")));
+      case "story_change_var": return stage.setVar(f("VAR"), stage.getVar(f("VAR")) + Number(f("N")));
+      case "story_random_var": return stage.setVar(f("VAR"), 1 + Math.floor(Math.random() * Number(f("N"))));
+      case "story_say_var": return stage.say(f("ACTOR"), String(stage.getVar(f("VAR"))), 2);
+      case "story_if_var":
+        if (test()) await chain(inner(), ctx);
+        return undefined;
+      case "story_until_var":
+        while (!test() && ctx.gen === generation) {
+          await chain(inner(), { ...ctx, steps: 0 });
+          await sleep(30);
+        }
+        return undefined;
+      case "story_if_chance":
+        if (Math.random() * Number(f("N")) < 1) await chain(inner(), ctx);
+        return undefined;
+      case "story_stop_all":
+        gameOver = true;
+        generation += 1;
+        running.clear();
+        return undefined;
       default: return undefined;
     }
   }
@@ -77,6 +101,7 @@ export function createRuntime({ workspace, stage, onStatus }) {
     get busy() { return running.size > 0; },
     async run() {
       generation += 1;
+      gameOver = false;
       running.clear();
       stage.reset();
       const scripts = hats("story_start");
@@ -86,7 +111,7 @@ export function createRuntime({ workspace, stage, onStatus }) {
     },
     click(actorId) {
       const all = hats("story_when_clicked", "ACTOR", actorId);
-      const idle = all.filter((hat) => !running.has(hat.id));
+      const idle = gameOver ? [] : all.filter((hat) => !running.has(hat.id));
       return { found: all.length > 0, finished: Promise.all(idle.map(start)) };
     },
     stop() {

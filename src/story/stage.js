@@ -20,7 +20,9 @@ export function createStage(root) {
   const confettiEl = root.querySelector(".confetti");
   const state = {};
   const els = {};
-  let score = null;
+  // Game variables (score, lives, time). Only the ones a story has set are shown in the badge.
+  let vars = {};
+  const ICONS = { score: "⭐", lives: "❤️", time: "⏱" };
   let clickHandler = () => {};
 
   for (const id of ACTOR_IDS) {
@@ -70,7 +72,7 @@ export function createStage(root) {
       els[id].bubble.className = "bubble";
       els[id].feel.textContent = "";
     }
-    score = null;
+    vars = {};
     scoreEl.hidden = true;
     sceneEl.innerHTML = "";
     setScene("home", false);
@@ -141,14 +143,16 @@ export function createStage(root) {
       els[id].root.classList.toggle("hidden", !show);
       await sleep(300);
     },
-    get score() { return score ?? 0; },
-    async setScore(value) {
-      score = value;
+    get score() { return vars.score ?? 0; },
+    getVar: (name) => vars[name] ?? 0,
+    async setVar(name, value) {
+      vars = { ...vars, [name]: value };
       scoreEl.hidden = false;
-      scoreEl.textContent = `⭐ ${score}`;
+      scoreEl.textContent = Object.keys(ICONS).filter((key) => key in vars).map((key) => `${ICONS[key]} ${vars[key]}`).join("  ");
       await scoreEl.animate([{ transform: "scale(1)" }, { transform: "scale(1.25)" }, { transform: "scale(1)" }], 300).finished;
     },
-    changeScore(delta) { return this.setScore((score ?? 0) + delta); },
+    setScore(value) { return this.setVar("score", value); },
+    changeScore(delta) { return this.setVar("score", (vars.score ?? 0) + delta); },
     confetti() {
       const pieces = ["🎉", "⭐", "✨", "🎊", "💖", "🌟"];
       for (let i = 0; i < 36; i += 1) {
