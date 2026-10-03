@@ -13,6 +13,7 @@ import { LOGIC_PATH, logic } from "./logic.js";
 import { VARIABLES_PATH, variables } from "./variables.js";
 import { LISTS_PATH, lists } from "./lists.js";
 import { ALGORITHMS_PATH, algorithms } from "./algorithms.js";
+import { MASTERS_PATH, masters } from "./masters.js";
 
 // Orders a pool of missions by a learning path, adding each mission's tier and lesson.
 function followPath(name, missions, path) {
@@ -32,6 +33,7 @@ const logicMissions = followPath("logic", logic, LOGIC_PATH);
 const variableMissions = followPath("variables", variables, VARIABLES_PATH);
 const listMissions = followPath("lists", lists, LISTS_PATH);
 const algorithmMissions = followPath("algorithms", algorithms, ALGORITHMS_PATH);
+const masterMissions = followPath("masters", masters, MASTERS_PATH);
 
 const decorate = (unitId) => (mission) => {
   const best = countBlocks(parseProgram(mission.solution));
@@ -111,6 +113,15 @@ export const UNITS = [
     short: { en: "Algorithms", zh: "演算法" },
     concept: { en: "Comparing algorithms", zh: "比較演算法" },
     missions: algorithmMissions.map(decorate("algorithms")),
+  },
+  {
+    id: "masters",
+    part: 3,
+    icon: "🌀",
+    title: { en: "Function Masters", zh: "函式大師" },
+    short: { en: "Masters", zh: "大師" },
+    concept: { en: "Return values & recursion", zh: "回傳值與遞迴" },
+    missions: masterMissions.map(decorate("masters")),
   },
 ];
 

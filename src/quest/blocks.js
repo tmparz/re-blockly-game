@@ -29,6 +29,11 @@ export const FUNCTION_LABELS = {
   countGem: ["🧮", "count gem", "撿起並數"],
   go: ["🚶", "walk", "走"],
   turns: ["🔃", "turn right ×", "右轉幾次"],
+  countWalk: ["🧮", "count walk", "邊走邊數"],
+  double: ["✖️", "double", "變兩倍"],
+  findGem: ["🔍", "find gem", "找寶石"],
+  spiral: ["🌀", "spiral", "漩渦"],
+  count: ["🔢", "count", "數數"],
 };
 
 const functionLabel = (name) => {
