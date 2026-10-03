@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>第三階段課程規劃｜Blocky Easy</title>
-  <meta name="description" content="Advanced coding course, part 3: function inputs, comparisons, two variables, randomness, algorithms and a game capstone — a 12-week plan." />
+  <meta name="description" content="Advanced coding course, part 3: parameters, logic, variables, lists, algorithms, return values, recursion and a game capstone — a 16-week plan." />
   <style>
     :root { --ink:#1d2939; --muted:#5d6b82; --line:#dde3ec; --card:#fff; --page:#f3f6fb; --brand:#4f6ef7; --soft:#eef2ff; --warm:#fff3d6; --ok:#e9f9ef; color-scheme:light; }
     * { box-sizing:border-box; }
@@ -54,87 +54,130 @@
 <body>
   <header>
     <div class="wrap">
-      <nav><a href="./">← 100 關</a><a href="course.html">第二階段課程</a><a href="quest.html?unit=inputs">Quest Lab</a><a href="story.html">Story Lab</a><a href="teacher-guide.html">老師使用說明</a></nav>
+      <nav><a href="./">← 100 關</a><a href="course.html">第二階段課程</a><a href="quest.html?unit=inputs">Quest Lab</a><a href="story.html?c=game-1">Story Lab</a><a href="teacher-guide.html">老師使用說明</a></nav>
       <h1>第三階段課程：Code Inventors 💡</h1>
-      <p class="lead">給完成第二階段（Code Builders）的學生，適合國小四年級或進度快的三年級。學生已經會除錯、寫函式、用一個計數器、用事件做出產品；這一階段把每個觀念「升級」：<strong>函式可以帶輸入、條件可以比大小、變數可以有兩個、程式可以有隨機</strong>，還要學會比較哪個演算法比較好，最後做出一個完整的遊戲。</p>
+      <p class="lead">給完成第二階段（Code Builders）的學生，適合國小四、五年級或進度快的三年級。這一階段用積木把<strong>一般程式語言的核心觀念</strong>完整走一遍：參數、比較與布林邏輯、多個變數、串列、演算法效率、回傳值與遞迴、隨機與平行程式，最後做出一個完整的遊戲。全部都用下拉選單，不需要打字。</p>
       <button class="print" type="button" onclick="print()">🖨️ 列印這份課程規劃</button>
     </div>
   </header>
 
   <main class="wrap">
-    <h2>1. 從第二階段升級什麼？</h2>
-    <div class="grid">
-      <div class="card"><h3>🧩 → 🎛️ 函式</h3><p>以前「跳兩格」只能走 2 格。現在函式可以帶一個<strong>輸入（參數）</strong>：「走 3」、「走 5」都用同一個函式。</p></div>
-      <div class="card"><h3>❓ → ⚖️ 條件</h3><p>以前只能問「前面有路嗎？」「分數 = 5 嗎？」。現在可以<strong>比大小</strong>：計數器 &gt; 3、&lt; 2，以及兩個條件一起判斷。</p></div>
-      <div class="card"><h3>🔢 → 🎒 變數</h3><p>以前只有一個計數器。現在 Robo 有<strong>兩個變數</strong>（寶石和電池），要想清楚每個方塊在改哪一個。</p></div>
-      <div class="card"><h3>🎬 → 🎲 產品</h3><p>以前的產品每次都一樣。加上<strong>隨機</strong>、計時和生命值，做出每次玩都不一樣的遊戲。</p></div>
-    </div>
-
-    <h2>2. 12 週總覽</h2>
+    <h2>1. 程式觀念地圖</h2>
+    <p>第二階段和第三階段合起來，涵蓋一般程式語言（Python、JavaScript）入門會教的觀念。右欄是學生第一次學到這個觀念的地方。</p>
     <div class="table-wrap">
       <table>
-        <thead><tr><th>週</th><th>單元／活動</th><th>主要內容</th><th>狀態</th></tr></thead>
+        <thead><tr><th>觀念</th><th>積木長什麼樣子</th><th>在哪裡學</th></tr></thead>
         <tbody>
-        <tr><td>第 1 週</td><td>🎛️ <a href="quest.html?unit=inputs&m=1">Function Inputs 1–6</a></td><td>不插電「點餐機」：同一道菜，客人說幾份就做幾份。輸入是送進函式的數字；同一個函式送不同數字；修正數字；自己寫「重複 輸入 次」。</td><td><span class="status ready">✅ 可以上課</span></td></tr>
-        <tr><td>第 2 週</td><td>🎛️ <a href="quest.html?unit=inputs&m=7">Function Inputs 7–12</a></td><td>漩渦裡的數字規律、右轉 3 次 = 左轉、轉角函式、把計數器當輸入（越來越大的漩渦）、魔王關。</td><td><span class="status ready">✅ 可以上課</span></td></tr>
-        <tr><td>第 3 週</td><td>⚖️ Compare &amp; Decide 1–6</td><td>大於、小於、等於；「計數器 &gt; 3 才開門」；用比較讓迴圈停下來。</td><td><span class="status soon">🚧 開發中</span></td></tr>
-        <tr><td>第 4 週</td><td>⚖️ Compare &amp; Decide 7–12</td><td>如果裡面再放如果（巢狀判斷）、兩個條件一起判斷（而且／或者）、找出邊界的 bug（&gt; 還是 ≥）。</td><td><span class="status soon">🚧 開發中</span></td></tr>
-        <tr><td>第 5 週</td><td>🎒 Two Variables 1–6</td><td>不插電「兩個盒子」；寶石和步數同時數；說出指定的那一個；放錯盒子的 bug。</td><td><span class="status soon">🚧 開發中</span></td></tr>
-        <tr><td>第 6 週</td><td>🎒 Two Variables 7–12</td><td>電池用完就停、用一個變數決定另一個、兩個變數 + 參數的魔王關。</td><td><span class="status soon">🚧 開發中</span></td></tr>
-        <tr><td>第 7 週</td><td>🎲 Random &amp; Game Rules 1–4</td><td>Story Lab：隨機數字、每次玩都不一樣、計時器變數。</td><td><span class="status soon">🚧 開發中</span></td></tr>
-        <tr><td>第 8 週</td><td>🎲 Random &amp; Game Rules 5–8</td><td>生命值、遊戲結束畫面、難度慢慢變高、做出一個完整的小遊戲。</td><td><span class="status soon">🚧 開發中</span></td></tr>
-        <tr><td>第 9 週</td><td>🧪 Algorithm Race 演算法比賽</td><td>兩個程式都能過關，哪個比較好？比較方塊數和步數；用追蹤表算出 Robo 走了幾步。</td><td><span class="status soon">🚧 開發中</span></td></tr>
-        <tr><td>第 10 週</td><td>🚀 期末專題：遊戲企劃</td><td>寫遊戲規則（怎麼贏、怎麼輸、分數、時間）、畫畫面、列出 v0.1 到 v1.0 的功能。</td><td><span class="status soon">🚧 開發中</span></td></tr>
-        <tr><td>第 11 週</td><td>🚀 期末專題：製作、試玩、改編</td><td>兩人一組製作；交換試玩並改編同學的遊戲，<strong>標示原作者</strong>。</td><td><span class="status soon">🚧 開發中</span></td></tr>
-        <tr><td>第 12 週</td><td>🚀 遊戲發表會</td><td>上台展示：用了哪些變數、哪裡用了參數和比較、試玩後改了什麼。</td><td><span class="status soon">🚧 開發中</span></td></tr>
+        <tr><td>順序、迴圈、條件</td><td>前進、重複 N 次、重複直到 🏁、如果／否則</td><td>100 關、第二階段 Bug Hunt</td></tr>
+        <tr><td>函式（定義、呼叫）</td><td>🧩 定義、執行函式</td><td>第二階段 Function Factory</td></tr>
+        <tr><td>變數（一個）</td><td>🔢 計數器設為／改變／說出</td><td>第二階段 Counting Robots</td></tr>
+        <tr><td>事件、平行、廣播</td><td>👆 當被點擊、📣 廣播、📩 當收到</td><td>第二階段 Story Lab、產品工坊</td></tr>
+        <tr><td><strong>參數</strong></td><td>執行 走 輸入 🎛️ 3、重複 🎛️ 輸入 次</td><td>🎛️ 單元 1 函式參數</td></tr>
+        <tr><td><strong>比較運算</strong></td><td>如果 👣 步數 ≥ 3、重複直到 ⭐ 分數 &gt; 5</td><td>⚖️ 單元 2 比較與邏輯</td></tr>
+        <tr><td><strong>布林邏輯</strong></td><td>當…時重複、如果 不是、而且／或者、巢狀如果</td><td>⚖️ 單元 2 比較與邏輯</td></tr>
+        <tr><td><strong>多個變數與狀態</strong></td><td>📦 寶石數 設為 👣 步數、0／1 開關、交換變數</td><td>🎒 單元 3 多個變數</td></tr>
+        <tr><td><strong>串列（陣列）</strong></td><td>對每個 📦 項目、加進串列、📏 串列長度</td><td>📦 單元 4 串列</td></tr>
+        <tr><td><strong>常見演算法</strong></td><td>加總、計數、找最大值、搜尋、找位置</td><td>🎒 單元 3、📦 單元 4</td></tr>
+        <tr><td><strong>演算法效率</strong></td><td>電池限制步數、比較兩種規則</td><td>🧪 單元 5 演算法比賽</td></tr>
+        <tr><td><strong>回傳值</strong></td><td>↩️ 回傳、📦 答案 設為 ↩️ 函式</td><td>🌀 單元 6 函式大師</td></tr>
+        <tr><td><strong>遞迴</strong></td><td>函式用「輸入 − 1」呼叫自己</td><td>🌀 單元 6 函式大師</td></tr>
+        <tr><td><strong>隨機、計時、遊戲狀態</strong></td><td>🎲 隨機、機率、❤️ 生命、⏱ 時間、🛑 全部停止</td><td>🎮 單元 7 遊戲工作室</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>2. 16 週總覽</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>週</th><th>單元</th><th>主要內容</th><th>CSTA</th></tr></thead>
+        <tbody>
+        <tr><td>第 1 週</td><td>🎛️ <a href="quest.html?unit=inputs&m=1">函式參數 1–6</a></td><td>不插電「點餐機」。輸入是送進函式的數字；同一個函式送不同數字；修正數字；自己寫「重複 輸入 次」。</td><td>1B-AP-11</td></tr>
+        <tr><td>第 2 週</td><td>🎛️ <a href="quest.html?unit=inputs&m=7">函式參數 7–12</a></td><td>數字規律、右轉 3 次 = 左轉、轉角函式、把計數器當輸入、魔王關。</td><td>1B-AP-11, 1B-AP-09</td></tr>
+        <tr><td>第 3 週</td><td>⚖️ <a href="quest.html?unit=logic&m=1">比較與邏輯 1–6</a></td><td>不插電「身高門」。變數取名字、= 和 ≥、小於、&gt; 3 和 ≥ 3 的差別、用變數決定方向。</td><td>1B-AP-10</td></tr>
+        <tr><td>第 4 週</td><td>⚖️ <a href="quest.html?unit=logic&m=7">比較與邏輯 7–12</a></td><td>當…時重複、如果不是、或者、而且、如果裡面的如果、迷宮規則魔王關。</td><td>1B-AP-10, 1B-AP-15</td></tr>
+        <tr><td>第 5 週</td><td>🎒 <a href="quest.html?unit=variables&m=1">多個變數 1–6</a></td><td>不插電「兩個盒子」。同時數兩種東西、放錯盒子、每個盒子都要起點、用變數改變變數、把變數送進函式。</td><td>1B-AP-09</td></tr>
+        <tr><td>第 6 週</td><td>🎒 <a href="quest.html?unit=variables&m=7">多個變數 7–11</a></td><td>複製變數存起來、0／1 開關、找最大值、交換兩個變數、寶石報告。</td><td>1B-AP-09, 1B-AP-08</td></tr>
+        <tr><td>第 7 週</td><td>📦 <a href="quest.html?unit=lists&m=1">串列 1–6</a></td><td>不插電「排隊的盒子」。對每個項目、項目當輸入、加總、數符合條件的、做出串列、別忘了最後一個。</td><td>1B-AP-09</td></tr>
+        <tr><td>第 8 週</td><td>📦 <a href="quest.html?unit=lists&m=7">串列 7–12</a></td><td>最大值、串列帶著函式、迴圈做出串列、搜尋 7、找第幾個、寶藏調查。</td><td>1B-AP-09, 1B-AP-08</td></tr>
+        <tr><td>第 9 週</td><td>🧪 <a href="quest.html?unit=algorithms">演算法比賽 1–6</a></td><td>兩條路都到得了、換個順序問、每種規則都有贏的地方、找到就停、不用再數、省電尋寶。</td><td>1B-AP-08</td></tr>
+        <tr><td>第 10 週</td><td>🌀 <a href="quest.html?unit=masters&m=1">函式大師 1–5</a></td><td>會回答的函式、別忘了回傳、變兩倍機器、提早回傳、呼叫自己的函式。</td><td>1B-AP-11</td></tr>
+        <tr><td>第 11 週</td><td>🌀 <a href="quest.html?unit=masters&m=6">函式大師 6–9</a></td><td>越來越小的漩渦、遞迴倒數、之前還是之後、漩渦寶藏報告。</td><td>1B-AP-11</td></tr>
+        <tr><td>第 12 週</td><td>🎮 <a href="story.html?c=game-1">遊戲工作室 v0.1–v0.4</a></td><td>規則與起始值、隨機移動、得分、會扣生命的陷阱。</td><td>1B-AP-09, 1B-AP-10</td></tr>
+        <tr><td>第 13 週</td><td>🎮 <a href="story.html?c=game-5">遊戲工作室 v0.5–v1.0</a></td><td>遊戲結束、和遊戲同時跑的計時器、幸運加分、贏的條件；請同學試玩。</td><td>1B-AP-10, 1B-AP-13</td></tr>
+        <tr><td>第 14 週</td><td>🚀 期末專題：遊戲企劃</td><td>寫規則（怎麼贏、怎麼輸、變數有哪些）、畫畫面、列出 v0.1 到 v1.0。</td><td>1B-AP-11, 1B-AP-13</td></tr>
+        <tr><td>第 15 週</td><td>🚀 期末專題：<a href="story.html?c=my-game">✨ 我的遊戲</a></td><td>兩人一組製作；交換試玩；改編同學的遊戲並<strong>標示原作者</strong>。</td><td>1B-AP-12, 1B-AP-14, 1B-AP-16</td></tr>
+        <tr><td>第 16 週</td><td>🚀 遊戲發表會</td><td>上台展示：用了哪些變數、比較和隨機；試玩後改了什麼、為什麼。</td><td>1B-AP-17</td></tr>
         </tbody>
       </table>
     </div>
 
     <h2>3. 單元細節</h2>
     <article class="card unit">
-      <div class="unit-head"><span class="icon">🎛️</span><div><h3>單元 1：Function Inputs 函式參數（第 1–2 週，12 關）</h3><p>函式可以帶一個數字輸入。「執行 走 輸入 🎛️ 3」會把 3 送進去，函式裡的「重複 🎛️ 輸入 次」就重複 3 次。1–4 🟢 簡單、5–8 🟡 中等、9–12 🔴 困難。</p></div><a class="go" href="quest.html?unit=inputs">開始 ➜</a></div>
+      <div class="unit-head"><span class="icon">🎛️</span><div><h3>單元 1：函式參數（第 1–2 週，12 關）</h3><p>「執行 走 輸入 🎛️ 3」把 3 送進函式，函式裡的「重複 🎛️ 輸入 次」就重複 3 次。</p></div><a class="go" href="quest.html?unit=inputs">開始 ➜</a></div>
       <div class="unit-body">
-        <div><h4>學習目標</h4><ul><li class="en">I can send a number into a function (an input).</li><li class="en">I can use one function for many jobs by changing the input.</li><li class="en">I can write a function that uses its input.</li><li class="en">I can send a variable as the input.</li></ul></div>
-        <div><h4>關鍵字</h4><p><span class="tag">input</span><span class="tag">parameter</span><span class="tag">argument</span><span class="tag">pattern</span><span class="tag">generalize</span></p><h4>不插電暖身</h4><p>「點餐機」：一位學生當廚師，只會一道菜的做法（函式）。客人喊「2 份！」「5 份！」，廚師照同一個做法做不同份數。問：做法要改嗎？改的是什麼？</p></div>
-        <div><h4>重點觀念</h4><ul><li>第 3 關：函式沒錯、是數字錯，學會分辨「改輸入」和「改函式」。</li><li>第 4 關：一個有輸入的函式，取代以前的「跳兩格」和「衝三格」。</li><li>第 8 關：右轉 3 次 = 左轉，輸入不只能用在走路。</li><li>第 11 關：把計數器當輸入，接回第二階段的變數。</li><li>第 12 關：大小不同的兩個漩渦，用「重複 5 次」會撞牆，要用「重複直到 🏁」。</li></ul></div>
+        <div><h4>學習目標</h4><ul><li class="en">I can send a number into a function.</li><li class="en">I can write a function that uses its input.</li><li class="en">I can send a variable as the input.</li></ul></div>
+        <div><h4>不插電暖身</h4><p>「點餐機」：廚師只會一道菜的做法（函式），客人喊「2 份！」「5 份！」。做法要改嗎？改的是什麼？</p></div>
+        <div><h4>重點觀念</h4><ul><li>第 3 關：分辨「改輸入」和「改函式」。</li><li>第 8 關：右轉 3 次 = 左轉。</li><li>第 12 關：大小不同的漩渦，固定次數會撞牆。</li></ul></div>
       </div>
     </article>
 
     <article class="card unit">
-      <div class="unit-head"><span class="icon">⚖️</span><div><h3>單元 2：Compare &amp; Decide 比較與判斷（第 3–4 週，規劃中）</h3><p>條件可以比大小：計數器 &gt;、&lt;、= 某個數字；巢狀判斷；兩個條件一起判斷。</p></div></div>
+      <div class="unit-head"><span class="icon">⚖️</span><div><h3>單元 2：比較與邏輯（第 3–4 週，12 關）</h3><p>變數有名字了；條件可以比大小，也可以用「而且／或者／不是」組合。</p></div><a class="go" href="quest.html?unit=logic">開始 ➜</a></div>
       <div class="unit-body">
-        <div><h4>學習目標</h4><ul><li class="en">I can compare two numbers with &gt;, &lt; and =.</li><li class="en">I can put an if inside another if.</li><li class="en">I can find a bug at the edge (&gt; or ≥).</li></ul></div>
-        <div><h4>不插電暖身</h4><p>「身高門」：比 120 公分高才能玩。剛好 120 可以嗎？引出 &gt; 和 ≥ 的差別。</p></div>
+        <div><h4>學習目標</h4><ul><li class="en">I can compare numbers with =, &gt;, &lt;, ≥ and ≤.</li><li class="en">I can use AND, OR and NOT.</li><li class="en">I can find a bug at the edge (&gt; or ≥).</li></ul></div>
+        <div><h4>不插電暖身</h4><p>「身高門」：比 120 公分高才能玩，剛好 120 可以嗎？再加一條「而且要有大人陪」。</p></div>
+        <div><h4>重點觀念</h4><ul><li>第 3 關：分數 0、2、4、6 永遠不會「= 5」，要用「≥」。</li><li>第 5 關：「&gt; 3」不包含 3。</li><li>第 9、10 關：同一張地圖，「或者」和「而且」數出不同答案。</li></ul></div>
       </div>
     </article>
 
     <article class="card unit">
-      <div class="unit-head"><span class="icon">🎒</span><div><h3>單元 3：Two Variables 兩個變數（第 5–6 週，規劃中）</h3><p>Robo 同時有「寶石」和「電池」兩個變數；每個方塊都要選它改的是哪一個。</p></div></div>
+      <div class="unit-head"><span class="icon">🎒</span><div><h3>單元 3：多個變數（第 5–6 週，11 關）</h3><p>每個方塊都要選它改的是哪個盒子；變數可以複製、互相加、當開關、記最大值、交換。</p></div><a class="go" href="quest.html?unit=variables">開始 ➜</a></div>
       <div class="unit-body">
-        <div><h4>學習目標</h4><ul><li class="en">I can use two variables for two different things.</li><li class="en">I can choose which variable a block changes.</li><li class="en">I can use one variable to decide what happens to another.</li></ul></div>
-        <div><h4>不插電暖身</h4><p>兩個紙盒，一個裝寶石卡、一個裝電池卡。老師唸指令，學生把卡放進正確的盒子。</p></div>
+        <div><h4>學習目標</h4><ul><li class="en">I can use two variables for two different things.</li><li class="en">I can copy one variable into another.</li><li class="en">I can swap two variables with a helper.</li></ul></div>
+        <div><h4>不插電暖身</h4><p>兩個紙盒、兩杯果汁：怎麼交換兩杯果汁？（需要第三個空杯子＝第 10 關。）</p></div>
+        <div><h4>重點觀念</h4><ul><li>第 2 關：選錯下拉選單＝放錯盒子。</li><li>第 7 關：先複製，數字才不會被蓋掉。</li><li>第 10 關：「甲 = 乙、乙 = 甲」會弄丟一個數字。</li></ul></div>
       </div>
     </article>
 
     <article class="card unit">
-      <div class="unit-head"><span class="icon">🎲</span><div><h3>單元 4：Random &amp; Game Rules 隨機與遊戲規則（第 7–8 週，規劃中）</h3><p>在 Story Lab 加入隨機數字、計時器和生命值，做出每次玩都不一樣的遊戲。</p></div></div>
+      <div class="unit-head"><span class="icon">📦</span><div><h3>單元 4：串列（第 7–8 週，12 關）</h3><p>一個盒子依照順序裝很多數字。地圖下方會顯示 📦 [3, 2, 4]。</p></div><a class="go" href="quest.html?unit=lists">開始 ➜</a></div>
       <div class="unit-body">
-        <div><h4>學習目標</h4><ul><li class="en">I can use random numbers to make a game different every time.</li><li class="en">I can use a timer and lives to decide when the game ends.</li></ul></div>
+        <div><h4>學習目標</h4><ul><li class="en">I can do something for each item in a list.</li><li class="en">I can add items to a list.</li><li class="en">I can sum, count, search and find the biggest item.</li></ul></div>
+        <div><h4>不插電暖身</h4><p>「排隊的盒子」：5 位學生各拿一張數字卡排成一排，老師依序點每個人，全班一起加總或找最大的。</p></div>
+        <div><h4>重點觀念</h4><ul><li>第 6 關：最後一排沒有轉角，最容易漏掉（邊界問題）。</li><li>第 10 關：搜尋用 0／1 盒子記「有沒有」。</li><li>第 11 關：記住「第幾個」，不只是「是多少」。</li></ul></div>
       </div>
     </article>
 
     <article class="card unit">
-      <div class="unit-head"><span class="icon">🧪</span><div><h3>單元 5：Algorithm Race 演算法比賽（第 9 週，規劃中）</h3><p>兩個程式都能過關，比一比誰的方塊少、誰走的步數少，並說明理由。</p></div></div>
+      <div class="unit-head"><span class="icon">🧪</span><div><h3>單元 5：演算法比賽（第 9 週，6 關）</h3><p>電池只夠走幾步：同一個問題，用不同規則走，步數差很多。</p></div><a class="go" href="quest.html?unit=algorithms">開始 ➜</a></div>
       <div class="unit-body">
-        <div><h4>學習目標</h4><ul><li class="en">I can compare two algorithms that solve the same problem.</li><li class="en">I can explain why one is better (fewer blocks or fewer steps).</li></ul></div>
+        <div><h4>學習目標</h4><ul><li class="en">I can compare two algorithms that solve the same problem.</li><li class="en">I can explain why one is better.</li></ul></div>
+        <div><h4>重點觀念</h4><ul><li>第 1–3 關：右手貼牆、先直走、左手貼牆，各自在一張地圖最快，沒有永遠最好的規則。</li><li>第 4 關：找到就停（搜尋提早結束）。</li></ul></div>
       </div>
     </article>
 
     <article class="card unit">
-      <div class="unit-head"><span class="icon">🚀</span><div><h3>單元 6：期末專題「我的遊戲」（第 10–12 週，規劃中）</h3><p>企劃 → 製作 → 交換試玩 → 改編並標示原作者 → 發表。</p></div></div>
+      <div class="unit-head"><span class="icon">🌀</span><div><h3>單元 6：函式大師（第 10–11 週，9 關）</h3><p>函式可以把答案「↩️ 回傳」；函式也可以呼叫自己（遞迴）。</p></div><a class="go" href="quest.html?unit=masters">開始 ➜</a></div>
       <div class="unit-body">
-        <div><h4>評量規準（每項 1–3 分）</h4><ul><li><strong>變數</strong>：至少兩個變數，各有清楚的用途。</li><li><strong>規則</strong>：用比較決定輸贏。</li><li><strong>隨機</strong>：每次玩都有一點不一樣。</li><li><strong>迭代</strong>：試玩後至少改了一個地方，並說明原因。</li><li><strong>標示出處</strong>：改編別人的作品時寫出原作者。</li></ul></div>
+        <div><h4>學習目標</h4><ul><li class="en">I can write a function that reports an answer.</li><li class="en">I can explain how a function can call itself and still stop.</li></ul></div>
+        <div><h4>不插電暖身</h4><p>「俄羅斯娃娃」：每打開一個，裡面有一個更小的，直到最小那個打不開（輸入 = 0 就停）。</p></div>
+        <div><h4>重點觀念</h4><ul><li>第 4 關：回傳會立刻結束函式。</li><li>第 5 關：送「輸入」會停不下來，要送「輸入 − 1」。</li><li>第 7、8 關：在呼叫之前或之後做事，順序會反過來。</li></ul></div>
+      </div>
+    </article>
+
+    <article class="card unit">
+      <div class="unit-head"><span class="icon">🎮</span><div><h3>單元 7：遊戲工作室「抓小龍豪華版」（第 12–13 週，8 個版本）</h3><p>在 Story Lab 的「🎮 遊戲」路線，每一版接著自己上一版做：分數、生命、時間三個變數，加上隨機和遊戲結束。</p></div><a class="go" href="story.html?c=game-1">開始 ➜</a></div>
+      <div class="unit-body">
+        <div><h4>8 個版本</h4><ol><li>v0.1 規則與起始值</li><li>v0.2 小龍隨機跑</li><li>v0.3 點小龍得分</li><li>v0.4 機器人陷阱扣生命</li><li>v0.5 生命 ≤ 0 遊戲結束</li><li>v0.6 同時跑的計時器</li><li>v0.7 🎲 幸運加分</li><li>v1.0 分數 ≥ 10 獲勝</li></ol></div>
+        <div><h4>重點觀念</h4><ul><li>v0.6：用廣播讓計時器和遊戲「同時」進行。</li><li>🛑 全部停止之後，要重新按執行才能再玩。</li></ul></div>
+      </div>
+    </article>
+
+    <article class="card unit">
+      <div class="unit-head"><span class="icon">🚀</span><div><h3>單元 8：期末專題「我的遊戲」（第 14–16 週）</h3><p>企劃 → 製作 → 交換試玩 → 改編並標示原作者 → 發表。</p></div><a class="go" href="story.html?c=my-game">開始 ➜</a></div>
+      <div class="unit-body">
+        <div><h4>頁面上的檢查表</h4><ul><li>一開始說明規則</li><li>至少 2 個遊戲變數</li><li>有隨機的東西</li><li>用比較寫規則</li><li>遊戲有結束的方式</li><li>玩家可以點東西</li></ul></div>
+        <div><h4>評量規準（每項 1–3 分）</h4><ul><li><strong>變數</strong>：每個變數都有清楚的用途。</li><li><strong>規則</strong>：用比較決定輸贏。</li><li><strong>迭代</strong>：試玩後至少改一個地方，並說明原因。</li><li><strong>標示出處</strong>：改編別人的作品時寫出原作者。</li></ul></div>
       </div>
     </article>
   </main>
