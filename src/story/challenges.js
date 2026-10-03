@@ -1,42 +1,9 @@
 // Story Lab challenges. Goals are checked live against the workspace JSON, so kids see ✓ as they build.
-const HATS = new Set(["story_start", "story_when_clicked", "story_when_receive"]);
-const MOTION = new Set(["story_move", "story_jump", "story_spin", "story_turn", "story_goto"]);
-const DEFAULT_WORDS = new Set(["Hello!", "你好！"]);
+import {
+  B, DEFAULT_WORDS, MOTION, act, actorOf, bodyOf, clickBody, clicked, field, goal, innerOf, say, says, script, scriptsOf, start, startBody, state,
+} from "./task-kit.js";
 
-// ---- tiny builders for starter code and examples ----
-const chainOf = (list) => list.reduceRight((next, block) => (next ? { ...block, next: { block: next } } : block), null);
-const B = (type, fields = {}, body) => (body ? { type, fields, inputs: { DO: { block: chainOf(body) } } } : { type, fields });
-const script = (hat, ...body) => (body.length ? { ...hat, next: { block: chainOf(body) } } : hat);
-const state = (...scripts) => ({ blocks: { languageVersion: 0, blocks: scripts.map((s, i) => ({ ...s, x: 24, y: 24 + i * 200 })) } });
-const start = B("story_start");
-const clicked = (actor) => B("story_when_clicked", { ACTOR: actor });
-const say = (actor, text, seconds = 2) => B("story_say", { ACTOR: actor, TEXT: text, SECONDS: String(seconds) });
-const act = (type, actor, fields = {}) => B(type, { ACTOR: actor, ...fields });
-
-// ---- reading a workspace ----
-function flatten(block, out = []) {
-  while (block) {
-    out.push(block);
-    if (block.inputs?.DO?.block) flatten(block.inputs.DO.block, out);
-    block = block.next?.block;
-  }
-  return out;
-}
-
-export function analyze(saved) {
-  const tops = saved?.blocks?.blocks ?? [];
-  return tops.filter((b) => HATS.has(b.type)).map((hat) => ({ type: hat.type, fields: hat.fields ?? {}, body: flatten(hat.next?.block) }));
-}
-
-const field = (block, name, fallback) => block.fields?.[name] ?? fallback;
-const actorOf = (block) => field(block, "ACTOR", "cat");
-const scriptsOf = (scripts, type, test = () => true) => scripts.filter((s) => s.type === type && test(s));
-const bodyOf = (list) => list.flatMap((s) => s.body);
-const says = (block, actor) => block.type === "story_say" && (!actor || actorOf(block) === actor);
-const innerOf = (block) => flatten(block.inputs?.DO?.block);
-const startBody = (scripts) => bodyOf(scriptsOf(scripts, "story_start"));
-const clickBody = (scripts, actor) => bodyOf(scriptsOf(scripts, "story_when_clicked", (s) => actorOf(s) === actor));
-const goal = (en, zh, test) => ({ text: { en, zh }, test });
+export { checkGoals } from "./task-kit.js";
 
 export const CHALLENGES = [
   {
@@ -207,8 +174,3 @@ export const MY_STORY = {
 };
 
 export const ALL_STORY_TASKS = [...CHALLENGES, MY_STORY];
-
-export function checkGoals(task, saved) {
-  const scripts = analyze(saved);
-  return task.goals.map((g) => Boolean(g.test(scripts)));
-}

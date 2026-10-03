@@ -58,7 +58,7 @@ export function defineStoryBlocks() {
 
     step("story_set_score", L("⭐ set score to %1", "⭐ 分數設為 %1"), [dropdown("N", range(0, 10))], HUES.score),
     step("story_change_score", L("⭐ change score by %1", "⭐ 分數改變 %1"), [dropdown("N", [["+1", "1"], ["+2", "2"], ["-1", "-1"]])], HUES.score),
-    box("story_if_score", L("⭐ if score = %1", "⭐ 如果分數 = %1"), [dropdown("N", range(1, 10))], HUES.score),
+    box("story_if_score", L("⭐ if score = %1", "⭐ 如果分數 = %1"), [dropdown("N", range(0, 10))], HUES.score),
     step("story_say_score", L("%1 say the score", "%1 說出分數"), [actor], HUES.score),
   ]);
 }

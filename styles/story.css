@@ -46,6 +46,7 @@ button { font: inherit; }
 .task-dot[data-done="true"] { border-color: #86d6a6; background: var(--ok-bg); }
 .task-dot[data-done="true"]::after { content: " ✓"; color: var(--ok-ink); }
 .task-dot.mine { background: linear-gradient(135deg, #fff5d6, #fde7ff); }
+.task-dot.track-switch { background: #1d2939; border-color: #1d2939; color: #fff; }
 .task-dot[aria-pressed="true"] { border-color: var(--brand); box-shadow: 0 0 0 3px #d9d2ff; }
 .top-right { display: flex; flex: none; align-items: center; gap: 8px; }
 .btn-present { min-height: 44px; padding: 0 12px; border: 0; border-radius: 12px; background: #1d2939; color: #fff; cursor: pointer; font-weight: 800; }
@@ -61,6 +62,7 @@ button { font: inherit; }
 .kicker { margin: 0; color: var(--brand); font-size: 13px; font-weight: 800; }
 .task-head h1 { margin: 2px 0 4px; font-size: clamp(20px, 2.3vw, 26px); line-height: 1.15; }
 .task-text { margin: 0; color: #344054; font-size: 15px; line-height: 1.5; }
+.task-idea { margin: 6px 0 0; padding: 6px 10px; border-radius: 10px; background: #fff6dd; color: #6b4a00; font-size: 14px; font-weight: 700; }
 .goals { margin-top: 8px; padding: 8px 10px; border-radius: 14px; background: #f6f4ff; }
 .goals-title { margin: 0 0 4px; color: var(--brand); font-size: 13px; font-weight: 800; }
 .goals ul { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 0; padding: 0; list-style: none; }

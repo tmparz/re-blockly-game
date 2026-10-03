@@ -1,4 +1,5 @@
 import { ALL_STORY_TASKS, CHALLENGES, checkGoals } from "./challenges.js";
+import { PRODUCT_STEPS, PRODUCT_TASKS } from "./product.js";
 import { CATEGORIES, HUES, chipsFor, defineStoryBlocks } from "./blocks.js";
 import { createStage } from "./stage.js";
 import { createRuntime } from "./runtime.js";
@@ -9,7 +10,10 @@ import { createQuickAdd } from "../quest/quick-add.js";
 
 const STORAGE_KEY = "blocky-story-v2";
 const $ = (selector) => document.querySelector(selector);
-const view = { index: 0, category: "events", goals: [] };
+// Two tracks: the event/story challenges, and Product Studio (build one app version by version).
+const TRACKS = { story: ALL_STORY_TASKS, product: PRODUCT_TASKS };
+const CAPSTONES = { mine: "myStory", "my-product": "myProduct" };
+const view = { track: "story", index: 0, category: "events", goals: [] };
 let progress = { done: {}, code: {}, last: null };
 let workspace = null;
 let quickAdd = null;
@@ -25,7 +29,8 @@ const save = () => {
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(progress)); } catch { /* storage blocked */ }
 };
 
-const task = () => ALL_STORY_TASKS[view.index];
+const tasks = () => TRACKS[view.track];
+const task = () => tasks()[view.index];
 const setStatus = (text, tone = "") => {
   $("#status").textContent = text;
   $("#status").dataset.tone = tone;
@@ -41,11 +46,20 @@ function renderStaticText() {
 
 function renderTaskNav() {
   $("#taskNav").innerHTML = "";
-  ALL_STORY_TASKS.forEach((item, index) => {
+  const other = view.track === "story" ? "product" : "story";
+  const trackButton = document.createElement("button");
+  trackButton.type = "button";
+  trackButton.className = "task-dot track-switch";
+  trackButton.textContent = t(`track_${view.track}`);
+  trackButton.title = t("switchTo", { name: t(`track_${other}`) });
+  trackButton.addEventListener("click", () => selectTask(0, other));
+  $("#taskNav").append(trackButton);
+  tasks().forEach((item, index) => {
     const button = document.createElement("button");
     button.type = "button";
-    button.className = `task-dot${item.id === "mine" ? " mine" : ""}`;
-    button.textContent = item.id === "mine" ? `✨ ${t("myStory")}` : String(index + 1);
+    const capstone = CAPSTONES[item.id];
+    button.className = `task-dot${capstone ? " mine" : ""}`;
+    button.textContent = capstone ? `✨ ${t(capstone)}` : String(index + 1);
     button.dataset.done = String(Boolean(progress.done[item.id]));
     button.setAttribute("aria-pressed", String(index === view.index));
     button.setAttribute("aria-label", pick(item.title));
@@ -99,23 +113,37 @@ function loadState(state) {
   renderGoals();
 }
 
-function selectTask(index) {
+// A carried step starts from the student's own previous version, so the product keeps growing.
+function startingCode(current) {
+  if (progress.code[current.id]) return { code: progress.code[current.id] };
+  const previous = tasks()[view.index - 1];
+  if (current.carry && progress.code[previous.id]) return { code: progress.code[previous.id], carried: true };
+  return { code: current.starter };
+}
+
+function selectTask(index, track = view.track) {
   runtime.stop();
+  view.track = track;
   view.index = index;
   const current = task();
   progress.last = current.id;
   save();
   history.replaceState(null, "", `?c=${current.id}`);
-  const number = current.id === "mine" ? "✨" : `${t("challenges")} ${index + 1} / ${CHALLENGES.length}`;
+  const total = view.track === "product" ? PRODUCT_STEPS.length : CHALLENGES.length;
+  const label = view.track === "product" ? `🛠️ ${t("productStudio")}` : t("challenges");
+  const number = CAPSTONES[current.id] ? `✨ ${label}` : `${label} ${index + 1} / ${total}`;
   $("#taskKicker").textContent = number;
   $("#taskTitle").textContent = pick(current.title);
   $("#taskText").textContent = pick(current.task);
-  $("#goalsLabel").textContent = t(current.id === "mine" ? "rubric" : "goals");
+  $("#taskIdea").hidden = !current.idea;
+  $("#taskIdea").textContent = current.idea ? `💡 ${pick(current.idea)}` : "";
+  $("#goalsLabel").textContent = t(CAPSTONES[current.id] ? "rubric" : "goals");
   $("#nextButton").hidden = true;
   stage.reset();
-  loadState(progress.code[current.id] ?? current.starter);
+  const { code, carried } = startingCode(current);
+  loadState(code);
   renderTaskNav();
-  setStatus(t("ready"));
+  setStatus(t(carried ? "carried" : "ready"));
 }
 
 function maybeComplete() {
@@ -129,7 +157,7 @@ function maybeComplete() {
     play("cheer");
   }
   setStatus(t("complete"), "success");
-  $("#nextButton").hidden = view.index >= ALL_STORY_TASKS.length - 1;
+  $("#nextButton").hidden = view.index >= tasks().length - 1;
   renderTaskNav();
 }
 
@@ -173,9 +201,14 @@ function bindControls() {
   document.querySelectorAll("[data-lang]").forEach((b) => b.addEventListener("click", () => setLang(b.dataset.lang)));
 }
 
-function initialIndex() {
-  const id = new URLSearchParams(location.search).get("c") ?? progress.last;
-  return Math.max(0, ALL_STORY_TASKS.findIndex((item) => item.id === id));
+function initialTask() {
+  const params = new URLSearchParams(location.search);
+  const id = params.get("c") ?? (params.get("track") === "product" ? PRODUCT_TASKS[0].id : progress.last);
+  for (const [track, list] of Object.entries(TRACKS)) {
+    const index = list.findIndex((item) => item.id === id);
+    if (index >= 0) return [index, track];
+  }
+  return [0, "story"];
 }
 
 function boot() {
@@ -218,7 +251,7 @@ function boot() {
   new ResizeObserver(() => Blockly.svgResize(workspace)).observe($("#blocklyDiv"));
   renderCategories();
   bindControls();
-  selectTask(initialIndex());
+  selectTask(...initialTask());
 }
 
 boot();
