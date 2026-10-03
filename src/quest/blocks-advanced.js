@@ -17,6 +17,8 @@ export const VAR_LABELS = {
   answer: ["📝", "answer", "答案"],
   roads: ["🛣️", "side roads", "岔路數"],
   beat: ["🔀", "switch", "開關"],
+  found: ["🔍", "found", "找到了"],
+  where: ["📍", "position", "位置"],
 };
 const TOKEN_LABELS = {
   c: ["🔢", "counter", "計數器"],

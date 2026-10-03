@@ -35,6 +35,7 @@ function parseExt(item) {
 
 function parseNode(item) {
   if (typeof item === "string") {
+    if (EXT_OPS[item]) return parseExt({ op: item });
     if (!LEAVES.has(item)) throw new Error(`Unknown step "${item}".`);
     return { op: item };
   }
