@@ -16,6 +16,7 @@
     <div class="top-right">
       <a class="icon-link" href="quest.html" title="Quest Lab">🧩</a>
       <a class="icon-link" href="course.html" title="Course Plan">📘</a>
+      <button class="icon-link progress-button" id="progressButton" type="button">📊</button>
       <button class="btn-present btn-share" id="shareButton" type="button">📤 <span data-i18n="share">Share</span></button>
       <button class="btn-present" id="presentButton" type="button">🎦 <span data-i18n="present">Present</span></button>
       <div class="lang-switch" role="group" aria-label="Language">
@@ -92,5 +93,9 @@
 
   <script src="https://unpkg.com/blockly/blockly.min.js"></script>
   <script type="module" src="story.js"></script>
+  <script type="module">
+    import { bindProgressButton } from "./src/progress/progress-ui.js";
+    bindProgressButton(document.querySelector("#progressButton"));
+  </script>
 </body>
 </html>

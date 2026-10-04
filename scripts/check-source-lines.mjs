@@ -12,6 +12,7 @@ const roots = [
   "story.js",
   "quest.html",
   "answers.html",
+  "teacher.html",
   "unplugged.html",
   "teacher-guide.html",
   "server.mjs",

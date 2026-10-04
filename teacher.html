@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>全班進度｜Blocky Easy</title>
+  <meta name="robots" content="noindex" />
+  <style>
+    :root { color-scheme: light; --ink: #1d2939; --muted: #5b6b7f; --line: #dde3ec; --brand: #4f6ef7; --bad: #b42318; }
+    * { box-sizing: border-box; }
+    body { margin: 0; color: var(--ink); background: #f4f6fb; font-family: "Noto Sans TC", system-ui, -apple-system, "Segoe UI", sans-serif; line-height: 1.55; }
+    header { padding: 16px; background: #fff; border-bottom: 1px solid var(--line); }
+    .wrap { width: min(1200px, 100%); margin: 0 auto; }
+    h1 { margin: 6px 0 4px; font-size: clamp(24px, 3.6vw, 34px); }
+    .lead { margin: 0; color: var(--muted); }
+    main { padding: 16px; }
+    .card { margin-bottom: 14px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 16px; background: #fff; }
+    .card h2 { margin: 0 0 6px; font-size: 18px; }
+    .card ol { margin: 0; padding-left: 22px; }
+    textarea { width: 100%; min-height: 72px; padding: 10px; border: 2px solid var(--line); border-radius: 12px; font: inherit; font-size: 14px; }
+    .row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 8px; }
+    button, select { min-height: 44px; padding: 0 14px; border: 0; border-radius: 12px; background: #eef1f6; color: var(--ink); font: inherit; font-weight: 800; cursor: pointer; }
+    .primary { background: var(--brand); color: #fff; }
+    .danger { background: #fff0f0; color: var(--bad); }
+    #flash { min-height: 1.5em; margin: 0; font-weight: 800; color: #067647; }
+    #flash[data-tone="bad"] { color: var(--bad); }
+    .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 16px; background: #fff; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th, td { padding: 8px 10px; border-bottom: 1px solid #eef1f6; text-align: left; white-space: nowrap; vertical-align: top; }
+    th { position: sticky; top: 0; background: #f2f4f8; font-size: 13px; }
+    th small { display: block; color: var(--muted); font-weight: 600; }
+    td.name { font-weight: 800; }
+    td.date { color: var(--muted); }
+    .stars { font-weight: 800; }
+    .stars[data-level="0"] { color: #98a2b3; }
+    .stars[data-level="3"] { color: #067647; }
+    .stuck { display: block; color: var(--bad); font-size: 12px; font-weight: 700; }
+    .del { min-height: 34px; padding: 0 10px; background: transparent; }
+    .empty { padding: 24px; color: var(--muted); text-align: center; }
+    .fine { color: var(--muted); font-size: 13px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <a href="teacher-guide.html">← 老師使用說明</a>
+      <h1>📊 全班進度</h1>
+      <p class="lead">學生的星星和卡關的地方，集中在這一頁。資料只存在這台 iPad 的瀏覽器，不會上傳到任何伺服器。</p>
+    </div>
+  </header>
+  <main class="wrap">
+    <section class="card">
+      <h2>怎麼收進度</h2>
+      <ol>
+        <li>請學生在 Quest Lab 或 Story Lab 右上角按「📊」，輸入名字或選座號，按「產生進度碼」。</li>
+        <li>老師用<strong>這台 iPad 的相機</strong>掃學生畫面上的 QR code，Safari 打開這一頁，就會自動加進表格。</li>
+        <li>沒有相機也可以：請學生複製進度碼傳給你，貼在下面，一次可以貼很多行。</li>
+      </ol>
+      <textarea id="pasteBox" placeholder="貼上一個或多個進度碼（每行一個）"></textarea>
+      <div class="row">
+        <button class="primary" id="addButton" type="button">➕ 加入</button>
+        <p id="flash" aria-live="polite"></p>
+      </div>
+    </section>
+    <div class="row" style="margin-bottom:10px">
+      <label>顯示 <select id="partFilter"><option value="3">第三階段</option><option value="2">第二階段</option><option value="all">全部</option></select></label>
+      <span id="count" class="fine"></span>
+      <span style="flex:1"></span>
+      <button id="csvButton" type="button">⬇️ 匯出 CSV</button>
+      <button class="danger" id="clearButton" type="button">🗑 全部清除</button>
+    </div>
+    <div class="table-wrap"><table id="classTable"></table></div>
+    <p class="fine">「卡」：這個單元還沒過、按執行失敗最多次的那一關（🔮 是猜猜看）。同一位學生再掃一次，會換成最新的進度。</p>
+  </main>
+  <script type="module" src="src/teacher/app.js"></script>
+</body>
+</html>

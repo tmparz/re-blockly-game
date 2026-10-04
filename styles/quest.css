@@ -1,6 +1,7 @@
 @import url("./quick-add.css");
 @import url("./trace.css");
 @import url("./predict.css");
+@import url("./share.css");
 
 :root {
   --ink: #1d2939;

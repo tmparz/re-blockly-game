@@ -139,6 +139,10 @@ function finishRun(evaluation, index) {
   view.results = evaluation.maps.length ? evaluation.maps : null;
   if (index !== null) renderMaps();
   if (!evaluation.ok) {
+    if (evaluation.reason !== "pickFirst") {
+      progress.tries[mission.id] = (progress.tries[mission.id] ?? 0) + 1;
+      saveProgress(progress);
+    }
     if (index !== null) workspace.highlightBlock(evaluation.maps[index].id ?? null);
     setResult(describeFailure(evaluation, mission), "fail");
     // A wrong guess opens the trace table so students can find the step they pictured differently.

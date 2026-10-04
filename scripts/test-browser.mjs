@@ -7,6 +7,7 @@ import { mkdir } from "node:fs/promises";
 import { chromium } from "playwright-core";
 import { checkLayout, checkPredict, checkStepping, runQuestMissions } from "./browser/quest.mjs";
 import { checkShare, runStoryTasks } from "./browser/story.mjs";
+import { checkProgress } from "./browser/progress.mjs";
 
 const PORT = Number(process.env.TEST_PORT || 4199);
 const BASE = `http://127.0.0.1:${PORT}`;
@@ -66,6 +67,8 @@ try {
   report.push(`Story Lab: ${story.passed} / ${story.total} examples load, meet every goal and play`);
   await checkShare({ browser, makeContext: () => makeContext(browser, VIEWPORTS.landscape, errors), base: BASE, errors });
   report.push("Sharing: share link opens as a remix on a fresh iPad");
+  await checkProgress({ makeContext: () => makeContext(browser, VIEWPORTS.landscape, errors), base: BASE, errors });
+  report.push("Class progress: student code opens on the teacher's iPad, one row per student, CSV export");
   for (const [name, viewport] of Object.entries(VIEWPORTS)) {
     const context = name === "landscape" ? landscape : await makeContext(browser, viewport, errors);
     const layout = await checkLayout({ context, base: BASE, name, out: OUT, workers: WORKERS, errors });

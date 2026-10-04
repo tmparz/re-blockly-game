@@ -12,6 +12,7 @@ const files = [
   "teacher-guide.html",
   "unplugged.html",
   "answers.html",
+  "teacher.html",
   "story.html",
   "story.js",
   "quest.html",
