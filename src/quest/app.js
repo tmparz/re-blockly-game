@@ -4,6 +4,8 @@ import { countBlocks, programFromState, stateFromDsl } from "./program.js";
 import { defineQuestBlocks, quickItems, setFunctionNames } from "./blocks.js";
 import { setMissionContext, varLabel } from "./blocks-advanced.js";
 import { askConfirm, describeFailure } from "./ui.js";
+import { createRunner } from "./runner.js";
+import { createTrace } from "./trace.js";
 import { createQuickAdd } from "./quick-add.js";
 import { createBoard } from "./board.js";
 import { lang, pick, setLang, t } from "./i18n.js";
@@ -12,10 +14,11 @@ import { loadProgress, saveProgress } from "./storage.js";
 const $ = (selector) => document.querySelector(selector);
 const progress = loadProgress();
 const board = createBoard($("#board"));
-const view = { unit: 0, mission: 0, map: 0, runToken: 0, results: null };
+const view = { unit: 0, mission: 0, map: 0, results: null };
 let workspace = null;
 let loading = false;
 let quickAdd = null;
+let runner = null;
 
 const currentUnit = () => UNITS[view.unit];
 const currentMission = () => currentUnit().missions[view.mission];
@@ -26,7 +29,6 @@ const boardOptions = (mission, index) => ({
   label: varLabel,
   start: Array.isArray(mission.varStart) ? mission.varStart[index] : mission.varStart ?? {},
 });
-const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 function setResult(text, tone = "") {
   $("#result").textContent = text;
@@ -111,7 +113,7 @@ function renderMapTabs() {
 }
 
 function showMap(index) {
-  view.runToken += 1;
+  runner?.cancel();
   view.map = index;
   board.draw(currentMission().maps[index], boardOptions(currentMission(), index));
   renderMapTabs();
@@ -166,32 +168,13 @@ function selectMission(unitIndex, missionIndex) {
   showMap(0);
 }
 
-async function run() {
+// After the last frame (or right away when nothing could run): show the result and award stars.
+function finishRun(evaluation, index) {
   const mission = currentMission();
-  const program = programFromState(Blockly.serialization.workspaces.save(workspace));
-  const evaluation = evaluate(program, mission);
   view.results = evaluation.maps.length ? evaluation.maps : null;
-  if (!evaluation.maps.length) {
-    setResult(describeFailure(evaluation, mission), "fail");
-    return;
-  }
-  const index = evaluation.failedIndex ?? view.map;
-  showMap(index);
-  const token = view.runToken;
-  $("#runButton").disabled = true;
-  setResult(t("running"));
-  const delay = 900 - Number($("#speed").value);
-  for (const frame of evaluation.maps[index].frames) {
-    if (token !== view.runToken) break;
-    workspace.highlightBlock(frame.id ?? null);
-    board.apply(frame);
-    await sleep(delay);
-  }
-  $("#runButton").disabled = false;
-  workspace.highlightBlock(null);
-  if (token !== view.runToken) return;
+  if (index !== null) renderMapTabs();
   if (!evaluation.ok) {
-    workspace.highlightBlock(evaluation.maps[index].id ?? null);
+    if (index !== null) workspace.highlightBlock(evaluation.maps[index].id ?? null);
     setResult(describeFailure(evaluation, mission), "fail");
     return;
   }
@@ -214,7 +197,12 @@ function nextTarget() {
 }
 
 function bindControls() {
-  $("#runButton").addEventListener("click", run);
+  $("#runButton").addEventListener("click", () => runner.run());
+  $("#stepButton").addEventListener("click", () => runner.step());
+  $("#traceToggle").addEventListener("click", () => {
+    const open = $(".mission-panel").classList.toggle("tracing");
+    $("#traceToggle").setAttribute("aria-pressed", String(open));
+  });
   $("#resetButton").addEventListener("click", () => showMap(view.map));
   $("#restartButton").addEventListener("click", async () => {
     if (!(await askConfirm(t("confirmRestart")))) return;
@@ -263,7 +251,9 @@ function boot() {
     move: { scrollbars: true, drag: true, wheel: true },
   });
   workspace.addChangeListener((event) => {
-    if (event.isUiEvent || loading) return;
+    if (event.isUiEvent) return;
+    runner?.cancel(); // the code changed, so an old run or step no longer matches it
+    if (loading) return;
     progress.code[currentMission().id] = Blockly.serialization.workspaces.save(workspace);
     saveProgress(progress);
     updateBlockCount();
@@ -276,6 +266,22 @@ function boot() {
       .map((name) => [name, t(`qa_${name}`)])),
   });
   new ResizeObserver(() => Blockly.svgResize(workspace)).observe($("#blocklyDiv"));
+  runner = createRunner({
+    workspace,
+    board,
+    trace: createTrace($("#traceTable")),
+    evaluateNow: () => evaluate(programFromState(Blockly.serialization.workspaces.save(workspace)), currentMission()),
+    mission: currentMission,
+    mapIndex: () => view.map,
+    showMap,
+    columns: (mission, index) => {
+      const options = boardOptions(mission, index);
+      return { vars: options.badges, list: Boolean(options.list), label: varLabel };
+    },
+    finish: finishRun,
+    status: setResult,
+    delay: () => 900 - Number($("#speed").value),
+  });
   bindControls();
   selectMission(...initialSelection());
 }

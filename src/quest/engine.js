@@ -62,10 +62,11 @@ export function runMap(program, level, rows, index = 0) {
   const map = parseMap(rows);
   const vars = { counter: 0, ...Object.fromEntries((level.vars ?? []).map((name) => [name, 0])), ...pickFor(level.varStart, index) };
   const s = { ...map.start, rot: map.start.dir, picked: new Set(), vars, list: [...(level.lists?.[index] ?? [])],
-    said: [], moves: 0, turns: 0, steps: 0 };
+    said: [], moves: 0, turns: 0, steps: 0, depth: 0, input: null };
   const frames = [];
   const push = (kind, id, extra = {}) => frames.push({
-    kind, id, x: s.x, y: s.y, rot: s.rot, counter: s.vars.counter, vars: { ...s.vars }, list: [...s.list], ...extra,
+    kind, id, x: s.x, y: s.y, rot: s.rot, counter: s.vars.counter, vars: { ...s.vars }, list: [...s.list],
+    depth: s.depth, input: s.input, ...extra,
   });
   const tick = (id) => {
     s.steps += 1;
@@ -124,11 +125,16 @@ export function runMap(program, level, rows, index = 0) {
     const body = program.defs[node.name];
     if (!body) throw new Halt("missingDef", node.id);
     if (ctx.depth >= CALL_DEPTH_LIMIT) throw new Halt("recursion", node.id);
+    // Frames record how deep the calls go and the input in use, for the trace table.
+    const outer = [s.depth, s.input];
+    [s.depth, s.input] = [ctx.depth + 1, sent ?? null];
     try {
       execList(body, { depth: ctx.depth + 1, input: sent, item: ctx.item });
     } catch (signal) {
       if (signal instanceof Report) return signal.value;
       throw signal;
+    } finally {
+      [s.depth, s.input] = outer;
     }
     return undefined;
   };

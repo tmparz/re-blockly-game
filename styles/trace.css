@@ -1,0 +1,41 @@
+/* Quest Lab ⏭ Step and 📋 trace table. Opening the trace gives it a row under the map (landscape)
+   or the space beside the mission text (portrait). */
+.btn-step { background: #e3e9ff; color: #2f47c9; font-size: 14px; }
+.trace-toggle { min-height: 40px; padding: 0 12px; border: 2px solid var(--line); border-radius: 10px; background: var(--card); cursor: pointer; font: inherit; font-weight: 800; }
+.trace-toggle[aria-pressed="true"] { border-color: var(--brand); background: #e3e9ff; color: #2f47c9; }
+
+.trace-table { grid-area: trace; display: none; min-height: 0; margin: 0 14px 8px; overflow: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--card); }
+.mission-panel.tracing .trace-table { display: block; }
+/* Landscape: while tracing, the mission text scrolls in a shorter box so the map keeps its room. */
+.mission-panel.tracing .mission-head { max-height: 24vh; }
+.mission-panel.tracing {
+  grid-template-rows: auto auto minmax(0, 1.2fr) minmax(90px, 1fr) auto auto;
+  grid-template-areas: "head" "maps" "board" "trace" "result" "controls";
+}
+.trace-table:empty::before { content: "⏭ / ▶"; display: block; padding: 12px; color: var(--muted); font-weight: 700; text-align: center; }
+.trace-table table { width: 100%; border-collapse: collapse; font-size: 14px; font-variant-numeric: tabular-nums; }
+.trace-table th { position: sticky; top: 0; z-index: 1; padding: 6px 8px; background: #f2f4f8; color: #475467; font-size: 13px; text-align: left; white-space: nowrap; }
+.trace-table td { padding: 4px 8px; border-top: 1px solid #eef1f6; white-space: nowrap; }
+.trace-table td:first-child, .trace-table th:first-child { width: 2.5em; color: var(--muted); text-align: right; }
+.trace-table td.changed { background: #fff3d6; color: #8a5700; font-weight: 800; }
+.trace-table tr.current td { background: #e3e9ff; font-weight: 800; }
+.trace-table tr.current td.changed { background: #ffe29a; }
+
+@media (orientation: portrait) and (min-width: 600px) {
+  .mission-panel.tracing {
+    grid-template-rows: minmax(0, 1fr) auto auto auto;
+    grid-template-areas: "head board" "maps trace" "result trace" "controls trace";
+  }
+  .mission-panel.tracing .trace-table { margin: 0 12px 12px 4px; }
+  .mission-panel.tracing .mission-head { max-height: none; }
+}
+@media (max-width: 599px) {
+  .trace-table { max-height: 40vh; }
+}
+/* Five buttons in a narrow landscape column: Reset and Start over show only their icons
+   (the words stay for screen readers). */
+@media (orientation: landscape) and (max-width: 1180px) {
+  .controls { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) auto auto auto; }
+  #resetButton, #restartButton { min-width: 52px; font-size: 20px; }
+  #resetButton span, #restartButton span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+}

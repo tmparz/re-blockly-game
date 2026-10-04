@@ -40,18 +40,21 @@
       </div>
       <div class="map-row">
         <div class="map-tabs" id="mapTabs" hidden></div>
+        <button class="trace-toggle" id="traceToggle" type="button" aria-pressed="false" aria-controls="traceTable">📋 <span data-i18n="trace">Trace</span></button>
         <label class="speed" title="Speed"><span aria-hidden="true">🐢</span>
           <input id="speed" type="range" min="180" max="780" step="60" value="480" aria-label="Speed" />
           <span aria-hidden="true">🐇</span>
         </label>
       </div>
       <div class="board-wrap"><div class="board" id="board" role="img" aria-label="Mission map"></div></div>
+      <div class="trace-table" id="traceTable" aria-live="off"></div>
       <div class="result-row">
         <p class="result" id="result" aria-live="polite"></p>
         <button class="btn btn-next" id="nextButton" type="button" hidden><span data-i18n="next">Next</span> ➜</button>
       </div>
       <div class="controls">
         <button class="btn btn-run" id="runButton" type="button">▶ <span data-i18n="run">Run</span></button>
+        <button class="btn btn-step" id="stepButton" type="button">⏭ <span data-i18n="step">Step</span></button>
         <button class="btn btn-soft" id="resetButton" type="button">↺ <span data-i18n="reset">Reset</span></button>
         <button class="btn btn-soft" id="restartButton" type="button">🧹 <span data-i18n="restart">Start over</span></button>
         <button class="btn btn-warm" id="answerButton" type="button">💡 <span data-i18n="answer">Answer</span></button>

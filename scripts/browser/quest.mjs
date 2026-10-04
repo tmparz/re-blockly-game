@@ -66,3 +66,38 @@ export async function checkLayout({ context, base, name, out, workers, errors })
   await page.close();
   return { widest: worst.widest, area: worst.area, mission: worst.item.id, shot };
 }
+
+// ⏭ Step: after every step the numbers under the map match the current trace row; ▶ Run then finishes the mission.
+const STEP_MISSIONS = [{ unit: "variables", m: 9 }, { unit: "lists", m: 7 }, { unit: "masters", m: 7 }];
+const READ_STEP = () => {
+  const badge = document.querySelector(".counter-badge").textContent.match(/-?\d+|\[[^\]]*\]/g) ?? [];
+  const cells = [...document.querySelectorAll("#traceTable tr.current td")].slice(2).map((td) => td.textContent);
+  return { badge, cells, result: document.querySelector("#result").textContent };
+};
+
+export async function checkStepping({ context, base, errors }) {
+  const page = await context.newPage();
+  for (const item of STEP_MISSIONS) {
+    const url = urlOf(base, item);
+    try {
+      await loadAnswer(page, base, item);
+      await page.waitForTimeout(300); // let Blockly's load events settle
+      await page.click("#traceToggle");
+      for (let i = 1; i <= 4; i += 1) {
+        await page.click("#stepButton");
+        const { badge, cells, result } = await page.evaluate(READ_STEP);
+        if (!result.includes(`${i} /`)) errors.push(`step ${url}: step ${i} status is "${result}"`);
+        const shown = cells.filter((text) => !text.startsWith("🌀") && text !== "–").slice(0, badge.length).join(" ");
+        if (shown !== badge.join(" ")) errors.push(`step ${url}: step ${i} board shows "${badge}", trace row shows "${shown}"`);
+      }
+      await page.click("#runButton");
+      await page.waitForFunction(() => ["success", "fail"].includes(document.querySelector("#result").dataset.tone), null, { timeout: 30000 });
+      const tone = await page.getAttribute("#result", "data-tone");
+      if (tone !== "success") errors.push(`step ${url}: ▶ Run after stepping did not finish the mission`);
+    } catch (error) {
+      errors.push(`step ${url}: ${error.message.split("\n")[0]}`);
+    }
+  }
+  await page.close();
+  return STEP_MISSIONS.length;
+}

@@ -1,4 +1,5 @@
 @import url("./quick-add.css");
+@import url("./trace.css");
 
 :root {
   --ink: #1d2939;
@@ -169,7 +170,7 @@ button, input { font: inherit; }
 .result[data-tone="fail"] { background: var(--fail-bg); color: var(--fail-ink); }
 .result[data-tone="success"] { background: var(--ok-bg); color: var(--ok-ink); }
 
-.controls { grid-area: controls; display: grid; grid-template-columns: minmax(90px, 1fr) auto auto auto; gap: 8px; padding: 0 14px 14px; }
+.controls { grid-area: controls; display: grid; grid-template-columns: minmax(80px, 1fr) auto auto auto auto; gap: 6px; padding: 0 14px 14px; }
 .btn { min-width: 0; overflow: hidden; text-overflow: ellipsis; min-height: 52px; padding: 0 12px; border: 0; border-radius: 14px; cursor: pointer; font-weight: 800; white-space: nowrap; touch-action: manipulation; }
 .btn:disabled { cursor: wait; opacity: .6; }
 .btn:active { transform: translateY(1px); }
@@ -211,7 +212,7 @@ button, input { font: inherit; }
   .map-tab { min-width: 48px; padding: 0 8px; }
   .speed input { width: 80px; }
   .story { font-size: 15px; }
-  .controls { grid-template-columns: repeat(3, auto); gap: 6px; }
+  .controls { grid-template-columns: repeat(4, auto); gap: 6px; }
   .btn-run { grid-column: 1 / -1; }
   .controls .btn:not(.btn-run) { min-height: 46px; padding: 0 6px; font-size: 13px; }
   .board-wrap { padding: 12px 12px 18px 4px; }
@@ -226,7 +227,7 @@ button, input { font: inherit; }
   .quest-shell { grid-template-columns: 1fr; }
   .mission-head { max-height: none; }
   .board-wrap { height: 52vh; }
-  .controls { grid-template-columns: repeat(3, 1fr); }
+  .controls { grid-template-columns: repeat(4, 1fr); }
   .btn-run { grid-column: 1 / -1; }
   .workspace-panel { height: 80vh; }
 }
