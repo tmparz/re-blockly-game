@@ -12,8 +12,12 @@
     "test:quests": "node scripts/test-quests.mjs",
     "test:story": "node scripts/test-story.mjs",
     "test:share": "node scripts/test-share.mjs",
+    "test:browser": "node scripts/test-browser.mjs",
     "check": "node scripts/check-source-lines.mjs && node scripts/validate-levels.mjs && node scripts/test-curriculum.mjs && node scripts/test-quests.mjs && node scripts/test-story.mjs && node scripts/test-share.mjs",
     "build": "node scripts/check-source-lines.mjs && node scripts/build-static.mjs",
     "deploy:cloudflare": "npm run build && wrangler pages deploy dist --project-name blocky-easy"
+  },
+  "devDependencies": {
+    "playwright-core": "^1.63.0"
   }
 }

@@ -1,0 +1,36 @@
+name: Browser tests
+
+# Manual only: drives every Quest Lab mission and Story Lab task in Chrome (about 2 minutes).
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          package-manager-cache: false
+
+      - name: Install Playwright (uses the runner's Chrome)
+        run: npm ci
+
+      - name: Run browser tests
+        run: npm run test:browser
+        env:
+          BROWSER_CHANNEL: chrome
+
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-screenshots
+          path: runs/browser/
