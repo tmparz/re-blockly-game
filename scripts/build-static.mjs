@@ -10,6 +10,8 @@ const files = [
   "bird.html",
   "blockly-games.html",
   "teacher-guide.html",
+  "unplugged.html",
+  "answers.html",
   "story.html",
   "story.js",
   "quest.html",

@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>不插電活動卡｜Blocky Easy</title>
+  <style>
+    :root { color-scheme: light; --ink: #1d2939; --muted: #5b6b7f; --line: #d6dde8; }
+    * { box-sizing: border-box; }
+    body { margin: 0; color: var(--ink); background: #f4f2fb; font-family: "Noto Sans TC", system-ui, -apple-system, "Segoe UI", sans-serif; line-height: 1.6; }
+    header { padding: 20px 16px; background: #fff; border-bottom: 1px solid var(--line); }
+    .wrap { width: min(1000px, 100%); margin: 0 auto; }
+    h1 { margin: 6px 0; font-size: clamp(26px, 4vw, 38px); }
+    .lead { margin: 0; color: var(--muted); }
+    .print { margin-top: 10px; min-height: 44px; padding: 0 18px; border: 0; border-radius: 12px; background: #6d5bd0; color: #fff; font: inherit; font-weight: 800; cursor: pointer; }
+    main { padding: 16px; }
+    .sheet { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-bottom: 16px; }
+    .card { position: relative; padding: 16px 18px 12px; border: 2px dashed #b9b0e6; border-radius: 18px; background: #fff; }
+    .card h2 { margin: 0; font-size: 22px; }
+    .meta { margin: 2px 0 8px; color: #6d5bd0; font-size: 14px; font-weight: 800; }
+    .card h3 { margin: 10px 0 2px; font-size: 15px; }
+    .card p, .card ol, .card ul { margin: 0; font-size: 15px; }
+    .card ol, .card ul { padding-left: 22px; }
+    .ask { margin-top: 10px; padding: 8px 12px; border-radius: 12px; background: #f1edff; }
+    .code { margin-top: 8px; padding: 8px 12px; border-radius: 12px; background: #e9f9ef; }
+    .go { display: inline-block; margin-top: 6px; font-size: 14px; color: #067647; font-weight: 800; }
+    .big { position: absolute; top: 12px; right: 16px; font-size: 40px; line-height: 1; }
+    @media print {
+      @page { size: A4; margin: 10mm; }
+      body { background: #fff; }
+      header .print, header .lead { display: none; }
+      header { padding: 0 0 4mm; border: 0; }
+      header h1 { font-size: 16pt; }
+      main { padding: 0; }
+      .sheet { display: flex; flex-direction: column; gap: 6mm; margin: 0; break-after: page; }
+      .sheet:last-child { break-after: auto; }
+      .card { height: 128mm; overflow: hidden; break-inside: avoid; }
+      .go { display: none; }
+      .card p, .card ol, .card ul { font-size: 13.5px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <a href="teacher-guide.html">← 老師使用說明</a>
+      <h1>🖨️ 不插電活動卡</h1>
+      <p class="lead">每個新單元開始前的 10 分鐘暖身。列印時一張 A4 剛好兩張卡，可以沿虛線剪開。</p>
+      <button class="print" type="button" onclick="print()">🖨️ 列印</button>
+    </div>
+  </header>
+  <main class="wrap">
+    <div class="sheet">
+      <article class="card"><span class="big">💃</span>
+        <h2>錯誤的舞步</h2><p class="meta">第二階段 · 🐞 抓蟲 · 第 1 週 · 10 分鐘</p>
+        <h3>準備</h3><p>黑板寫 6 步舞步：拍手、拍手、跳、左轉、跳、蹲下。故意寫錯一步（例如左轉寫成右轉）。</p>
+        <h3>怎麼玩</h3><ol><li>老師照著黑板跳，全班跟著跳。</li><li>跳錯的地方，學生喊「停！」。</li><li>請一位學生說：第幾步錯了？只改哪一個字？</li><li>改完再跳一次，確認對了。</li></ol>
+        <p class="ask">🙋 問：為什麼不整段擦掉重寫？要改幾個地方？</p>
+        <p class="code">🧩 程式裡：執行 → 看哪裡出錯 → 只改一個方塊 → 再執行。</p>
+        <a class="go" href="quest.html?unit=bugs&m=1">➜ 抓蟲第 1 關</a>
+      </article>
+      <article class="card"><span class="big">🎵</span>
+        <h2>舞蹈副歌</h2><p class="meta">第二階段 · 🧩 函式 · 第 3 週 · 10 分鐘</p>
+        <h3>準備</h3><p>選一首有副歌的兒歌。黑板上只寫一次副歌，取名「Chorus」。</p>
+        <h3>怎麼玩</h3><ol><li>黑板寫：第一段 → Chorus → 第二段 → Chorus。</li><li>唱到「Chorus」時，大家就唱副歌。</li><li>把副歌改一個字，問：要改幾個地方？</li><li>擦掉第二個「Chorus」，問：副歌還會唱嗎？</li></ol>
+        <p class="ask">🙋 問：只寫好副歌、卻沒有寫「Chorus」，會唱出來嗎？</p>
+        <p class="code">🧩 程式裡：🧩 定義（寫副歌）＋ 執行函式（唱到 Chorus）。只有定義，Robo 不會動。</p>
+        <a class="go" href="quest.html?unit=functions&m=1">➜ 函式第 1 關</a>
+      </article>
+    </div>
+    <div class="sheet">
+      <article class="card"><span class="big">🔢</span>
+        <h2>記分板</h2><p class="meta">第二階段 · 🔢 數數 · 第 6 週 · 10 分鐘</p>
+        <h3>準備</h3><p>每組一塊小白板。</p>
+        <h3>怎麼玩</h3><ol><li>老師拍手，次數不固定，學生在白板上劃記。</li><li>拍完請各組舉白板，說出幾下。</li><li>第二輪開始前，有一組忘了擦白板，結果會怎樣？</li><li>第三輪：每拍一下就擦掉重寫 0，結果會怎樣？</li></ol>
+        <p class="ask">🙋 問：開始前白板上要是幾？每拍一下要做什麼？</p>
+        <p class="code">🧩 程式裡：計數器「設為 0」放在迴圈外面，「改變 +1」放在迴圈裡面。</p>
+        <a class="go" href="quest.html?unit=counting&m=1">➜ 數數第 1 關</a>
+      </article>
+      <article class="card"><span class="big">🍜</span>
+        <h2>點餐機</h2><p class="meta">第三階段 · 🎛️ 參數 · 第 1 週 · 10 分鐘</p>
+        <h3>準備</h3><p>一位學生當廚師，拿一張「煮麵」食譜卡：放麵、加湯、放 🎛️ 份 蛋。</p>
+        <h3>怎麼玩</h3><ol><li>客人喊「2 份！」廚師照食譜放 2 顆（用紙球代替）。</li><li>換客人喊「5 份！」食譜要重寫嗎？</li><li>老師故意喊錯成「50 份」，問：是食譜錯還是點錯？</li></ol>
+        <p class="ask">🙋 問：每次改的是食譜，還是客人送進來的數字？</p>
+        <p class="code">🧩 程式裡：「執行 走 輸入 🎛️ 3」把 3 送進函式，函式裡「重複 🎛️ 輸入 次」。</p>
+        <a class="go" href="quest.html?unit=inputs&m=1">➜ 參數第 1 關</a>
+      </article>
+    </div>
+    <div class="sheet">
+      <article class="card"><span class="big">🚪</span>
+        <h2>身高門</h2><p class="meta">第三階段 · ⚖️ 比較與邏輯 · 第 3 週 · 10 分鐘</p>
+        <h3>準備</h3><p>門框貼一條「120 公分」的線，準備幾張寫著身高的卡片：118、120、125、130。</p>
+        <h3>怎麼玩</h3><ol><li>規則一：比 120 高才能玩。抽卡片，全班判斷「可以／不行」。</li><li>剛好 120 呢？把規則改成「120 以上」，再判斷一次。</li><li>規則二：120 以上<strong>而且</strong>有大人陪。再改成<strong>或者</strong>，誰的答案變了？</li></ol>
+        <p class="ask">🙋 問：「&gt; 120」和「≥ 120」差在哪一個人？</p>
+        <p class="code">🧩 程式裡：如果 👣 步數 ≥ 3、而且／或者／不是。</p>
+        <a class="go" href="quest.html?unit=logic&m=1">➜ 比較與邏輯第 1 關</a>
+      </article>
+      <article class="card"><span class="big">🥤</span>
+        <h2>兩個盒子</h2><p class="meta">第三階段 · 🎒 多個變數 · 第 5 週 · 10 分鐘</p>
+        <h3>準備</h3><p>兩個紙盒貼上「💎 寶石」「👣 步數」，一些積木或小紙片。再準備兩杯不同顏色的水和一個空杯子。</p>
+        <h3>怎麼玩</h3><ol><li>老師邊走邊說「走一步」「撿到寶石」，學生把紙片放進對的盒子。</li><li>故意放錯盒子，最後報告的數字會怎樣？</li><li>挑戰：只能用杯子倒，怎麼把兩杯水交換？</li></ol>
+        <p class="ask">🙋 問：交換的時候，為什麼一定要第三個空杯子？</p>
+        <p class="code">🧩 程式裡：每個方塊都要選對變數；交換要先存到第三個變數（第 10 關）。</p>
+        <a class="go" href="quest.html?unit=variables&m=1">➜ 多個變數第 1 關</a>
+      </article>
+    </div>
+    <div class="sheet">
+      <article class="card"><span class="big">🧍</span>
+        <h2>排隊的盒子</h2><p class="meta">第三階段 · 📦 串列 · 第 7 週 · 10 分鐘</p>
+        <h3>準備</h3><p>5 張數字卡（例如 3、2、4、1、5），請 5 位學生各拿一張，排成一排。</p>
+        <h3>怎麼玩</h3><ol><li>老師從第一個人開始，一個一個點，全班一起加總。</li><li>再點一次：這次只記「最大的數字」。</li><li>再點一次：記「最大的是第幾個人」。</li><li>老師故意漏掉最後一個人，問：答案對嗎？</li></ol>
+        <p class="ask">🙋 問：記「最大是多少」和記「第幾個」，要幾個盒子？</p>
+        <p class="code">🧩 程式裡：對每個 📦 項目、加總、找最大值、找位置。</p>
+        <a class="go" href="quest.html?unit=lists&m=1">➜ 串列第 1 關</a>
+      </article>
+      <article class="card"><span class="big">🔋</span>
+        <h2>省電迷宮</h2><p class="meta">第三階段 · 🧪 演算法比賽 · 第 9 週 · 10 分鐘</p>
+        <h3>準備</h3><p>用桌椅排兩條不同形狀的走道，每人給 10 張「電池卡」，走一步交一張。</p>
+        <h3>怎麼玩</h3><ol><li>A 組只能「右手貼牆」走，B 組「能直走就直走」。</li><li>比較兩組各用了幾張電池卡。</li><li>換到第二條走道再比一次，誰贏了？</li></ol>
+        <p class="ask">🙋 問：有沒有一種規則，每一條走道都最快？</p>
+        <p class="code">🧩 程式裡：同一個問題用不同規則走，比較步數（演算法效率）。找到就停可以省電。</p>
+        <a class="go" href="quest.html?unit=algorithms">➜ 演算法比賽</a>
+      </article>
+    </div>
+    <div class="sheet">
+      <article class="card"><span class="big">🪆</span>
+        <h2>俄羅斯娃娃</h2><p class="meta">第三階段 · 🌀 函式大師 · 第 10 週 · 10 分鐘</p>
+        <h3>準備</h3><p>一組俄羅斯娃娃，或 4 個大小不同的紙杯，每個杯子裡放一張紙條。</p>
+        <h3>怎麼玩</h3><ol><li>指令卡寫：「打開娃娃（4）：如果是 0 就停；不然打開裡面的娃娃（4 − 1）」。</li><li>一位學生照著做，大聲說出每一層的數字：4、3、2、1、0。</li><li>把指令改成「打開裡面的娃娃（4）」，會發生什麼事？</li><li>加一步：打開之前先拍手，或打開之後才拍手，順序有什麼不同？</li></ol>
+        <p class="ask">🙋 問：為什麼每次都要減 1？什麼時候會停？</p>
+        <p class="code">🧩 程式裡：函式用「輸入 − 1」呼叫自己（遞迴），輸入 = 0 就停。</p>
+        <a class="go" href="quest.html?unit=masters&m=5">➜ 函式大師第 5 關</a>
+      </article>
+      <article class="card"><span class="big">🎲</span>
+        <h2>紙上遊戲測試</h2><p class="meta">第三階段 · 🎮 遊戲工作室／我的遊戲 · 第 14 週 · 10 分鐘</p>
+        <h3>準備</h3><p>每組一張紙、一顆骰子。紙上寫三行：怎樣算贏、怎樣算輸、每一輪會改變什麼。</p>
+        <h3>怎麼玩</h3><ol><li>各組在紙上寫好遊戲規則和變數（⭐ 分數、❤️ 生命、⏱ 時間）。</li><li>交換紙張，別組只照著紙上的規則玩，不准問問題。</li><li>卡住的地方、規則沒寫到的地方，用紅筆圈起來還給原組。</li></ol>
+        <p class="ask">🙋 問：別人卡住的地方，你的遊戲要加什麼說明？</p>
+        <p class="code">🧩 程式裡：開頭說明規則、變數起始值、比較寫規則、🛑 遊戲結束。</p>
+        <a class="go" href="story.html?c=my-game">➜ ✨ 我的遊戲</a>
+      </article>
+    </div>
+  </main>
+</body>
+</html>

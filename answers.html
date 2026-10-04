@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>解答頁｜Blocky Easy</title>
+  <meta name="robots" content="noindex" />
+  <style>
+    :root { color-scheme: light; --ink: #1d2939; --muted: #5b6b7f; --line: #dde3ec; --brand: #6d5bd0; }
+    * { box-sizing: border-box; }
+    body { margin: 0; color: var(--ink); background: #f4f2fb; font-family: "Noto Sans TC", system-ui, -apple-system, "Segoe UI", sans-serif; line-height: 1.55; }
+    header { position: sticky; top: 0; z-index: 2; padding: 12px 16px; background: #fff; border-bottom: 1px solid var(--line); }
+    .wrap { width: min(1100px, 100%); margin: 0 auto; }
+    .head-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+    h1 { margin: 0; font-size: clamp(22px, 3.4vw, 32px); }
+    .lang-switch { display: flex; gap: 2px; margin-left: auto; padding: 3px; border-radius: 12px; background: #eef1f6; }
+    .lang-switch button { min-width: 44px; min-height: 38px; border: 0; border-radius: 9px; background: transparent; font: inherit; font-weight: 800; cursor: pointer; }
+    .lang-switch button[aria-pressed="true"] { background: #fff; box-shadow: 0 1px 4px rgba(0, 0, 0, .12); }
+    .print { min-height: 40px; padding: 0 14px; border: 0; border-radius: 12px; background: var(--brand); color: #fff; font: inherit; font-weight: 800; cursor: pointer; }
+    .unit-nav { display: flex; gap: 6px; margin-top: 8px; overflow-x: auto; padding-bottom: 2px; }
+    .unit-nav a { flex: none; padding: 6px 12px; border-radius: 999px; background: #f1edff; color: #4b3aa8; font-weight: 800; text-decoration: none; white-space: nowrap; }
+    .note { margin: 6px 0 0; color: var(--muted); font-size: 14px; }
+    main { padding: 16px; }
+    .unit { margin-bottom: 28px; scroll-margin-top: 130px; }
+    .unit h2 { margin: 0 0 10px; font-size: 24px; }
+    .unit h2 small { color: var(--muted); font-size: 15px; font-weight: 600; }
+    .missions { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 12px; }
+    .mission { display: flex; flex-direction: column; gap: 6px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 16px; background: #fff; break-inside: avoid; }
+    .mission h3 { margin: 0; font-size: 17px; }
+    .mission h3 .n { display: inline-block; min-width: 28px; margin-right: 4px; padding: 0 6px; border-radius: 8px; background: #1d2939; color: #fff; text-align: center; font-size: 14px; }
+    .lesson { margin: 0; color: #4b3aa8; font-size: 14px; font-weight: 700; }
+    .hint { margin: 0; font-size: 14px; }
+    .meta { margin: 0; color: var(--muted); font-size: 13px; }
+    .blocks { overflow-x: auto; padding: 6px; border-radius: 12px; background: #f8f9fc; }
+    .blocks svg { position: static !important; display: block; max-width: 100%; height: auto; background: transparent !important; }
+    .open { align-self: flex-start; font-size: 14px; font-weight: 800; color: #067647; }
+    #status { margin: 0 0 12px; font-weight: 700; color: var(--muted); }
+    /* Blockly renders here off screen; the visible cards get static copies of its drawing. */
+    #renderDiv { position: fixed; left: -12000px; top: 0; width: 1400px; height: 1000px; }
+    @media print {
+      header { position: static; border: 0; }
+      .lang-switch, .print, .unit-nav, .open, #status { display: none; }
+      body { background: #fff; }
+      .missions { grid-template-columns: 1fr 1fr; }
+      .unit { break-before: page; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="head-row">
+        <a href="teacher-guide.html">← 老師使用說明</a>
+        <h1>🔑 <span id="pageHeading">Quest Lab 解答頁</span></h1>
+        <button class="print" type="button" onclick="print()">🖨️ 列印</button>
+        <div class="lang-switch" role="group" aria-label="Language">
+          <button type="button" data-lang="en">EN</button>
+          <button type="button" data-lang="zh">中文</button>
+        </div>
+      </div>
+      <nav class="unit-nav" id="unitNav" aria-label="Units"></nav>
+      <p class="note" id="pageNote">給老師用：每一關的參考解法（⭐⭐⭐ 的方塊數）和一句說明。解法不只一種，學生的做法只要通過所有地圖就算對。</p>
+    </div>
+  </header>
+  <main class="wrap">
+    <p id="status" aria-live="polite"></p>
+    <div id="units"></div>
+  </main>
+  <div id="renderDiv" aria-hidden="true"></div>
+  <script src="https://unpkg.com/blockly/blockly.min.js"></script>
+  <script type="module" src="src/answers/app.js"></script>
+</body>
+</html>

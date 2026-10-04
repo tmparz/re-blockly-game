@@ -30,6 +30,11 @@
       th { background: #eef6f4; }
       code { padding: 2px 6px; border-radius: 6px; background: #eaf0ef; }
       .fine { color: #627b76; font-size: .94rem; }
+      .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
+      .grid .card { margin: 0; }
+      .grid h3 { margin: 0 0 4px; }
+      .part { margin-top: 48px; padding-top: 8px; border-top: 3px solid #bcded4; }
+      td:first-child { white-space: nowrap; }
       footer { padding: 22px 20px 38px; color: #627b76; border-top: 1px solid #d9e8e4; background: #fff; }
     </style>
   </head>
@@ -52,6 +57,13 @@
         </ol>
         <a class="button" href="./">進入 Blocky Easy</a>
         <a class="button" href="blockly-games.html">進入 Blockly Games 觸控版</a>
+      </section>
+
+      <section class="card">
+        <h2 style="margin-top:0">備課三頁</h2>
+        <p>第二、第三階段只要看這三頁就能帶課：本頁下半部說明怎麼帶、<a href="unplugged.html">不插電活動卡</a>可以直接列印、<a href="answers.html">解答頁</a>有每一關的參考積木。每週要上哪幾關，請看<a href="course.html">第二階段課程頁</a>和<a href="course-advanced.html">第三階段課程頁</a>。</p>
+        <a class="button" href="unplugged.html">🖨️ 不插電活動卡</a>
+        <a class="button" href="answers.html">🔑 解答頁</a>
       </section>
 
       <h2>要選哪一套？</h2>
@@ -117,7 +129,85 @@
         <li>進入 While／If 後，先請學生用中文說規則，再去排積木。</li>
         <li>最後用「示範」對答案，請學生比較自己的做法和參考解法差在哪裡。</li>
       </ol>
+
+      <section class="part">
+        <h2>第二、第三階段：Quest Lab 與 Story Lab</h2>
+        <table>
+          <thead><tr><th>階段</th><th>週數</th><th>上什麼</th><th>課程頁</th></tr></thead>
+          <tbody>
+            <tr><td>第二階段 Code Builders</td><td>14 週</td><td>Quest Lab：抓蟲 10、函式 20、數數 20 關；Story Lab：故事挑戰 8、產品工坊 8 版、期末專題</td><td><a href="course.html">course.html</a></td></tr>
+            <tr><td>第三階段 Code Inventors</td><td>16 週</td><td>Quest Lab：參數、比較與邏輯、多個變數、串列、演算法比賽、函式大師；Story Lab：遊戲工作室 8 版、我的遊戲</td><td><a href="course-advanced.html">course-advanced.html</a></td></tr>
+          </tbody>
+        </table>
+
+        <h3>Quest Lab 按鈕</h3>
+        <table>
+          <tbody>
+            <tr><td>上方單元列</td><td>深色按鈕切換第二／第三階段；單元下面的圓點是每一關，打勾代表做過。可以直接貼網址開某一關，例如 <code>quest.html?unit=logic&amp;m=3</code>。</td></tr>
+            <tr><td>▶ 執行</td><td>Robo 會在<strong>每一張地圖</strong>上跑一次。很多關有 2～3 張地圖，只在一張成功不算過關，這是故意的（測試不同情況）。</td></tr>
+            <tr><td>↺ 回起點／🧹 重新開始</td><td>回起點保留積木；重新開始會換回這一關的起始程式。</td></tr>
+            <tr><td>需要提示嗎？</td><td>只給方向，不給完整答案。先讓學生按這個。</td></tr>
+            <tr><td>💡 解答</td><td>放入參考積木，見下面的「什麼時候按解答」。</td></tr>
+            <tr><td>⭐ 星星</td><td>過關 ⭐⭐；方塊數不超過參考解法 ⭐⭐⭐。星星存在那一台 iPad 的瀏覽器裡。</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Story Lab 按鈕</h3>
+        <table>
+          <tbody>
+            <tr><td>上方路線</td><td>深色按鈕輪流切換「🎬 故事 → 🛠️ 產品 → 🎮 遊戲」。產品和遊戲路線的每一版，會自動接著學生<strong>自己上一版</strong>的程式。</td></tr>
+            <tr><td>目標清單</td><td>學生一邊做，清單一邊打勾；全部打勾就過關。✨ 期末專題的清單就是評量規準。</td></tr>
+            <tr><td>💡 範例／🧹 清空</td><td>都會取代目前的積木，按之前會先問。</td></tr>
+            <tr><td>🎦 發表</td><td>全螢幕只顯示舞台，上台展示用。</td></tr>
+            <tr><td>📤 分享</td><td>輸入名字或選座號，產生 QR code。同學用 iPad 相機掃描就能打開、改編。</td></tr>
+          </tbody>
+        </table>
+
+        <h3>每節課 45 分鐘</h3>
+        <div class="grid">
+          <div class="card"><h3>5 分</h3><p>暖身：上一節的一個 bug。</p></div>
+          <div class="card"><h3>10 分</h3><p>不插電活動卡，或投影示範新單元的第一關。</p></div>
+          <div class="card"><h3>20 分</h3><p>兩人一組闖關（Driver 操作、Navigator 看提示，每 5 分鐘交換）。</p></div>
+          <div class="card"><h3>10 分</h3><p>請一組分享解法，寫出場小卡。</p></div>
+        </div>
+
+        <h3>什麼時候按「💡 解答」</h3>
+        <ul class="steps">
+          <li><strong>老師示範</strong>：新觀念的第一關，可以投影播放解答，邊跑邊講。</li>
+          <li><strong>學生卡住</strong>：先按「需要提示嗎？」；卡超過 3 分鐘再按解答，看完之後請他按 🧹 重新開始、自己再做一次。</li>
+          <li><strong>對答案</strong>：學生已經過關但不是 ⭐⭐⭐，可以打開<a href="answers.html">解答頁</a>比較：「參考解法少用了哪個方塊？」</li>
+        </ul>
+
+        <h3>學生最常卡住的地方</h3>
+        <table>
+          <thead><tr><th>單元</th><th>卡住的地方</th><th>老師可以問</th></tr></thead>
+          <tbody>
+            <tr><td>🐞 抓蟲</td><td>一次改很多地方，或整段刪掉重寫。</td><td>「你只改一個方塊，再跑一次，有什麼不一樣？」</td></tr>
+            <tr><td>🧩 函式</td><td>只有定義、沒有呼叫，Robo 不會動。</td><td>「食譜寫好了，有人叫你煮嗎？」</td></tr>
+            <tr><td>🔢 數數</td><td>「設為 0」放進迴圈，每圈都歸零；直接說答案，換地圖就錯。</td><td>「換一張地圖，答案還對嗎？」</td></tr>
+            <tr><td>🎬 故事</td><td>兩個角色同時說話，沒有加等待。</td><td>「誰先說？另一個人要等幾秒？」</td></tr>
+            <tr><td>🛠️ 產品</td><td>規則沒有放進「一直重複」，只檢查一次。</td><td>「這個規則是什麼時候被檢查的？」</td></tr>
+            <tr><td>🎛️ 參數</td><td>分不清該改「送進去的數字」還是改函式。</td><td>「是做法錯了，還是點的份數錯了？」</td></tr>
+            <tr><td>⚖️ 邏輯</td><td>分數 0、2、4、6 永遠不會「= 5」；「&gt; 3」不包含 3。</td><td>「剛好 3 的時候會怎樣？」</td></tr>
+            <tr><td>🎒 多個變數</td><td>下拉選單選錯盒子；交換時弄丟一個數字。</td><td>「這個方塊改的是哪一個盒子？」</td></tr>
+            <tr><td>📦 串列</td><td>漏掉最後一個（邊界）；只記「最大是多少」，沒記「第幾個」。</td><td>「最後一排有沒有被算到？」</td></tr>
+            <tr><td>🧪 演算法</td><td>以為有一種規則永遠最快。</td><td>「換這張地圖，哪個規則比較省電？」</td></tr>
+            <tr><td>🌀 函式大師</td><td>遞迴送「輸入」而不是「輸入 − 1」，停不下來；忘了回傳。</td><td>「每呼叫一次，數字有沒有變小？」</td></tr>
+            <tr><td>🎮 遊戲</td><td>按了 🛑 全部停止之後，點角色沒反應。</td><td>「遊戲結束了，要怎麼重新開始？」</td></tr>
+          </tbody>
+        </table>
+
+        <h3>第 15 週：交換作品與改編（第三階段）</h3>
+        <ol class="steps">
+          <li>學生在「✨ 我的遊戲」按「📤 分享」，輸入名字或選座號，畫面會出現 QR code。</li>
+          <li>同學用 iPad 相機掃描，打開後標題下面會固定顯示「🔁 改編自：○○ 的作品」。</li>
+          <li>改編的作品，檢查表會多一項「📝 標示原作者」：要讓角色說出原作者的名字，例如「改編自 小明」。</li>
+          <li>改編完可以再分享，原作者會一直跟著（最多記 3 代）。</li>
+          <li>如果原本這一關已經有積木，打開分享時會先問要不要取代。提醒學生先分享自己的作品，再去打開別人的。</li>
+        </ol>
+        <p class="fine">作品資料只放在網址裡，不會上傳到任何伺服器。QR code 需要網路才能產生；沒有網路時可以複製連結，用 AirDrop 傳。</p>
+      </section>
     </main>
-    <footer><div class="wrap">Blocky Easy 教師使用說明｜最後整理：2026-09-18</div></footer>
+    <footer><div class="wrap">Blocky Easy 教師使用說明｜最後整理：2026-10-04</div></footer>
   </body>
 </html>
