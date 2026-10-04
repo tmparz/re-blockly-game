@@ -14,6 +14,7 @@ import { VARIABLES_PATH, variables } from "./variables.js";
 import { LISTS_PATH, lists } from "./lists.js";
 import { ALGORITHMS_PATH, algorithms } from "./algorithms.js";
 import { MASTERS_PATH, masters } from "./masters.js";
+import { PREDICT } from "./predict.js";
 
 // Orders a pool of missions by a learning path, adding each mission's tier and lesson.
 function followPath(name, missions, path) {
@@ -34,6 +35,12 @@ const variableMissions = followPath("variables", variables, VARIABLES_PATH);
 const listMissions = followPath("lists", lists, LISTS_PATH);
 const algorithmMissions = followPath("algorithms", algorithms, ALGORITHMS_PATH);
 const masterMissions = followPath("masters", masters, MASTERS_PATH);
+
+// Part 3 units open and close with a 🔮 predict mission.
+const withPredict = (unitId, missions) => {
+  const [first, last] = PREDICT[unitId] ?? [];
+  return [first, ...missions, last].filter(Boolean);
+};
 
 const decorate = (unitId) => (mission) => {
   const best = countBlocks(parseProgram(mission.solution));
@@ -76,7 +83,7 @@ export const UNITS = [
     title: { en: "Function Inputs", zh: "函式參數" },
     short: { en: "Inputs", zh: "參數" },
     concept: { en: "Parameters", zh: "參數 Parameters" },
-    missions: inputMissions.map(decorate("inputs")),
+    missions: withPredict("inputs", inputMissions).map(decorate("inputs")),
   },
   {
     id: "logic",
@@ -85,7 +92,7 @@ export const UNITS = [
     title: { en: "Compare & Logic", zh: "比較與邏輯" },
     short: { en: "Logic", zh: "邏輯" },
     concept: { en: "Comparisons & Booleans", zh: "比較與布林邏輯" },
-    missions: logicMissions.map(decorate("logic")),
+    missions: withPredict("logic", logicMissions).map(decorate("logic")),
   },
   {
     id: "variables",
@@ -94,7 +101,7 @@ export const UNITS = [
     title: { en: "Many Variables", zh: "多個變數" },
     short: { en: "Variables+", zh: "變數+" },
     concept: { en: "Variables & state", zh: "多個變數與狀態" },
-    missions: variableMissions.map(decorate("variables")),
+    missions: withPredict("variables", variableMissions).map(decorate("variables")),
   },
   {
     id: "lists",
@@ -103,7 +110,7 @@ export const UNITS = [
     title: { en: "Lists", zh: "串列" },
     short: { en: "Lists", zh: "串列" },
     concept: { en: "Lists (arrays)", zh: "串列（陣列）" },
-    missions: listMissions.map(decorate("lists")),
+    missions: withPredict("lists", listMissions).map(decorate("lists")),
   },
   {
     id: "algorithms",
@@ -112,7 +119,7 @@ export const UNITS = [
     title: { en: "Algorithm Race", zh: "演算法比賽" },
     short: { en: "Algorithms", zh: "演算法" },
     concept: { en: "Comparing algorithms", zh: "比較演算法" },
-    missions: algorithmMissions.map(decorate("algorithms")),
+    missions: withPredict("algorithms", algorithmMissions).map(decorate("algorithms")),
   },
   {
     id: "masters",
@@ -121,8 +128,32 @@ export const UNITS = [
     title: { en: "Function Masters", zh: "函式大師" },
     short: { en: "Masters", zh: "大師" },
     concept: { en: "Return values & recursion", zh: "回傳值與遞迴" },
-    missions: masterMissions.map(decorate("masters")),
+    missions: withPredict("masters", masterMissions).map(decorate("masters")),
   },
 ];
 
 export const ALL_MISSIONS = UNITS.flatMap((unit) => unit.missions);
+
+// 🔮 Predict missions are not numbered: the dots show 🔮 and ?m=p1 / ?m=p2 open them, so "mission 7" and ?m=7
+// still mean the same mission as in the course pages.
+const isPredict = (mission) => mission.mode === "predict";
+
+export function missionNumber(unit, index) {
+  if (isPredict(unit.missions[index])) return null;
+  return unit.missions.slice(0, index + 1).filter((m) => !isPredict(m)).length;
+}
+
+export function missionParam(unit, index) {
+  if (!isPredict(unit.missions[index])) return String(missionNumber(unit, index));
+  return `p${unit.missions.slice(0, index + 1).filter(isPredict).length}`;
+}
+
+// The index for a ?m= value, or -1 when the unit has no such mission.
+export function missionIndex(unit, param) {
+  const text = String(param ?? "");
+  const predict = /^p(\d+)$/.exec(text);
+  const want = Number(predict ? predict[1] : text);
+  if (!Number.isInteger(want) || want < 1) return -1;
+  let seen = 0;
+  return unit.missions.findIndex((m) => isPredict(m) === Boolean(predict) && ++seen === want);
+}

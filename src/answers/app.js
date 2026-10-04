@@ -1,7 +1,8 @@
 // Teacher answer page: every Quest Lab mission's reference solution, drawn with the real blocks.
 // One hidden Blockly workspace renders each solution in turn; each card keeps a static copy of the drawing,
 // because the dropdown labels depend on the mission that is loaded at the moment.
-import { UNITS } from "../quest/missions/index.js";
+import { UNITS, missionNumber, missionParam } from "../quest/missions/index.js";
+import { choiceText, choicesOf, isPredict, rightChoice } from "../quest/predict.js";
 import { stateFromDsl } from "../quest/program.js";
 import { defineQuestBlocks, setFunctionNames } from "../quest/blocks.js";
 import { setMissionContext } from "../quest/blocks-advanced.js";
@@ -42,17 +43,20 @@ function snapshot(workspace) {
 function missionCard(unit, mission, index) {
   const card = el("article", "mission");
   const title = el("h3");
-  title.append(el("span", "n", String(index + 1)), `${TIERS[mission.tier] ?? ""} ${pick(mission.title)}`);
+  title.append(el("span", "n", String(missionNumber(unit, index) ?? "🔮")), `${TIERS[mission.tier] ?? ""} ${pick(mission.title)}`);
   card.append(title);
   if (mission.lesson) card.append(el("p", "lesson", `🎯 ${pick(mission.lesson)}`));
   card.append(el("p", "hint", `💡 ${pick(mission.hint)}`));
   const maps = mission.maps?.length ?? 1;
-  card.append(el("p", "meta", L(`${mission.best} blocks for ⭐⭐⭐ · limit ${mission.maxBlocks} · tested on ${maps} map${maps > 1 ? "s" : ""}`,
+  if (isPredict(mission)) {
+    const right = choiceText(rightChoice(mission));
+    card.append(el("p", "meta", `${L("Choices", "選項")}：${choicesOf(mission).map(choiceText).join(" / ")} · ${L("Answer", "答案")}：${right}`));
+  } else card.append(el("p", "meta", L(`${mission.best} blocks for ⭐⭐⭐ · limit ${mission.maxBlocks} · tested on ${maps} map${maps > 1 ? "s" : ""}`,
     `⭐⭐⭐ ${mission.best} 個方塊 · 上限 ${mission.maxBlocks} · 要通過 ${maps} 張地圖`)));
   const blocks = el("div", "blocks");
   card.append(blocks);
   const open = el("a", "open", L("Open this mission ➜", "打開這一關 ➜"));
-  open.href = `quest.html?unit=${unit.id}&m=${index + 1}`;
+  open.href = `quest.html?unit=${unit.id}&m=${missionParam(unit, index)}`;
   card.append(open);
   return { card, blocks };
 }

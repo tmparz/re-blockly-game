@@ -1,7 +1,8 @@
 // Quest Lab browser checks: every mission passes with its 💡 Answer, and answers fit the code area.
-import { UNITS } from "../../src/quest/missions/index.js";
+import { UNITS, missionParam } from "../../src/quest/missions/index.js";
 
-const MISSIONS = UNITS.flatMap((unit) => unit.missions.map((mission, index) => ({ unit: unit.id, m: index + 1, id: mission.id })));
+// ?m= numbers skip 🔮 predict missions (they open with m=p1, m=p2).
+const MISSIONS = UNITS.flatMap((unit) => unit.missions.map((mission, index) => ({ unit: unit.id, m: missionParam(unit, index), id: mission.id })));
 const urlOf = (base, item) => `${base}/quest.html?unit=${item.unit}&m=${item.m}`;
 
 // Runs `task` over `items` with a few pages at once.
@@ -100,4 +101,31 @@ export async function checkStepping({ context, base, errors }) {
   }
   await page.close();
   return STEP_MISSIONS.length;
+}
+
+// 🔮 Predict: Run without a choice asks for one; a wrong guess opens the trace; the right one then earns ⭐⭐.
+export async function checkPredict({ context, base, errors }) {
+  const page = await context.newPage();
+  const url = `${base}/quest.html?unit=logic&m=p1`;
+  const fail = (message) => errors.push(`predict ${url}: ${message}`);
+  const runAndWait = async () => {
+    await page.click("#runButton");
+    await page.waitForFunction(() => ["success", "fail"].includes(document.querySelector("#result").dataset.tone), null, { timeout: 30000 });
+    return page.getAttribute("#result", "data-tone");
+  };
+  try {
+    await page.goto(url);
+    if (!(await page.isVisible("#predictBar")) || (await page.isVisible("#quickAdd"))) fail("answer buttons should replace the quick-add chips");
+    if (await page.evaluate(() => Blockly.getMainWorkspace().getAllBlocks(false).some((b) => b.isMovable() || b.isEditable()))) fail("blocks should be locked");
+    if ((await runAndWait()) !== "fail") fail("Run without a choice should ask for one");
+    await page.click(".predict-choice >> text=3"); // the classic mistake: "> 3" stops at 3
+    if ((await runAndWait()) !== "fail") fail("a wrong guess should fail");
+    if (!(await page.isVisible("#traceTable"))) fail("a wrong guess should open the trace table");
+    await page.click(".predict-choice >> text=4");
+    if ((await runAndWait()) !== "success") fail("the right guess should pass");
+    if (!(await page.textContent("#result")).includes("⭐⭐") || (await page.textContent("#result")).includes("⭐⭐⭐")) fail("right after a miss should earn ⭐⭐");
+  } catch (error) {
+    fail(error.message.split("\n")[0]);
+  }
+  await page.close();
 }

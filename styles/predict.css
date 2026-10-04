@@ -1,0 +1,9 @@
+/* 🔮 Predict missions: big answer buttons above the locked code, and A/B/C marks on the map. */
+.predict-bar { flex: none; padding: 10px 14px; border-bottom: 1px solid var(--line); background: #f6f2ff; }
+.predict-question { margin: 0 0 8px; color: #5b3fc4; font-size: 16px; font-weight: 800; }
+.predict-choices { display: flex; flex-wrap: wrap; gap: 8px; }
+.predict-choice { min-width: 64px; min-height: 52px; padding: 0 16px; border: 3px solid #d8ccff; border-radius: 14px; background: var(--card); color: var(--ink); cursor: pointer; font: inherit; font-size: 20px; font-weight: 800; }
+.predict-choice[aria-pressed="true"] { border-color: #6d4fe0; background: #6d4fe0; color: #fff; box-shadow: 0 0 0 3px #d8ccff; }
+.predict-choice:focus-visible { outline: 3px solid #1d6fe0; outline-offset: 2px; }
+.mission-dot.predict { border-style: dashed; background: #f6f2ff; }
+.mark { position: absolute; inset: 16%; display: grid; place-items: center; border-radius: 50%; background: #6d4fe0; color: #fff; font-size: .62em; font-weight: 800; line-height: 1; }

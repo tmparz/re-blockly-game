@@ -18,7 +18,7 @@ export function createBoard(element) {
   let robot = null;
   let bubble = null;
   let badges = null;
-  let options = { badges: [], list: null, label: (name) => name, start: {} };
+  let options = { badges: [], list: null, label: (name) => name, start: {}, marks: null };
 
   function place(x, y, rot) {
     robot.style.setProperty("--x", x);
@@ -38,6 +38,8 @@ export function createBoard(element) {
         const ch = rows[y][x] ?? " ";
         cell.className = ch === "#" ? "cell wall" : ch === " " ? "cell void" : "cell floor";
         if (map.goal && map.goal.x === x && map.goal.y === y) cell.insertAdjacentHTML("beforeend", '<span class="goal">🏁</span>');
+        const mark = Object.entries(options.marks ?? {}).find(([, [mx, my]]) => mx === x && my === y)?.[0];
+        if (mark) cell.insertAdjacentHTML("beforeend", `<span class="mark">${mark}</span>`);
         if (map.gems.has(key(x, y))) {
           cell.insertAdjacentHTML("beforeend", `<span class="gem" data-gem="${key(x, y)}">💎</span>`);
         }

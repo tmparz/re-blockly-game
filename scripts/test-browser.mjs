@@ -5,7 +5,7 @@
 import { spawn } from "node:child_process";
 import { mkdir } from "node:fs/promises";
 import { chromium } from "playwright-core";
-import { checkLayout, checkStepping, runQuestMissions } from "./browser/quest.mjs";
+import { checkLayout, checkPredict, checkStepping, runQuestMissions } from "./browser/quest.mjs";
 import { checkShare, runStoryTasks } from "./browser/story.mjs";
 
 const PORT = Number(process.env.TEST_PORT || 4199);
@@ -60,6 +60,8 @@ try {
   report.push(`Quest Lab: ${quest.passed} / ${quest.total} missions complete with 💡 Answer → ▶ Run`);
   const stepped = await checkStepping({ context: landscape, base: BASE, errors });
   report.push(`Step mode: ${stepped} missions — board numbers match the trace row at every step, then ▶ Run finishes`);
+  await checkPredict({ context: landscape, base: BASE, errors });
+  report.push("Predict: no choice → asked to pick; wrong guess → trace opens; right guess → ⭐⭐");
   const story = await runStoryTasks({ context: landscape, base: BASE, errors });
   report.push(`Story Lab: ${story.passed} / ${story.total} examples load, meet every goal and play`);
   await checkShare({ browser, makeContext: () => makeContext(browser, VIEWPORTS.landscape, errors), base: BASE, errors });

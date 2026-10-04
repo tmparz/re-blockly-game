@@ -13,8 +13,9 @@
     "test:story": "node scripts/test-story.mjs",
     "test:share": "node scripts/test-share.mjs",
     "test:trace": "node scripts/test-trace.mjs",
+    "test:predict": "node scripts/test-predict.mjs",
     "test:browser": "node scripts/test-browser.mjs",
-    "check": "node scripts/check-source-lines.mjs && node scripts/validate-levels.mjs && node scripts/test-curriculum.mjs && node scripts/test-quests.mjs && node scripts/test-story.mjs && node scripts/test-share.mjs && node scripts/test-trace.mjs",
+    "check": "node scripts/check-source-lines.mjs && node scripts/validate-levels.mjs && node scripts/test-curriculum.mjs && node scripts/test-quests.mjs && node scripts/test-story.mjs && node scripts/test-share.mjs && node scripts/test-trace.mjs && node scripts/test-predict.mjs",
     "build": "node scripts/check-source-lines.mjs && node scripts/build-static.mjs",
     "deploy:cloudflare": "npm run build && wrangler pages deploy dist --project-name blocky-easy"
   },

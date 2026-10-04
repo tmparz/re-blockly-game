@@ -38,6 +38,7 @@ jobs:
           node scripts/test-story.mjs
           node scripts/test-share.mjs
           node scripts/test-trace.mjs
+          node scripts/test-predict.mjs
 
       - name: Build static site
         run: node scripts/build-static.mjs

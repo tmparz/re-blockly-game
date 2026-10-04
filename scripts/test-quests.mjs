@@ -14,6 +14,7 @@ for (const mission of ALL_MISSIONS) {
   for (const field of ["title", "story", "hint"]) {
     if (!mission[field]?.en?.trim() || !mission[field]?.zh?.trim()) fail(mission, `${field} needs en + zh`);
   }
+  if (mission.mode === "predict") continue; // 🔮 checked in test-predict.mjs
 
   mission.maps.forEach((rows, index) => {
     const map = parseMap(rows);
