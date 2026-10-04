@@ -36,6 +36,7 @@ jobs:
           node scripts/test-curriculum.mjs
           node scripts/test-quests.mjs
           node scripts/test-story.mjs
+          node scripts/test-share.mjs
 
       - name: Build static site
         run: node scripts/build-static.mjs

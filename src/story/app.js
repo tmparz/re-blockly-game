@@ -1,4 +1,4 @@
-import { ALL_STORY_TASKS, CHALLENGES, checkGoals } from "./challenges.js";
+import { ALL_STORY_TASKS, CHALLENGES, checkGoals, goalsFor } from "./challenges.js";
 import { PRODUCT_STEPS, PRODUCT_TASKS } from "./product.js";
 import { GAME_STEPS, GAME_TASKS } from "./game.js";
 import { CATEGORIES, HUES, chipsFor, defineStoryBlocks } from "./blocks.js";
@@ -8,6 +8,8 @@ import { play } from "./sound.js";
 import { ACTORS } from "./actors.js";
 import { lang, pick, setLang, t } from "./i18n.js";
 import { createQuickAdd } from "../quest/quick-add.js";
+import { createShareUI, remixLine, takeSharedLink } from "./share-ui.js";
+import { renderNav } from "./nav.js";
 
 const STORAGE_KEY = "blocky-story-v2";
 const $ = (selector) => document.querySelector(selector);
@@ -21,7 +23,7 @@ const TRACK_INFO = {
   game: () => [`🎮 ${t("gameStudio")}`, GAME_STEPS.length],
 };
 const view = { track: "story", index: 0, category: "events", goals: [] };
-let progress = { done: {}, code: {}, last: null };
+let progress = { done: {}, code: {}, last: null, remix: {} };
 let workspace = null;
 let quickAdd = null;
 let runtime = null;
@@ -38,6 +40,8 @@ const save = () => {
 
 const tasks = () => TRACKS[view.track];
 const task = () => tasks()[view.index];
+// Credit chain of a project opened from a share code (newest author first); empty for the student's own work.
+const goalContext = () => ({ remixOf: progress.remix[task().id] ?? [] });
 const setStatus = (text, tone = "") => {
   $("#status").textContent = text;
   $("#status").dataset.tone = tone;
@@ -52,39 +56,16 @@ function renderStaticText() {
 }
 
 function renderTaskNav() {
-  $("#taskNav").innerHTML = "";
-  // The dark button shows the current track; tapping it moves on to the next one.
-  const names = Object.keys(TRACKS);
-  const other = names[(names.indexOf(view.track) + 1) % names.length];
-  const trackButton = document.createElement("button");
-  trackButton.type = "button";
-  trackButton.className = "task-dot track-switch";
-  trackButton.textContent = t(`track_${view.track}`);
-  trackButton.title = t("switchTo", { name: t(`track_${other}`) });
-  trackButton.addEventListener("click", () => selectTask(0, other));
-  $("#taskNav").append(trackButton);
-  tasks().forEach((item, index) => {
-    const button = document.createElement("button");
-    button.type = "button";
-    const capstone = CAPSTONES[item.id];
-    button.className = `task-dot${capstone ? " mine" : ""}`;
-    button.textContent = capstone ? `✨ ${t(capstone)}` : String(index + 1);
-    button.dataset.done = String(Boolean(progress.done[item.id]));
-    button.setAttribute("aria-pressed", String(index === view.index));
-    button.setAttribute("aria-label", pick(item.title));
-    button.title = pick(item.title);
-    button.addEventListener("click", () => selectTask(index));
-    $("#taskNav").append(button);
-  });
+  renderNav($("#taskNav"), { tracks: TRACKS, track: view.track, index: view.index, done: progress.done, capstones: CAPSTONES, onSelect: selectTask });
 }
 
 function renderGoals() {
   const current = task();
-  view.goals = checkGoals(current, Blockly.serialization.workspaces.save(workspace));
+  view.goals = checkGoals(current, Blockly.serialization.workspaces.save(workspace), goalContext());
   const done = view.goals.filter(Boolean).length;
   $("#goalCount").textContent = t("allGoals", { done, total: view.goals.length });
   $("#goalList").innerHTML = "";
-  current.goals.forEach((g, i) => {
+  goalsFor(current, goalContext()).forEach((g, i) => {
     const li = document.createElement("li");
     li.dataset.done = String(view.goals[i]);
     li.textContent = pick(g.text);
@@ -114,7 +95,13 @@ function renderCategories() {
 function loadState(state) {
   loading = true;
   workspace.clear();
-  Blockly.serialization.workspaces.load(state, workspace);
+  try {
+    Blockly.serialization.workspaces.load(state, workspace);
+  } catch {
+    // A damaged shared project: fall back to an empty "when Run" script instead of a broken page.
+    workspace.clear();
+    Blockly.serialization.workspaces.load(task().starter, workspace);
+  }
   workspace.cleanUp();
   workspace.scroll(20, 20);
   loading = false;
@@ -145,6 +132,8 @@ function selectTask(index, track = view.track) {
   $("#taskText").textContent = pick(current.task);
   $("#taskIdea").hidden = !current.idea;
   $("#taskIdea").textContent = current.idea ? `💡 ${pick(current.idea)}` : "";
+  $("#remixCredit").textContent = remixLine(goalContext().remixOf, t);
+  $("#remixCredit").hidden = !goalContext().remixOf.length;
   $("#goalsLabel").textContent = t(CAPSTONES[current.id] ? "rubric" : "goals");
   $("#nextButton").hidden = true;
   stage.reset();
@@ -188,13 +177,15 @@ function bindControls() {
     if (!confirm(t("confirmExample"))) return;
     runtime.stop();
     stage.reset();
-    loadState(task().example);
+    delete progress.remix[task().id];
+    selectTaskCode(task().example);
     setStatus(t("exampleLoaded"));
   });
   $("#clearButton").addEventListener("click", () => {
     if (!confirm(t("confirmClear"))) return;
     runtime.stop();
-    loadState({ blocks: { languageVersion: 0, blocks: [{ type: "story_start", x: 20, y: 20 }] } });
+    delete progress.remix[task().id];
+    selectTaskCode({ blocks: { languageVersion: 0, blocks: [{ type: "story_start", x: 20, y: 20 }] } });
     setStatus(t("cleared"));
   });
   $("#nextButton").addEventListener("click", () => selectTask(view.index + 1));
@@ -209,14 +200,39 @@ function bindControls() {
   document.querySelectorAll("[data-lang]").forEach((b) => b.addEventListener("click", () => setLang(b.dataset.lang)));
 }
 
-function initialTask() {
-  const params = new URLSearchParams(location.search);
-  const id = params.get("c") ?? (params.get("track") === "product" ? PRODUCT_TASKS[0].id : progress.last);
+// Clearing or loading the example also drops a remix credit, so refresh the title area along with the blocks.
+function selectTaskCode(code) {
+  progress.code[task().id] = code;
+  save();
+  selectTask(view.index);
+}
+
+function locate(id) {
   for (const [track, list] of Object.entries(TRACKS)) {
     const index = list.findIndex((item) => item.id === id);
     if (index >= 0) return [index, track];
   }
-  return [0, "story"];
+  return null;
+}
+
+function initialTask() {
+  const params = new URLSearchParams(location.search);
+  const id = params.get("c") ?? (params.get("track") === "product" ? PRODUCT_TASKS[0].id : progress.last);
+  return locate(id) ?? [0, "story"];
+}
+
+// A shared project opens in the same challenge it was made in, as a remix that credits its authors.
+function openShared(shared) {
+  if (!shared) return;
+  const place = !shared.broken && locate(shared.task);
+  if (!place) return setStatus(t("shareBroken"), "fail");
+  const name = shared.authors[0] ?? "?";
+  const id = TRACKS[place[1]][place[0]].id;
+  if (progress.code[id] && !confirm(t("confirmOpenShare", { name }))) return;
+  progress.code[id] = shared.code;
+  progress.remix[id] = shared.authors;
+  selectTask(...place);
+  setStatus(t("shareOpened", { name }), "success");
 }
 
 function boot() {
@@ -259,7 +275,11 @@ function boot() {
   new ResizeObserver(() => Blockly.svgResize(workspace)).observe($("#blocklyDiv"));
   renderCategories();
   bindControls();
+  createShareUI({ t, current: () => ({ task: task().id, code: Blockly.serialization.workspaces.save(workspace), remixOf: goalContext().remixOf }) });
+  const shared = takeSharedLink(); // reads the #share= hash before selectTask rewrites the address
   selectTask(...initialTask());
+  shared.then(openShared);
+  addEventListener("hashchange", () => takeSharedLink().then(openShared));
 }
 
 boot();

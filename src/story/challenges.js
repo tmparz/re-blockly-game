@@ -1,9 +1,9 @@
 // Story Lab challenges. Goals are checked live against the workspace JSON, so kids see ✓ as they build.
 import {
-  B, DEFAULT_WORDS, MOTION, act, actorOf, bodyOf, clickBody, clicked, field, goal, innerOf, say, says, script, scriptsOf, start, startBody, state,
+  B, CREDIT_GOAL, DEFAULT_WORDS, MOTION, act, actorOf, bodyOf, clickBody, clicked, field, goal, innerOf, say, says, script, scriptsOf, start, startBody, state,
 } from "./task-kit.js";
 
-export { checkGoals } from "./task-kit.js";
+export { checkGoals, goalsFor } from "./task-kit.js";
 
 export const CHALLENGES = [
   {
@@ -163,6 +163,7 @@ export const MY_STORY = {
     goal("⏱ Characters take turns (wait)", "⏱ 角色輪流（等待）", (s) => bodyOf(s).some((b) => b.type === "story_wait")),
     goal("🔁 A repeat loop", "🔁 使用重複", (s) => bodyOf(s).some((b) => b.type === "story_repeat" || b.type === "story_forever")),
     goal("🖼 2 or more scenes", "🖼 至少 2 個場景", (s) => bodyOf(s).filter((b) => b.type === "story_background").length >= 2),
+    CREDIT_GOAL,
   ],
   starter: state(start),
   example: state(

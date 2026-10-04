@@ -16,6 +16,7 @@
     <div class="top-right">
       <a class="icon-link" href="quest.html" title="Quest Lab">🧩</a>
       <a class="icon-link" href="course.html" title="Course Plan">📘</a>
+      <button class="btn-present btn-share" id="shareButton" type="button">📤 <span data-i18n="share">Share</span></button>
       <button class="btn-present" id="presentButton" type="button">🎦 <span data-i18n="present">Present</span></button>
       <div class="lang-switch" role="group" aria-label="Language">
         <button type="button" data-lang="en">EN</button>
@@ -29,6 +30,7 @@
       <div class="task-head">
         <p class="kicker" id="taskKicker"></p>
         <h1 id="taskTitle"></h1>
+        <p class="remix-credit" id="remixCredit" hidden></p>
         <p class="task-text" id="taskText"></p>
         <p class="task-idea" id="taskIdea" hidden></p>
         <div class="goals">
@@ -66,6 +68,27 @@
       <p class="load-warning" id="loadWarning" hidden>Blockly could not load. Check the internet connection and refresh.</p>
     </section>
   </main>
+
+  <dialog class="share-dialog" id="shareDialog" aria-labelledby="shareTitle">
+    <form method="dialog">
+      <h2 id="shareTitle" data-i18n="shareTitle">Share your project</h2>
+      <p class="share-label" data-i18n="shareName">Your name (shown to everyone who remixes it)</p>
+      <div class="share-row">
+        <input id="shareName" type="text" autocomplete="off" enterkeyhint="done" />
+        <select id="shareSeat" aria-label="Seat number"></select>
+      </div>
+      <button class="btn btn-run" id="shareMake" type="button">📤 <span data-i18n="shareMake">Make share code</span></button>
+      <div class="share-result" id="shareResult" hidden>
+        <img class="share-qr" id="shareQr" alt="QR code" />
+        <div class="share-row">
+          <input id="shareLink" type="text" readonly aria-label="Share link" />
+          <button class="btn btn-soft" id="shareCopy" type="button">📋 <span data-i18n="shareCopy">Copy</span></button>
+        </div>
+      </div>
+      <p class="share-note" id="shareNote" aria-live="polite"></p>
+      <button class="btn btn-soft share-close" value="close">✕ <span data-i18n="exit">Exit</span></button>
+    </form>
+  </dialog>
 
   <script src="https://unpkg.com/blockly/blockly.min.js"></script>
   <script type="module" src="story.js"></script>

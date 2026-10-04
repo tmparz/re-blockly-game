@@ -38,7 +38,18 @@ export const startBody = (scripts) => bodyOf(scriptsOf(scripts, "story_start"));
 export const clickBody = (scripts, actor) => bodyOf(scriptsOf(scripts, "story_when_clicked", (s) => actorOf(s) === actor));
 export const goal = (en, zh, test) => ({ text: { en, zh }, test });
 
-export function checkGoals(task, saved) {
+// Remixed projects (opened from a share code) get one extra goal: credit the original author on stage.
+// ctx.remixOf is the credit chain, newest first.
+export const CREDIT_GOAL = {
+  ...goal("📝 Credit the author: a character says their name", "📝 標示原作者：讓角色說出原作者的名字",
+    (s, ctx) => bodyOf(s).some((b) => (b.type === "story_say" || b.type === "story_think")
+      && field(b, "TEXT", "").includes(ctx.remixOf[0]))),
+  remixOnly: true,
+};
+
+export const goalsFor = (task, ctx = {}) => task.goals.filter((g) => !g.remixOnly || ctx.remixOf?.length);
+
+export function checkGoals(task, saved, ctx = {}) {
   const scripts = analyze(saved);
-  return task.goals.map((g) => Boolean(g.test(scripts)));
+  return goalsFor(task, ctx).map((g) => Boolean(g.test(scripts, ctx)));
 }

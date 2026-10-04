@@ -1,7 +1,7 @@
 // Product Studio: build ONE real product (a dragon pet app) version by version, then design your own.
 // Each step carries on from the student's previous version, so the product grows like real software.
 import {
-  B, MOTION, act, actorOf, bodyOf, clickBody, clicked, field, goal, innerOf, say, says, script, scriptsOf, start, startBody, state,
+  B, CREDIT_GOAL, MOTION, act, actorOf, bodyOf, clickBody, clicked, field, goal, innerOf, say, says, script, scriptsOf, start, startBody, state,
 } from "./task-kit.js";
 
 const find = (list, type) => list.filter((b) => b.type === type);
@@ -159,6 +159,7 @@ export const MY_PRODUCT = {
       const sent = new Set(find(bodyOf(s), "story_broadcast").map((b) => field(b, "MSG", "go")));
       return scriptsOf(s, "story_when_receive", (x) => sent.has(field(x, "MSG", "go")) && x.body.length > 0).length > 0;
     }),
+    CREDIT_GOAL,
   ],
   starter: state(start),
   example: state(

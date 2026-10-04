@@ -1,6 +1,6 @@
 // Game Studio (Part 3): build a full game version by version with several variables, randomness,
 // comparisons, a timer running in parallel and game over. Then design your own game.
-import { B, act, actorOf, bodyOf, clickBody, clicked, field, goal, innerOf, say, says, script, scriptsOf, start, startBody, state } from "./task-kit.js";
+import { B, CREDIT_GOAL, act, actorOf, bodyOf, clickBody, clicked, field, goal, innerOf, say, says, script, scriptsOf, start, startBody, state } from "./task-kit.js";
 
 const find = (list, type) => list.filter((b) => b.type === type);
 const varOf = (b) => field(b, "VAR", "score");
@@ -156,6 +156,7 @@ export const MY_GAME = {
     goal("⚖️ A rule that compares a variable", "⚖️ 用比較寫規則", (s) => find(bodyOf(s), "story_if_var").length + find(bodyOf(s), "story_until_var").length > 0),
     goal("🛑 A way for the game to end", "🛑 遊戲有結束的方式", (s) => stops(bodyOf(s))),
     goal("👆 The player can tap something", "👆 玩家可以點東西", (s) => scriptsOf(s, "story_when_clicked", (x) => x.body.length > 0).length > 0),
+    CREDIT_GOAL,
   ],
   starter: state(start),
   example: state(
