@@ -77,6 +77,17 @@ const SCENES = {
     <path d="M1380 820 Q1400 600 1330 430" fill="none" stroke="#8d6e63" stroke-width="30" stroke-linecap="round"/>
     ${repeat(5, (i) => `<path d="M1330 430 q${-160 + i * 80} -40 ${-190 + i * 95} ${60 - Math.abs(i - 2) * 30}" fill="none" stroke="#43a047" stroke-width="26" stroke-linecap="round"/>`)}
     <path d="M160 820 V620" stroke="#fff" stroke-width="10"/><path d="M40 640 Q160 520 280 640Z" fill="#ef5350"/>`,
+  theater: () => `
+    <rect width="1600" height="900" fill="#2b1838"/>
+    <ellipse cx="800" cy="660" rx="760" ry="120" fill="#4a2a5e" opacity=".6"/>
+    ${[380, 800, 1220].map((x) => `<path d="M${x} 0 L${x - 230} 700 L${x + 230} 700Z" fill="#fff6c7" opacity=".09"/>`).join("")}
+    <rect x="0" y="650" width="1600" height="250" fill="#a8693f"/>
+    ${repeat(9, (i) => `<rect x="0" y="${660 + i * 28}" width="1600" height="3" fill="#7d4a2b" opacity=".6"/>`)}
+    <path d="M0 0 H330 Q300 360 360 650 H0Z" fill="#c62839"/><path d="M1600 0 H1270 Q1300 360 1240 650 H1600Z" fill="#c62839"/>
+    ${repeat(5, (i) => `<path d="M${40 + i * 60} 0 Q${30 + i * 60} 330 ${55 + i * 60} 650" fill="none" stroke="#9e1b2b" stroke-width="10"/>`)}
+    ${repeat(5, (i) => `<path d="M${1300 + i * 60} 0 Q${1310 + i * 60} 330 ${1285 + i * 60} 650" fill="none" stroke="#9e1b2b" stroke-width="10"/>`)}
+    <path d="M0 0 H1600 V90 Q1200 150 800 100 Q400 150 0 90Z" fill="#a81f30"/>
+    ${repeat(12, (i) => `<circle cx="${80 + i * 130}" cy="118" r="10" fill="#ffd54f"/>`)}`,
   ocean: () => {
     const r = rand(11);
     return `
@@ -99,6 +110,7 @@ export const SCENE_NAMES = {
   space: { en: "🚀 Space", zh: "🚀 太空" },
   beach: { en: "🏖️ Beach", zh: "🏖️ 海灘" },
   ocean: { en: "🐠 Under the Sea", zh: "🐠 海底" },
+  theater: { en: "🎭 Theater", zh: "🎭 劇場" },
 };
 
 export function sceneSvg(id) {
