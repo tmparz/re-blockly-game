@@ -14,7 +14,7 @@ import { createBoard } from "./board.js";
 import { lang, pick, setLang, t } from "./i18n.js";
 import { loadProgress, saveProgress } from "./storage.js";
 import { createMaker } from "./maker-ui.js";
-import { friendLevel } from "./missions/maker.js";
+import { addFriendLevel } from "./missions/maker.js";
 
 const $ = (selector) => document.querySelector(selector);
 const progress = loadProgress();
@@ -191,9 +191,11 @@ function bindControls() {
   });
   $("#resetButton").addEventListener("click", () => showMap(view.map));
   $("#restartButton").addEventListener("click", async () => {
-    if (!(await askConfirm(t("confirmRestart")))) return;
-    if (isPredict(currentMission())) predictUI.show(currentMission());
-    loadState(isPredict(currentMission()) ? startingState(currentMission()) : stateFromDsl(currentMission().starter));
+    const mission = currentMission();
+    if (!(await askConfirm(t(mission.kind === "maker" ? "mk_confirmRestart" : "confirmRestart")))) return;
+    if (isPredict(mission)) predictUI.show(mission);
+    if (mission.kind === "maker") maker.reset(); // Start over clears the painted map too, not just the blocks
+    loadState(isPredict(mission) ? startingState(mission) : stateFromDsl(mission.starter));
     showMap(view.map);
   });
   $("#answerButton").addEventListener("click", async () => {
@@ -287,13 +289,10 @@ function boot() {
     },
   });
   maker.load(progress.maker);
-  $("#makerTools").addEventListener("maker-message", (event) => setResult(event.detail));
-  // A shared level link (?play=…) opens as a bonus "friend's level" at the end of Function Factory.
-  const friend = friendLevel(new URLSearchParams(location.search));
-  const functions = UNITS.find((unit) => unit.id === "functions");
-  if (friend) functions.missions.push({ ...friend, unit: "functions", id: `friend:${friend.maps[0].join("/")}` });
+  $("#makerTools").addEventListener("maker-message", (event) => setResult(event.detail)); // share feedback
+  const friend = addFriendLevel(UNITS, new URLSearchParams(location.search)); // a shared ?play= link
   bindControls();
-  selectMission(...(friend ? [UNITS.indexOf(functions), functions.missions.length - 1] : initialSelection()));
+  selectMission(...(friend ?? initialSelection()));
 }
 
 boot();

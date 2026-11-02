@@ -65,3 +65,14 @@ export function friendLevel(params) {
     solution: null,
   };
 }
+
+// Adds a shared level as a bonus mission at the end of Function Factory.
+// Returns [unit index, mission index] to open it, or null when the link has no valid level.
+export function addFriendLevel(units, params) {
+  const friend = friendLevel(params);
+  const unitIndex = units.findIndex((unit) => unit.id === "functions");
+  if (!friend || unitIndex < 0) return null;
+  const { missions } = units[unitIndex];
+  missions.push({ ...friend, unit: "functions", id: `friend:${friend.maps[0].join("/")}` });
+  return [unitIndex, missions.length - 1];
+}

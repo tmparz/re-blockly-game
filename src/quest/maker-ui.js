@@ -123,6 +123,11 @@ export function createMaker({ boardEl, toolsEl, goalsEl, t, isBusy = () => false
       }
     },
     setRows: changed,
+    reset() {
+      tool = "floor";
+      renderTools();
+      changed(blankRows(SIZES[1]));
+    },
     activate(on) {
       active = on;
       toolsEl.hidden = !on;
