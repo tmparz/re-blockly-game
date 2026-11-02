@@ -4,6 +4,7 @@ import { functionFactory } from "./functions.js";
 import { counting } from "./counting.js";
 import { functionBasics } from "./functions-basics.js";
 import { functionAdvanced } from "./functions-advanced.js";
+import { functionPractice } from "./functions-practice.js";
 import { FUNCTION_PATH } from "./function-path.js";
 import { countingExtra } from "./counting-extra.js";
 import { COUNTING_PATH } from "./counting-path.js";
@@ -28,7 +29,7 @@ function followPath(name, missions, path) {
   });
 }
 
-const functionMissions = followPath("function", [...functionFactory, ...functionBasics, ...functionAdvanced], FUNCTION_PATH);
+const functionMissions = followPath("function", [...functionFactory, ...functionBasics, ...functionAdvanced, ...functionPractice], FUNCTION_PATH);
 const countingMissions = followPath("counting", [...counting, ...countingExtra], COUNTING_PATH);
 const inputMissions = followPath("inputs", inputs, INPUTS_PATH);
 const logicMissions = followPath("logic", logic, LOGIC_PATH);

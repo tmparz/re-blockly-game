@@ -24,4 +24,10 @@ export const FUNCTION_PATH = [
   ["fn-7", "hard", { en: "A function with \"if\" works on every map.", zh: "函式裡放「如果」，每張地圖都能用。" }],
   ["fg-10", "hard", { en: "A function can hold rules: one function solves every maze.", zh: "函式可以裝「規則」：一個函式走完所有迷宮。" }],
   ["fg-12", "hard", { en: "Use everything together.", zh: "全部學到的一起用。" }],
+  // 🟣 Practice for 17–20: one program, three maps (new missions go after 20 so 1–20 keep their numbers)
+  ["fp-1", "practice", { en: "Practice: repeat a function until the flag, however many steps.", zh: "練習：不管幾階，都讓函式重複到旗子。" }],
+  ["fp-2", "practice", { en: "Practice: \"if\" inside a function finds rooms anywhere.", zh: "練習：函式裡放「如果」，房間在哪都找得到。" }],
+  ["fp-3", "practice", { en: "Practice: a turning rule in a function fits every spiral.", zh: "練習：函式裡的轉彎規則，每個漩渦都適用。" }],
+  ["fp-4", "practice", { en: "Practice: a new rule — keep your left hand on the wall.", zh: "練習：新規則──左手一直扶著牆。" }],
+  ["fp-5", "practice", { en: "Practice: one plan for every mountain.", zh: "練習：一個計畫，走完每座山。" }],
 ];
