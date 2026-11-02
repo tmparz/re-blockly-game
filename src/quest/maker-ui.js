@@ -148,7 +148,6 @@ export function createMaker({ boardEl, toolsEl, goalsEl, t, mapIndex, onMapChang
       solvedBlocks = null;
       show(true);
       renderGoals();
-      requestAnimationFrame(() => document.querySelector(".mission-dot[aria-pressed=true]")?.scrollIntoView({ block: "nearest", inline: "nearest" }));
       return maps;
     },
     close() {

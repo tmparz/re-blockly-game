@@ -44,6 +44,8 @@ export function renderMissionDots(root, { unit, current, stars, onSelect }) {
     dot.textContent = mission.dot ?? (number === null ? "🔮" : number);
     root.append(dot);
   });
+  // Keep the current mission visible in the scrolling row.
+  requestAnimationFrame(() => root.querySelector('[aria-pressed="true"]')?.scrollIntoView({ block: "nearest", inline: "nearest" }));
 }
 
 export function renderMapTabs(root, { count, current, results, onSelect }) {
