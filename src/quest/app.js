@@ -13,6 +13,8 @@ import { createQuickAdd } from "./quick-add.js";
 import { createBoard } from "./board.js";
 import { lang, pick, setLang, t } from "./i18n.js";
 import { loadProgress, saveProgress } from "./storage.js";
+import { createMaker } from "./maker-ui.js";
+import { friendLevel } from "./missions/maker.js";
 
 const $ = (selector) => document.querySelector(selector);
 const progress = loadProgress();
@@ -22,6 +24,7 @@ let workspace = null;
 let loading = false;
 let quickAdd = null;
 let runner = null;
+let maker = null;
 const predictUI = createPredictUI({ bar: $("#predictBar"), quick: $("#quickAdd") });
 
 const currentUnit = () => UNITS[view.unit];
@@ -52,8 +55,9 @@ function renderStaticText() {
 }
 
 function renderTotals() {
-  const total = UNITS.flatMap((unit) => unit.missions).reduce((sum, m) => sum + (progress.stars[m.id] ?? 0), 0);
-  const max = UNITS.reduce((sum, unit) => sum + unit.missions.length * 3, 0);
+  const counted = UNITS.flatMap((unit) => unit.missions).filter((m) => !m.extra); // a friend's level is a bonus
+  const total = counted.reduce((sum, m) => sum + (progress.stars[m.id] ?? 0), 0);
+  const max = counted.length * 3;
   $("#totalStars").textContent = `${total} / ${max}`;
 }
 
@@ -67,6 +71,8 @@ const renderMaps = () => renderMapTabs($("#mapTabs"), { count: currentMission().
 // 🔮 A predict mission judges the chosen answer instead of checking a goal.
 function evaluateNow() {
   const mission = currentMission();
+  const problem = mission.kind === "maker" && maker.problem();
+  if (problem) return { ok: false, maps: [], reason: problem };
   if (!isPredict(mission)) return evaluate(programFromState(Blockly.serialization.workspaces.save(workspace)), mission);
   if (predictUI.choice === null) return { ok: false, maps: [], reason: "pickFirst" };
   return judge(mission, predictUI.choice, predictUI.missed);
@@ -108,7 +114,10 @@ function selectMission(unitIndex, missionIndex) {
   const mission = currentMission();
   progress.last = { unit: currentUnit().id, mission: missionIndex };
   saveProgress(progress);
-  history.replaceState(null, "", `?unit=${currentUnit().id}&m=${missionParam(currentUnit(), missionIndex)}`);
+  if (mission.kind !== "friend") history.replaceState(null, "", `?unit=${currentUnit().id}&m=${missionParam(currentUnit(), missionIndex)}`);
+  if (mission.kind === "maker") mission.maps = [maker.rows];
+  maker.activate(mission.kind === "maker");
+  $("#answerButton").hidden = !mission.solution && !isPredict(mission);
 
   const tier = mission.tier ? ` · ${t(`tier_${mission.tier}`)}` : "";
   const number = missionNumber(currentUnit(), missionIndex);
@@ -129,6 +138,7 @@ function selectMission(unitIndex, missionIndex) {
   if (isPredict(mission)) predictUI.show(mission);
   else predictUI.hide();
   loadState(startingState(mission));
+  maker.update(programFromState(Blockly.serialization.workspaces.save(workspace)));
   renderNav();
   showMap(0);
 }
@@ -159,7 +169,8 @@ function finishRun(evaluation, index) {
   const message = isPredict(mission) ? t(evaluation.stars === 3 ? "predictRight" : "predictRightLater")
     : evaluation.stars === 3 ? t("success3") : t("success2", { best: mission.best });
   const maps = mission.maps.length > 1 ? ` ${t("allMaps", { n: mission.maps.length })}` : "";
-  setResult(message + maps, "success");
+  setResult(mission.kind === "maker" ? t("mk_solved") : message + maps, "success");
+  if (mission.kind === "maker") maker.markSolved(evaluation.blocks);
   $("#nextButton").hidden = !nextTarget();
   renderTotals();
   renderNav();
@@ -194,6 +205,7 @@ function bindControls() {
       setResult(t("predictAnswer", { answer: choiceText(rightChoice(mission)) }));
       return;
     }
+    if (mission.kind === "maker") maker.setRows(mission.example);
     loadState(stateFromDsl(mission.solution));
     setResult(t("answerLoaded"));
   });
@@ -239,6 +251,7 @@ function boot() {
     progress.code[currentMission().id] = Blockly.serialization.workspaces.save(workspace);
     saveProgress(progress);
     updateBlockCount();
+    maker.update(programFromState(Blockly.serialization.workspaces.save(workspace)));
   });
   quickAdd = createQuickAdd({
     workspace,
@@ -264,8 +277,23 @@ function boot() {
     status: setResult,
     delay: () => 900 - Number($("#speed").value),
   });
+  maker = createMaker({
+    boardEl: $("#board"), toolsEl: $("#makerTools"), goalsEl: $("#makerGoals"), t,
+    onMapChange(rows) {
+      currentMission().maps = [rows];
+      progress.maker = rows;
+      saveProgress(progress);
+      showMap(0);
+    },
+  });
+  maker.load(progress.maker);
+  $("#makerTools").addEventListener("maker-message", (event) => setResult(event.detail));
+  // A shared level link (?play=…) opens as a bonus "friend's level" at the end of Function Factory.
+  const friend = friendLevel(new URLSearchParams(location.search));
+  const functions = UNITS.find((unit) => unit.id === "functions");
+  if (friend) functions.missions.push({ ...friend, unit: "functions", id: `friend:${friend.maps[0].join("/")}` });
   bindControls();
-  selectMission(...initialSelection());
+  selectMission(...(friend ? [UNITS.indexOf(functions), functions.missions.length - 1] : initialSelection()));
 }
 
 boot();

@@ -9,7 +9,7 @@ const button = (className, onClick) => {
   el.addEventListener("click", onClick);
   return el;
 };
-const starsOf = (missions, stars) => missions.reduce((sum, m) => sum + (stars[m.id] ?? 0), 0);
+const starsOf = (missions, stars) => missions.filter((m) => !m.extra).reduce((sum, m) => sum + (stars[m.id] ?? 0), 0);
 
 // The dark button switches between Part 2 and Part 3.
 export function renderUnitTabs(root, { units, current, stars, onSelect }) {
@@ -27,7 +27,7 @@ export function renderUnitTabs(root, { units, current, stars, onSelect }) {
     tab.innerHTML = `<span class="unit-icon">${unit.icon}</span><span><strong class="full"></strong><strong class="short"></strong><small></small></span>`;
     tab.querySelector(".full").textContent = pick(unit.title);
     tab.querySelector(".short").textContent = pick(unit.short);
-    tab.querySelector("small").textContent = `${pick(unit.concept)} · ⭐ ${starsOf(unit.missions, stars)}/${unit.missions.length * 3}`;
+    tab.querySelector("small").textContent = `${pick(unit.concept)} · ⭐ ${starsOf(unit.missions, stars)}/${unit.missions.filter((m) => !m.extra).length * 3}`;
     root.append(tab);
   });
 }
@@ -41,7 +41,7 @@ export function renderMissionDots(root, { unit, current, stars, onSelect }) {
     dot.dataset.stars = stars[mission.id] ?? 0;
     dot.setAttribute("aria-pressed", String(index === current));
     dot.setAttribute("aria-label", `${number === null ? t("predictKicker") : t("mission", { n: number })}: ${pick(mission.title)}`);
-    dot.textContent = number === null ? "🔮" : number;
+    dot.textContent = mission.dot ?? (number === null ? "🔮" : number);
     root.append(dot);
   });
 }

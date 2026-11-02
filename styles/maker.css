@@ -1,0 +1,35 @@
+/* Level Maker (Function Factory project): tap-to-paint editor, goals and share. */
+.maker-goals { display: flex; flex-wrap: wrap; gap: 4px 12px; margin: 8px 0 0; padding: 8px 10px; border-radius: 12px; background: #f1f4ff; list-style: none; }
+.maker-goals li { display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 600; }
+.maker-goals li::before { content: "○"; display: grid; flex: none; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: #fff; color: #98a2b3; font-weight: 800; }
+.maker-goals li[data-done="true"] { color: var(--ok-ink); }
+.maker-goals li[data-done="true"]::before { content: "✓"; background: var(--run); color: #fff; }
+.maker-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.mk-tool, .mk-act { display: inline-flex; align-items: center; gap: 4px; min-width: 44px; min-height: 44px; padding: 0 10px; border: 2px solid var(--line); border-radius: 12px; background: var(--card); cursor: pointer; font-size: 18px; font-weight: 800; touch-action: manipulation; }
+.mk-tool span { display: none; font-size: 13px; }
+.mk-tool[aria-pressed="true"] { border-color: var(--brand); background: #eef2ff; box-shadow: 0 0 0 3px #c7d2fe; }
+.mk-act { font-size: 14px; }
+.mk-share { background: #f2f4f7; color: #98a2b3; }
+.mk-share[data-ready="true"] { border-color: var(--brand); background: var(--brand); color: #fff; }
+.board.editing .cell { cursor: pointer; }
+.board.editing .cell.void { background: rgba(255, 255, 255, .35); }
+
+/* While designing, give the map the room: hide what the maker doesn't need. */
+.maker-mode .chips, .maker-mode .speed, .maker-mode .kicker, .maker-mode .hint, .maker-mode .lesson { display: none; }
+.maker-mode .maker-goals { display: grid; grid-template-columns: 1fr 1fr; }
+.maker-mode .mission-dots { flex-wrap: nowrap; overflow-x: auto; padding: 3px; }
+.maker-mode .mission-dot { flex: none; }
+
+@media (min-width: 1300px) { .mk-tool span { display: inline; } }
+@media (orientation: landscape) and (min-width: 900px) {
+  .maker-mode .quest-shell { grid-template-columns: minmax(0, 58fr) minmax(0, 42fr); }
+}
+/* iPad portrait: the goals go right under the title so they stay visible. */
+@media (orientation: portrait) and (min-width: 600px) {
+  .maker-mode .mission-head { display: flex; flex-direction: column; }
+  .maker-mode .mission-head > * { order: 4; flex-shrink: 0; }
+  .maker-mode .mission-dots { order: 0; }
+  .maker-mode .mission-head h1 { order: 1; }
+  .maker-mode .maker-goals { order: 2; margin: 0 0 6px; }
+  .maker-mode .maker-goals li { min-width: 0; font-size: 13px; }
+}
