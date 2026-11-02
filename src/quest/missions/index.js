@@ -15,7 +15,7 @@ import { LISTS_PATH, lists } from "./lists.js";
 import { ALGORITHMS_PATH, algorithms } from "./algorithms.js";
 import { MASTERS_PATH, masters } from "./masters.js";
 import { PREDICT } from "./predict.js";
-import { levelMaker } from "./maker.js";
+import { countMaker, levelMaker } from "./maker.js";
 
 // Orders a pool of missions by a learning path, adding each mission's tier and lesson.
 function followPath(name, missions, path) {
@@ -74,7 +74,7 @@ export const UNITS = [
     title: { en: "Counting Robots", zh: "會數數的機器人" },
     short: { en: "Counting", zh: "數數" },
     concept: { en: "Variables", zh: "變數 Variables" },
-    missions: countingMissions.map(decorate("counting")),
+    missions: [...countingMissions, countMaker].map(decorate("counting")),
   },
   // Advanced course (Part 3) starts here.
   {

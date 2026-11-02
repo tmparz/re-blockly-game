@@ -19,6 +19,10 @@
 .maker-mode .maker-goals { display: grid; grid-template-columns: 1fr 1fr; }
 .maker-mode .mission-dots { flex-wrap: nowrap; overflow-x: auto; padding: 3px; }
 .maker-mode .mission-dot { flex: none; }
+/* Map tabs share the row with the tools: numbers only, and the trace table stays closed while designing. */
+.maker-mode .trace-toggle, .maker-mode .map-tab .full { display: none; }
+.maker-mode .map-tab { min-width: 44px; padding: 0 8px; }
+.maker-mode .mk-tool, .maker-mode .mk-act { min-width: 42px; padding: 0 8px; }
 
 @media (min-width: 1300px) { .mk-tool span { display: inline; } }
 @media (orientation: landscape) and (min-width: 900px) {
@@ -32,4 +36,7 @@
   .maker-mode .mission-head h1 { order: 1; }
   .maker-mode .maker-goals { order: 2; margin: 0 0 6px; }
   .maker-mode .maker-goals li { min-width: 0; font-size: 13px; }
+  /* The tool row runs under both columns, so it stays on one line and the goals keep their room. */
+  .maker-mode .mission-panel { grid-template-rows: minmax(0, 1fr) auto auto auto; grid-template-areas: "head board" "result board" "controls board" "maps maps"; }
+  .maker-mode .map-row { padding-bottom: 10px; }
 }
