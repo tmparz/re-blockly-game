@@ -17,8 +17,6 @@
 /* While designing, give the map the room: hide what the maker doesn't need. */
 .maker-mode .chips, .maker-mode .speed, .maker-mode .kicker, .maker-mode .hint, .maker-mode .lesson { display: none; }
 .maker-mode .maker-goals { display: grid; grid-template-columns: 1fr 1fr; }
-.maker-mode .mission-dots { flex-wrap: nowrap; overflow-x: auto; padding: 3px; }
-.maker-mode .mission-dot { flex: none; }
 /* Map tabs share the row with the tools: numbers only, and the trace table stays closed while designing. */
 .maker-mode .trace-toggle, .maker-mode .map-tab .full { display: none; }
 .maker-mode .map-tab { min-width: 44px; padding: 0 8px; }
