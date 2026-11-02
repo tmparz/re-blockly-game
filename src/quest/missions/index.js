@@ -15,6 +15,7 @@ import { LISTS_PATH, lists } from "./lists.js";
 import { ALGORITHMS_PATH, algorithms } from "./algorithms.js";
 import { MASTERS_PATH, masters } from "./masters.js";
 import { PREDICT } from "./predict.js";
+import { levelMaker } from "./maker.js";
 
 // Orders a pool of missions by a learning path, adding each mission's tier and lesson.
 function followPath(name, missions, path) {
@@ -43,7 +44,7 @@ const withPredict = (unitId, missions) => {
 };
 
 const decorate = (unitId) => (mission) => {
-  const best = countBlocks(parseProgram(mission.solution));
+  const best = mission.best ?? countBlocks(parseProgram(mission.solution));
   return { ...mission, unit: unitId, best, maxBlocks: mission.maxBlocks ?? best + 3 };
 };
 
@@ -64,7 +65,7 @@ export const UNITS = [
     title: { en: "Function Factory", zh: "函式工廠" },
     short: { en: "Functions", zh: "函式" },
     concept: { en: "Functions", zh: "函式 Functions" },
-    missions: functionMissions.map(decorate("functions")),
+    missions: [...functionMissions, levelMaker].map(decorate("functions")),
   },
   {
     id: "counting",

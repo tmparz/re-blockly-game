@@ -2,6 +2,7 @@
 @import url("./trace.css");
 @import url("./predict.css");
 @import url("./share.css");
+@import url("./maker.css");
 
 :root {
   --ink: #1d2939;
