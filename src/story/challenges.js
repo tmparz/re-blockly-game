@@ -4,8 +4,9 @@ import {
 } from "./task-kit.js";
 
 export { checkGoals, goalsFor } from "./task-kit.js";
+import { FUN_CHALLENGES } from "./challenges-fun.js";
 
-export const CHALLENGES = [
+const BASE_CHALLENGES = [
   {
     id: "hello",
     title: { en: "Hello, Stage!", zh: "舞台你好！" },
@@ -149,6 +150,9 @@ export const CHALLENGES = [
     ),
   },
 ];
+
+// 1–8 teach events, timing, loops, messages and score; 9–16 are funny projects that practise them again.
+export const CHALLENGES = [...BASE_CHALLENGES, ...FUN_CHALLENGES];
 
 // The capstone: free creation, with the course rubric as a live checklist.
 export const MY_STORY = {

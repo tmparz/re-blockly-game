@@ -12,7 +12,8 @@ const actor = { type: "field_dropdown", name: "ACTOR", options: actorOptions() }
 const dropdown = (name, options) => ({ type: "field_dropdown", name, options });
 const MESSAGE_LABELS = { go: ["🚀 go", "🚀 出發"], party: ["🎉 party", "🎉 派對"], theEnd: ["🎬 the end", "🎬 結束"] };
 const messageOptions = () => MESSAGES.map((id) => [L(...MESSAGE_LABELS[id]), id]);
-const SOUND_LABELS = { pop: ["pop", "啵"], boing: ["boing", "彈簧"], drum: ["drum", "鼓聲"], magic: ["magic", "魔法"], cheer: ["cheer", "歡呼"] };
+const SOUND_LABELS = { pop: ["pop", "啵"], boing: ["boing", "彈簧"], drum: ["drum", "鼓聲"], magic: ["magic", "魔法"], cheer: ["cheer", "歡呼"],
+  meow: ["🐱 meow", "🐱 喵"], woof: ["🐶 woof", "🐶 汪"], beep: ["🤖 beep", "🤖 嗶嗶"], tada: ["ta-da!", "噠啦！"], whoosh: ["whoosh", "咻"] };
 
 const hat = (type, message0, args0 = []) => ({ type, message0, args0, nextStatement: null, colour: HUES.events });
 const step = (type, message0, args0, hue) => ({ type, message0, args0, previousStatement: null, nextStatement: null, colour: hue });

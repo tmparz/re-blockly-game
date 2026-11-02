@@ -56,9 +56,25 @@ const SOUNDS = {
     noise(ac, { start: 0.35, length: 0.5, volume: 0.12 });
   },
   step: (ac) => tone(ac, { from: 300, to: 220, length: 0.05, volume: 0.06 }),
+  meow: (ac) => {
+    tone(ac, { type: "sawtooth", from: 520, to: 820, length: 0.16, volume: 0.07 });
+    tone(ac, { type: "sawtooth", from: 820, to: 430, start: 0.16, length: 0.26, volume: 0.07 });
+  },
+  woof: (ac) => {
+    tone(ac, { type: "square", from: 260, to: 120, length: 0.12, volume: 0.12 });
+    noise(ac, { length: 0.07, volume: 0.1 });
+    tone(ac, { type: "square", from: 240, to: 110, start: 0.2, length: 0.12, volume: 0.12 });
+  },
+  beep: (ac) => [880, 660, 990].forEach((f, i) => tone(ac, { type: "square", from: f, start: i * 0.12, length: 0.08, volume: 0.07 })),
+  tada: (ac) => [[523, 0], [659, 0.12], [784, 0.24], [1047, 0.36]].forEach(([f, start]) =>
+    tone(ac, { type: "triangle", from: f, start, length: start === 0.36 ? 0.6 : 0.14, volume: 0.14 })),
+  whoosh: (ac) => {
+    noise(ac, { length: 0.45, volume: 0.18 });
+    tone(ac, { from: 200, to: 1400, length: 0.4, volume: 0.05 });
+  },
 };
 
-export const SOUND_IDS = ["pop", "boing", "drum", "magic", "cheer"];
+export const SOUND_IDS = ["pop", "boing", "drum", "magic", "cheer", "meow", "woof", "beep", "tada", "whoosh"];
 
 export function play(name) {
   const ac = audio();
