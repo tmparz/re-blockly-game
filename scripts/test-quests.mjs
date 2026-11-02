@@ -1,7 +1,7 @@
 // Validates Quest Lab missions: solutions pass on every map, starters fail, text is bilingual.
 import { UNITS, ALL_MISSIONS } from "../src/quest/missions/index.js";
 import { evaluate, parseMap } from "../src/quest/engine.js";
-import { parseProgram, programFromState, stateFromDsl, usage } from "../src/quest/program.js";
+import { countBlocks, parseProgram, programFromState, stateFromDsl, usage } from "../src/quest/program.js";
 
 const errors = [];
 const fail = (mission, message) => errors.push(`${mission.id}: ${message}`);
@@ -58,7 +58,7 @@ for (const mission of ALL_MISSIONS) {
     const starter = evaluate(programFromState(stateFromDsl(mission.starter)), mission);
     if (starter.ok) fail(mission, "starter program already passes");
   }
-  if (mission.maxBlocks < mission.best) fail(mission, "maxBlocks is below solution size");
+  if (mission.maxBlocks < countBlocks(solution)) fail(mission, "maxBlocks is below solution size");
 }
 
 if (errors.length) {
