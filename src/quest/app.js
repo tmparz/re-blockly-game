@@ -72,7 +72,7 @@ const renderMaps = () => renderMapTabs($("#mapTabs"), { count: currentMission().
 function evaluateNow() {
   const mission = currentMission();
   const problem = mission.kind === "maker" && maker.problem();
-  if (problem) return { ok: false, maps: [], reason: problem };
+  if (problem) return { ok: false, maps: [], ...problem };
   if (!isPredict(mission)) return evaluate(programFromState(Blockly.serialization.workspaces.save(workspace)), mission);
   if (predictUI.choice === null) return { ok: false, maps: [], reason: "pickFirst" };
   return judge(mission, predictUI.choice, predictUI.missed);
@@ -115,8 +115,8 @@ function selectMission(unitIndex, missionIndex) {
   progress.last = { unit: currentUnit().id, mission: missionIndex };
   saveProgress(progress);
   if (mission.kind !== "friend") history.replaceState(null, "", `?unit=${currentUnit().id}&m=${missionParam(currentUnit(), missionIndex)}`);
-  if (mission.kind === "maker") mission.maps = [maker.rows];
-  maker.activate(mission.kind === "maker");
+  if (mission.kind === "maker") mission.maps = maker.open(mission, progress.makers[mission.id]);
+  else maker.close();
   $("#answerButton").hidden = !mission.solution && !isPredict(mission);
 
   const tier = mission.tier ? ` · ${t(`tier_${mission.tier}`)}` : "";
@@ -207,7 +207,7 @@ function bindControls() {
       setResult(t("predictAnswer", { answer: choiceText(rightChoice(mission)) }));
       return;
     }
-    if (mission.kind === "maker") maker.setRows(mission.example);
+    if (mission.kind === "maker") maker.setMaps(mission.example);
     loadState(stateFromDsl(mission.solution));
     setResult(t("answerLoaded"));
   });
@@ -280,15 +280,14 @@ function boot() {
     delay: () => 900 - Number($("#speed").value),
   });
   maker = createMaker({
-    boardEl: $("#board"), toolsEl: $("#makerTools"), goalsEl: $("#makerGoals"), t,
-    onMapChange(rows) {
-      currentMission().maps = [rows];
-      progress.maker = rows;
+    boardEl: $("#board"), toolsEl: $("#makerTools"), goalsEl: $("#makerGoals"), t, mapIndex: () => view.map,
+    onMapChange(maps) {
+      currentMission().maps = maps;
+      progress.makers[currentMission().id] = maps;
       saveProgress(progress);
-      showMap(0);
+      showMap(Math.min(view.map, maps.length - 1));
     },
   });
-  maker.load(progress.maker);
   $("#makerTools").addEventListener("maker-message", (event) => setResult(event.detail)); // share feedback
   const friend = addFriendLevel(UNITS, new URLSearchParams(location.search)); // a shared ?play= link
   bindControls();
