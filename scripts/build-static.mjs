@@ -5,6 +5,7 @@ const root = resolve(".");
 const dist = resolve(root, "dist");
 const files = [
   "index.html",
+  "levels.html",
   "styles.css",
   "app.js",
   "bird.html",

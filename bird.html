@@ -1,21 +1,33 @@
 <!doctype html>
-<html lang="zh-Hant">
+<html lang="en">
+<head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bird 飛鳥任務｜iPad 觸控版</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bird · Blocky Easy</title>
+<link rel="stylesheet" href="styles/theme.css" />
 <style>
-  * { box-sizing: border-box; }
-  body { margin: 0; font: 16px system-ui, sans-serif; color: #173b37; background: #f0f7f5; }
-  header { padding: 12px 20px; display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
-  h1 { margin: 0; font-size: 21px; } p { margin: 4px 0; font-size: 14px; }
-  a { color: #17685a; } iframe { display: block; width: 100%; height: calc(100dvh - 100px); min-height: 620px; border: 0; background: white; }
+  .bird-title { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; padding: 8px 16px; background: var(--card); border-bottom: 1px solid var(--line); }
+  .bird-title h1 { margin: 0; font-size: 20px; }
+  .bird-title p { margin: 0; color: var(--muted); font-size: 14px; }
+  iframe { display: block; width: 100%; height: calc(100dvh - 112px); min-height: 600px; border: 0; background: #fff; }
 </style>
-<header><a href="./">← Blocky Easy</a><div><h1>Bird 飛鳥任務 · iPad 觸控版</h1><p>點角度積木可旋轉圓盤調整方向；點座標數字可使用螢幕鍵盤輸入。先吃到蟲，再飛回鳥巢。</p></div></header>
-<iframe id="game" title="Bird 十個關卡與觸控數字鍵盤" src="bird-game/bird.html?lang=zh-hant"></iframe>
-<script>
+</head>
+<body>
+<header class="site-bar" data-site-nav="student" data-current="games"></header>
+<div class="bird-title"><h1 id="birdTitle">🐦 Bird</h1><p id="birdTip">Tap an angle block to turn the dial. Tap a number to use the keypad. Catch the worm, then fly to the nest.</p></div>
+<iframe id="game" title="Bird"></iframe>
+<script type="module">
+  import { lang } from "./src/shared/lang.js";
   const params = new URLSearchParams(location.search);
-  const lang = params.get('lang') === 'en' ? 'en' : 'zh-hant';
-  const level = Math.min(10, Math.max(1, Number(params.get('level')) || 1));
-  document.getElementById('game').src = `bird-game/bird.html?lang=${lang}&level=${level}`;
+  const gameLang = (params.get("lang") ?? (lang === "zh" ? "zh-hant" : "en")) === "en" ? "en" : "zh-hant";
+  const level = Math.min(10, Math.max(1, Number(params.get("level")) || 1));
+  if (lang === "zh") {
+    document.documentElement.lang = "zh-Hant";
+    document.getElementById("birdTitle").textContent = "🐦 Bird 飛鳥任務";
+    document.getElementById("birdTip").textContent = "點角度積木可旋轉圓盤調整方向；點座標數字可使用螢幕鍵盤輸入。先吃到蟲，再飛回鳥巢。";
+  }
+  document.getElementById("game").src = `bird-game/bird.html?lang=${gameLang}&level=${level}`;
 </script>
+<script type="module" src="src/shared/site-nav.js"></script>
+</body>
 </html>

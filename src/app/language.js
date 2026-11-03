@@ -1,11 +1,10 @@
-export const LANGUAGE_KEY = "blocky-easy-language";
+// The 100 levels follow the site-wide language setting (English by default, see src/shared/lang.js).
+import { LANG_KEY, lang } from "../shared/lang.js";
+
+export const LANGUAGE_KEY = LANG_KEY;
 
 export function readLanguage() {
-  try {
-    return localStorage.getItem(LANGUAGE_KEY) === "en" ? "en" : "zh";
-  } catch {
-    return "zh";
-  }
+  return lang;
 }
 
-export const currentLang = readLanguage();
+export const currentLang = lang;

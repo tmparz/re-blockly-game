@@ -1,0 +1,48 @@
+/* 100 Levels in the site-wide light style (loaded after styles.css, uses tokens from theme.css). */
+body {
+  background: var(--page);
+  color: var(--ink);
+  font-family: var(--font);
+}
+
+.app-shell { padding-top: 14px; }
+
+.level-toolbar,
+.play-panel,
+.workspace-panel {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--card);
+  box-shadow: var(--shadow);
+}
+
+.level-toolbar { background: var(--card); }
+
+.workspace-panel,
+.workspace-header { background: var(--card); color: var(--ink); }
+.workspace-header { border-bottom-color: var(--line); }
+.workspace-header .eyebrow { color: var(--muted); }
+.block-count { background: #eef1f6; color: #475467; }
+.block-count.is-over-limit { background: var(--fail-bg); color: var(--fail-ink); }
+
+/* The star total now sits under the level picker instead of in the old dark header. */
+.level-select-box .score-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 10px;
+  padding: 8px 12px;
+  border: 0;
+  border-radius: 999px;
+  background: #fff7db;
+  color: var(--ink);
+  font-weight: 700;
+}
+.level-select-box .score-strip strong { color: var(--warm-ink); }
+
+/* Tap-to-add bar, light like Quest Lab and Story Lab. */
+.quick-blocks { border-bottom: 1px solid var(--line); background: #f8fafc; color: #344054; }
+.quick-block-button { border: 1px solid var(--line); background: var(--card); color: var(--ink); }
+.quick-block-button:hover, .quick-block-button:focus-visible { border-color: var(--brand); background: var(--brand-soft); }
+.quick-target-button { border: 1px solid var(--line); background: var(--card); color: #344054; }

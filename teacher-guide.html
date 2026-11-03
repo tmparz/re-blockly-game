@@ -4,12 +4,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>老師使用說明｜Blocky Easy</title>
+    <link rel="stylesheet" href="styles/theme.css" />
     <style>
       :root { color-scheme: light; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
       * { box-sizing: border-box; }
-      body { margin: 0; color: #173b37; background: #f4f8f7; line-height: 1.7; }
       a { color: #17685a; }
-      header { padding: 28px 20px; background: #fff; border-bottom: 1px solid #d9e8e4; }
       .wrap { width: min(920px, 100%); margin: 0 auto; }
       h1 { margin: 12px 0 8px; font-size: clamp(30px, 5vw, 48px); letter-spacing: -.04em; }
       h2 { margin-top: 34px; line-height: 1.35; }
@@ -18,6 +17,7 @@
       main { padding: 24px 20px 56px; }
       .lead { color: #4f6d67; max-width: 760px; }
       .card { margin: 18px 0; padding: 18px 20px; border: 1px solid #d6e4e1; border-radius: 16px; background: #fff; }
+      .card > h2:first-child { margin-top: 0; }
       .quick { border-color: #bcded4; background: #eaf7f3; }
       .steps { margin: 12px 0 0; padding-left: 24px; }
       .steps li { margin: 8px 0; }
@@ -39,23 +39,25 @@
     </style>
   </head>
   <body>
-    <header>
+    <header class="site-bar" data-site-nav="teacher" data-current="guide"></header>
+  <section class="page-hero teacher">
       <div class="wrap">
-        <a href="./">← 回首頁</a>
         <h1>老師使用說明</h1>
         <p class="lead">這份說明是給帶課老師使用的。照下面順序操作即可，不需要先懂程式或專案設定。</p>
       </div>
-    </header>
+    </section>
     <main class="wrap">
       <section class="card quick">
         <h2>上課前 30 秒</h2>
         <ol class="steps">
           <li>用 iPad 或電腦開啟 <a href="https://tmparz.github.io/re-blockly-game/">https://tmparz.github.io/re-blockly-game/</a>。</li>
-          <li>要上自製闖關課程，就留在首頁；要玩 Google Blockly Games 的六個教學遊戲，點「Blockly Games 觸控版」。</li>
+          <li>首頁是「學習地圖」：學生照著 1 → 4 的路線走（100 關 → Blockly Games → 第二階段 → 第三階段），每張卡片都會顯示這台 iPad 上的進度。上方選單可以直接跳到任何區塊。</li>
+          <li>學生頁面預設英文；右上角 EN／中文 可以切換，整個網站會一起換。</li>
           <li>iPad 建議橫向使用，畫面會比較寬，拖拉積木也比較容易。</li>
           <li>先讓學生做一關；卡住時先按「提示」，老師需要示範時再按「示範」。</li>
         </ol>
-        <a class="button" href="./">進入 Blocky Easy</a>
+        <a class="button" href="./">🗺️ 學習地圖（學生首頁）</a>
+        <a class="button" href="levels.html">🟢 100 關</a>
         <a class="button" href="blockly-games.html">進入 Blockly Games 觸控版</a>
       </section>
 
@@ -104,8 +106,8 @@
 
       <h2>學生卡住時，老師先看這裡</h2>
       <div class="card">
-        <h3>首頁出現「Blockly 沒有載入」</h3>
-        <p>Blocky Easy 首頁目前會從 <code>unpkg.com</code> 載入 Blockly，所以教室網路需能連外。先確認網路，再重新整理頁面。</p>
+        <h3>頁面出現「Blockly 沒有載入」</h3>
+        <p>100 關、Quest Lab 和 Story Lab 會從 <code>unpkg.com</code> 載入 Blockly，所以教室網路需能連外。先確認網路，再重新整理頁面。</p>
         <h3>iPad 點數字卻不能輸入</h3>
         <p>請確認學生進入的是本站的「Blockly Games 觸控版」。觸控版會跳出大型數字／角度／音符選擇器，不依賴 iPad 系統數字鍵盤。</p>
         <h3>學生一直過不了</h3>
@@ -213,5 +215,6 @@
       </section>
     </main>
     <footer><div class="wrap">Blocky Easy 教師使用說明｜最後整理：2026-10-04</div></footer>
-  </body>
+    <script type="module" src="src/shared/site-nav.js"></script>
+</body>
 </html>

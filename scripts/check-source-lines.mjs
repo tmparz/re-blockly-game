@@ -7,6 +7,7 @@ const extensions = new Set([".css", ".html", ".js", ".mjs"]);
 const roots = [
   "app.js",
   "index.html",
+  "levels.html",
   "styles.css",
   "story.html",
   "story.js",

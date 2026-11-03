@@ -5,11 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>全班進度｜Blocky Easy</title>
   <meta name="robots" content="noindex" />
+  <link rel="stylesheet" href="styles/theme.css" />
   <style>
-    :root { color-scheme: light; --ink: #1d2939; --muted: #5b6b7f; --line: #dde3ec; --brand: #4f6ef7; --bad: #b42318; }
+    :root { color-scheme: light; --muted: #5b6b7f; --bad: #b42318; }
     * { box-sizing: border-box; }
-    body { margin: 0; color: var(--ink); background: #f4f6fb; font-family: "Noto Sans TC", system-ui, -apple-system, "Segoe UI", sans-serif; line-height: 1.55; }
-    header { padding: 16px; background: #fff; border-bottom: 1px solid var(--line); }
     .wrap { width: min(1200px, 100%); margin: 0 auto; }
     h1 { margin: 6px 0 4px; font-size: clamp(24px, 3.6vw, 34px); }
     .lead { margin: 0; color: var(--muted); }
@@ -41,13 +40,13 @@
   </style>
 </head>
 <body>
-  <header>
+  <header class="site-bar" data-site-nav="teacher" data-current="progress"></header>
+  <section class="page-hero teacher">
     <div class="wrap">
-      <a href="teacher-guide.html">← 老師使用說明</a>
       <h1>📊 全班進度</h1>
       <p class="lead">學生的星星和卡關的地方，集中在這一頁。資料只存在這台 iPad 的瀏覽器，不會上傳到任何伺服器。</p>
     </div>
-  </header>
+  </section>
   <main class="wrap">
     <section class="card">
       <h2>怎麼收進度</h2>
@@ -73,5 +72,6 @@
     <p class="fine">「卡」：這個單元還沒過、按執行失敗最多次的那一關（🔮 是猜猜看）。同一位學生再掃一次，會換成最新的進度。</p>
   </main>
   <script type="module" src="src/teacher/app.js"></script>
+  <script type="module" src="src/shared/site-nav.js"></script>
 </body>
 </html>

@@ -14,13 +14,13 @@ export function initBlockly() {
   const theme = Blockly.Theme.defineTheme("blockyEasy", {
     base: Blockly.Themes.Classic,
     componentStyles: {
-      workspaceBackgroundColour: "#101828",
-      toolboxBackgroundColour: "#0f172a",
-      toolboxForegroundColour: "#f8fbff",
-      flyoutBackgroundColour: "#172033",
-      flyoutForegroundColour: "#f8fbff",
+      workspaceBackgroundColour: "#ffffff",
+      toolboxBackgroundColour: "#f6f8fc",
+      toolboxForegroundColour: "#1d2939",
+      flyoutBackgroundColour: "#eef2f7",
+      flyoutForegroundColour: "#1d2939",
       flyoutOpacity: 1,
-      scrollbarColour: "#39a3ff",
+      scrollbarColour: "#98a2b3",
       insertionMarkerColour: "#22c55e",
       insertionMarkerOpacity: 0.45,
       cursorColour: "#22c55e",
@@ -37,7 +37,7 @@ export function initBlockly() {
     grid: {
       spacing: 24,
       length: 3,
-      colour: "#2e3a4f",
+      colour: "#e3e8ef",
       snap: true,
     },
     zoom: {

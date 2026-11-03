@@ -1,26 +1,7 @@
 // English is the default (US classroom); 中文 is available for teachers and families.
-const LANG_KEY = "blocky-quest-lang";
-
-function readLang() {
-  try {
-    return localStorage.getItem(LANG_KEY) === "zh" ? "zh" : "en";
-  } catch {
-    return "en";
-  }
-}
-
-export const lang = readLang();
-
-export function setLang(next) {
-  try {
-    localStorage.setItem(LANG_KEY, next);
-  } catch {
-    // Storage can be blocked; the page still works in English.
-  }
-  location.reload();
-}
-
-export const pick = (value) => (value && typeof value === "object" ? value[lang] ?? value.en : value);
+// The language setting is shared by every page (src/shared/lang.js).
+export { lang, pick, setLang } from "../shared/lang.js";
+import { lang } from "../shared/lang.js";
 
 const UI = {
   en: {
