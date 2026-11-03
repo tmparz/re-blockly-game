@@ -217,7 +217,8 @@ function locate(id) {
 
 function initialTask() {
   const params = new URLSearchParams(location.search);
-  const id = params.get("c") ?? (params.get("track") === "product" ? PRODUCT_TASKS[0].id : progress.last);
+  const list = TRACKS[params.get("track")];
+  const id = params.get("c") ?? (list ? (list.find((task) => !progress.done[task.id]) ?? list[0]).id : progress.last);
   return locate(id) ?? [0, "story"];
 }
 

@@ -77,6 +77,13 @@ Blocky Easy 解決了這些教學痛點，不僅進行了全方位的**平板觸
 
 ---
 
+## 🗺️ 網站結構（統一淺色卡片風格）
+
+- **學習地圖** (`/`)：學生首頁。照 1 → 4 的路線走：100 關 → Blockly Games → 第二階段 Code Builders → 第三階段 Code Inventors，每張卡片顯示這台裝置上的星星與完成數。
+- **共用上方選單**（`src/shared/site-nav.js` + `styles/theme.css`）：學生頁面是 地圖／100 關／Blockly Games／Quest Lab／Story Lab，老師頁面是 使用說明／課程／全班進度／不插電活動卡／解答。
+- **語言**：學生頁面預設英文，右上角 EN／中文 切換後整個網站一起換（`src/shared/lang.js`）；老師頁面維持中文。
+- **自製 100 關** 搬到 `/levels.html`。
+
 ## 🎮 附加模組與延伸遊戲
 
 1. **Bird 飛鳥任務（觸控強化版）** (`/bird.html`)  
@@ -113,7 +120,7 @@ node server.mjs
 npm run dev
 
 # 3. 瀏覽器開啟
-# 訪問 http://127.0.0.1:4173 即可暢玩自製 100 關！
+# 訪問 http://127.0.0.1:4173 進入學習地圖；自製 100 關在 /levels.html
 ```
 
 ### 關卡與建置驗證

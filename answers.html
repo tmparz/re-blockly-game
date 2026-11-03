@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>解答頁｜Blocky Easy</title>
   <meta name="robots" content="noindex" />
+  <link rel="stylesheet" href="styles/theme.css" />
   <style>
-    :root { color-scheme: light; --ink: #1d2939; --muted: #5b6b7f; --line: #dde3ec; --brand: #6d5bd0; }
+    :root { color-scheme: light; --muted: #5b6b7f; }
     * { box-sizing: border-box; }
-    body { margin: 0; color: var(--ink); background: #f4f2fb; font-family: "Noto Sans TC", system-ui, -apple-system, "Segoe UI", sans-serif; line-height: 1.55; }
-    header { position: sticky; top: 0; z-index: 2; padding: 12px 16px; background: #fff; border-bottom: 1px solid var(--line); }
+    .answers-head { position: sticky; top: 61px; z-index: 2; padding: 12px 16px; background: #fff; border-bottom: 1px solid var(--line); }
     .wrap { width: min(1100px, 100%); margin: 0 auto; }
     .head-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
     h1 { margin: 0; font-size: clamp(22px, 3.4vw, 32px); }
@@ -38,19 +38,17 @@
     /* Blockly renders here off screen; the visible cards get static copies of its drawing. */
     #renderDiv { position: fixed; left: -12000px; top: 0; width: 1400px; height: 1000px; }
     @media print {
-      header { position: static; border: 0; }
       .lang-switch, .print, .unit-nav, .open, #status { display: none; }
-      body { background: #fff; }
       .missions { grid-template-columns: 1fr 1fr; }
       .unit { break-before: page; }
     }
   </style>
 </head>
 <body>
-  <header>
+  <header class="site-bar" data-site-nav="teacher" data-current="answers"></header>
+  <div class="answers-head">
     <div class="wrap">
       <div class="head-row">
-        <a href="teacher-guide.html">← 老師使用說明</a>
         <h1>🔑 <span id="pageHeading">Quest Lab 解答頁</span></h1>
         <button class="print" type="button" onclick="print()">🖨️ 列印</button>
         <div class="lang-switch" role="group" aria-label="Language">
@@ -61,7 +59,7 @@
       <nav class="unit-nav" id="unitNav" aria-label="Units"></nav>
       <p class="note" id="pageNote">給老師用：每一關的參考解法（⭐⭐⭐ 的方塊數）和一句說明。解法不只一種，學生的做法只要通過所有地圖就算對。</p>
     </div>
-  </header>
+  </div>
   <main class="wrap">
     <p id="status" aria-live="polite"></p>
     <div id="units"></div>
@@ -69,5 +67,6 @@
   <div id="renderDiv" aria-hidden="true"></div>
   <script src="https://unpkg.com/blockly/blockly.min.js"></script>
   <script type="module" src="src/answers/app.js"></script>
+  <script type="module" src="src/shared/site-nav.js"></script>
 </body>
 </html>

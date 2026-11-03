@@ -1,0 +1,67 @@
+/* Learning map (index.html). Colours come from theme.css; each stage uses its area's accent. */
+.home { padding: 18px 16px 48px; }
+
+.home-hero { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px; padding: 22px 24px;
+  background: linear-gradient(135deg, #eef2ff, #f6f0ff 55%, #fff7e6); }
+.home-hero h1 { margin: 4px 0 6px; font-size: clamp(28px, 4.4vw, 42px); line-height: 1.15; letter-spacing: -.02em; }
+.home-hero p { max-width: 620px; margin: 0; color: #3d4a60; font-size: 17px; }
+.hero-side { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.hero-stars { display: flex; align-items: baseline; gap: 6px; padding: 10px 16px; border-radius: 16px; background: #fff7db; font-weight: 800; }
+.hero-stars strong { font-size: 28px; }
+.hero-stars small { color: var(--warm-ink); font-size: 14px; }
+.hero-go { min-height: 54px; font-size: 17px; }
+
+.path { margin: 26px 0 0; padding: 0; list-style: none; }
+.stage { --accent: var(--brand); position: relative; padding: 0 0 26px 0; }
+.stage[data-color="levels"] { --accent: var(--levels); }
+.stage[data-color="games"] { --accent: var(--games); }
+.stage[data-color="quest"] { --accent: var(--quest); }
+.stage[data-color="story"] { --accent: var(--story); }
+.stage-head { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 12px; }
+.stage-badge { display: grid; flex: none; place-items: center; width: 46px; height: 46px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 22px; font-weight: 900;
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent) 16%, transparent); }
+.stage-head h2 { margin: 2px 0 2px; font-size: 22px; }
+.stage-head p { margin: 0; color: var(--muted); }
+.stage-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 12px; padding-left: 60px; }
+
+.path-card {
+  --accent: var(--brand);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: 1fr auto;
+  gap: 4px 12px;
+  min-height: 132px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-left: 6px solid var(--accent);
+  border-radius: 18px;
+  background: var(--card);
+  box-shadow: var(--shadow);
+  color: var(--ink);
+  text-decoration: none;
+  touch-action: manipulation;
+}
+.path-card[data-area="levels"] { --accent: var(--levels); }
+.path-card[data-area="games"] { --accent: var(--games); }
+.path-card[data-area="quest"] { --accent: var(--quest); }
+.path-card[data-area="story"] { --accent: var(--story); }
+.path-card:hover { border-color: var(--accent); }
+.path-card:active { transform: translateY(1px); }
+.path-icon { grid-row: 1 / 3; font-size: 34px; line-height: 1; }
+.path-body strong { display: block; font-size: 17px; }
+.path-body small { display: block; color: var(--muted); font-size: 14px; }
+.meter { height: 8px; margin-top: 10px; overflow: hidden; border-radius: 999px; background: #eef1f6; }
+.meter span { display: block; height: 100%; border-radius: inherit; background: var(--accent); }
+.meter-text { margin: 4px 0 0; color: var(--muted); font-size: 13px; font-weight: 700; }
+.path-cta { justify-self: end; color: var(--accent); font-weight: 800; }
+
+.teacher-corner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; margin-top: 8px; border-left: 6px solid var(--teacher); }
+.teacher-corner h2 { margin: 4px 0; font-size: 22px; }
+.teacher-corner p { margin: 0; color: var(--muted); }
+.teacher-links { display: flex; flex-wrap: wrap; gap: 8px; }
+.teacher-links a { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 14px; border-radius: 12px; background: #e6f6f4; color: var(--teacher); font-weight: 800; text-decoration: none; }
+
+@media (max-width: 640px) {
+  .stage-cards { padding-left: 0; }
+  .home-hero { padding: 18px; }
+}
