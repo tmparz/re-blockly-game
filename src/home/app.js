@@ -57,6 +57,8 @@ const STAGES = [
     text: T("Fix bugs, build functions, count with variables, and make stories that react.", "修 bug、做函式、用變數數數，再做會互動的故事。"),
     cards: [
       ...UNITS.filter((unit) => unit.part === 2).map(questCard),
+      { area: "quest", icon: "📖", title: T("Function Factory Book", "函式工廠說明書"),
+        sub: T("Predict, run, lift the flap: missions 1–20", "先猜、再執行、翻蓋看：第 1–20 關"), href: "book-functions.html" },
       storyCard("🎬", T("Story Lab: Stories", "Story Lab：故事"), T("Events, messages and your own story", "事件、廣播和你自己的故事"), ALL_STORY_TASKS, "story.html?track=story"),
     ],
   },
