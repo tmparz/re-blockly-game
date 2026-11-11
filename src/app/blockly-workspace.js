@@ -7,24 +7,27 @@ import { renderProgramBuilder } from "./program-builder.js";
 import { runtime } from "./runtime.js";
 import { syncProgramFromWorkspace } from "./program-xml.js";
 import { t } from "./i18n.js";
+import { INK } from "./block-colours.js";
 
 export function initBlockly() {
   defineBlocks();
 
   const theme = Blockly.Theme.defineTheme("blockyEasy", {
     base: Blockly.Themes.Classic,
+    // Warm paper + ink palette from the ARZ AI Kids landing page.
     componentStyles: {
-      workspaceBackgroundColour: "#ffffff",
-      toolboxBackgroundColour: "#f6f8fc",
-      toolboxForegroundColour: "#1d2939",
-      flyoutBackgroundColour: "#eef2f7",
-      flyoutForegroundColour: "#1d2939",
+      workspaceBackgroundColour: "#FFFCF6",
+      toolboxBackgroundColour: "#FFFFFF",
+      toolboxForegroundColour: INK,
+      flyoutBackgroundColour: "#F3EEE3",
+      flyoutForegroundColour: INK,
       flyoutOpacity: 1,
-      scrollbarColour: "#98a2b3",
-      insertionMarkerColour: "#22c55e",
-      insertionMarkerOpacity: 0.45,
-      cursorColour: "#22c55e",
+      scrollbarColour: "#C9C2B6",
+      insertionMarkerColour: INK,
+      insertionMarkerOpacity: 0.3,
+      cursorColour: INK,
     },
+    fontStyle: { family: '"Huninn", "Noto Sans TC", sans-serif', weight: "bold", size: 13 },
   });
 
   runtime.workspace = Blockly.inject("blocklyDiv", {
@@ -37,7 +40,7 @@ export function initBlockly() {
     grid: {
       spacing: 24,
       length: 3,
-      colour: "#e3e8ef",
+      colour: "#EDE5D6",
       snap: true,
     },
     zoom: {
@@ -63,6 +66,14 @@ export function initBlockly() {
   window.addEventListener("resize", () => {
     Blockly.svgResize(runtime.workspace);
   });
+
+  // Blockly measures label widths at render time; if the Huninn web font arrives later,
+  // force every field to re-measure so text never overflows its block.
+  document.fonts?.load('bold 13px "Huninn"').then(() => {
+    runtime.workspace.getAllBlocks(false).forEach((block) => {
+      block.inputList.forEach((input) => input.fieldRow.forEach((field) => field.forceRerender()));
+    });
+  }).catch(() => {});
 }
 
 export function countLessonBlocks() {

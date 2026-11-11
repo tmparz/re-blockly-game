@@ -1,0 +1,285 @@
+/* 100 Levels in the ARZ AI Kids hand-drawn style: warm paper, thick ink outlines,
+   pastel blocks and the Huninn rounded font. Loaded last on levels.html, visuals only —
+   layout and breakpoints stay in styles.css. Block colours match src/app/block-colours.js. */
+:root {
+  --k-paper: #FFFCF6;
+  --k-ink: #3E3A39;
+  --k-coral: #F2A497;
+  --k-yellow: #F6D27A;
+  --k-blue: #A8D3E6;
+  --k-green: #B9DAA5;
+  --k-lilac: #D9CFF2;
+  --k-peach: #F9C88F;
+  --k-mint: #9ED9C8;
+  --k-pink: #F4B6C8;
+  --k-sand: #F3EEE3;
+  --k-line: 3px solid var(--k-ink);
+  --k-hand: "Huninn", "Noto Sans TC", sans-serif;
+  --k-body: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+}
+
+body { background: var(--k-paper); color: var(--k-ink); font-family: var(--k-body); }
+h1, h2, .eyebrow, .level-kicker, label, button, select, .chip-like { font-family: var(--k-hand); }
+h1, h2 { letter-spacing: -.03em; }
+:focus-visible { outline: 4px solid var(--k-ink); outline-offset: 3px; }
+
+/* ---- top bar ---- */
+.site-bar { background: var(--k-paper); border-bottom: var(--k-line); backdrop-filter: none; }
+.site-brand { font-family: var(--k-hand); color: var(--k-ink); }
+.site-brand .mark { border: 2px solid var(--k-ink); background: var(--k-yellow); color: var(--k-ink); }
+.site-links a { color: var(--k-ink); font-family: var(--k-hand); border: 2px solid transparent; }
+.site-links a:hover { background: var(--k-sand); }
+.site-links a[aria-current="page"] { background: var(--k-green); color: var(--k-ink); border-color: var(--k-ink); }
+.site-teacher { background: var(--k-blue); color: var(--k-ink); border: 2px solid var(--k-ink); font-family: var(--k-hand); }
+.lang-switch { background: var(--k-sand); border: 2px solid var(--k-ink); }
+.lang-switch button[aria-pressed="true"] { background: var(--k-yellow); box-shadow: none; }
+
+/* ---- panels ---- */
+.app-shell { gap: 18px; padding-top: 18px; }
+.level-toolbar,
+.play-panel,
+.workspace-panel {
+  border: var(--k-line);
+  border-radius: 28px;
+  background: #fff;
+  box-shadow: none;
+}
+
+.level-select-box { background: var(--k-yellow); border-right: var(--k-line); }
+.level-select-box label { color: var(--k-ink); letter-spacing: .1em; }
+.level-select-box select {
+  border: 2px solid var(--k-ink);
+  border-radius: 12px;
+  background: var(--k-paper);
+  color: var(--k-ink);
+  font-weight: 800;
+}
+.level-select-box .score-strip { border: 2px solid var(--k-ink); background: #fff; color: var(--k-ink); font-family: var(--k-hand); }
+.level-select-box .score-strip strong { color: var(--k-ink); }
+
+.mission-block { background: #fff; }
+.mission-block p { color: var(--k-ink); opacity: .85; }
+.level-kicker {
+  padding: 2px 12px;
+  border: 2px solid var(--k-ink);
+  border-radius: 10px;
+  background: var(--k-coral);
+  color: var(--k-ink);
+  font-weight: 900;
+  transform: rotate(-4deg);
+}
+
+.concept-row span,
+.block-count,
+.run-status {
+  border: 2px solid var(--k-ink);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--k-ink);
+  font-family: var(--k-hand);
+}
+.concept-row span:first-child { background: var(--k-green); }
+.run-status { background: var(--k-yellow); color: var(--k-ink); }
+.run-status.is-good { background: var(--k-green); color: var(--k-ink); }
+.run-status.is-bad { background: var(--k-coral); color: var(--k-ink); }
+.block-count { background: #fff; color: var(--k-ink); }
+.block-count.is-over-limit { background: var(--k-coral); color: var(--k-ink); }
+.level-stars { color: var(--k-ink); }
+
+.hint-box { background: var(--k-paper); border-left: var(--k-line); }
+.hint-box p { color: var(--k-ink); }
+
+/* Panel headers read like the demo window's coloured top bar. */
+.play-header,
+.workspace-header { border-bottom: var(--k-line); color: var(--k-ink); }
+.play-header { background: var(--k-green); }
+.workspace-header { background: var(--k-blue); }
+.play-header .eyebrow,
+.workspace-header .eyebrow { color: var(--k-ink); opacity: .75; }
+
+/* ---- buttons ---- */
+.ghost-button,
+.primary-button,
+.secondary-button,
+.next-level-button {
+  border: var(--k-line);
+  border-radius: 18px;
+  color: var(--k-ink);
+  font-family: var(--k-hand);
+  font-weight: 800;
+  transition: transform .2s ease, background .2s ease;
+}
+.primary-button { background: var(--k-green); }
+.secondary-button { background: #fff; }
+.ghost-button { background: var(--k-yellow); }
+.next-level-button { min-height: 40px; border-width: 2px; border-radius: 13px; background: var(--k-blue); }
+.primary-button:hover, .primary-button:focus-visible { background: var(--k-green); }
+.secondary-button:hover, .secondary-button:focus-visible,
+.ghost-button:hover, .ghost-button:focus-visible,
+.next-level-button:hover, .next-level-button:focus-visible { border-color: var(--k-ink); color: var(--k-ink); }
+.next-level-button:hover, .next-level-button:focus-visible { background: var(--k-blue); }
+.primary-button:not(:disabled):hover,
+.secondary-button:not(:disabled):hover,
+.ghost-button:hover,
+.next-level-button:not(:disabled):hover { transform: translateY(-3px); }
+.primary-button:active, .secondary-button:active { transform: translateY(0); }
+.primary-button:focus-visible,
+.secondary-button:focus-visible,
+.ghost-button:focus-visible,
+.next-level-button:focus-visible { outline: 4px solid var(--k-ink); outline-offset: 3px; }
+
+.controls { grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: var(--k-line); background: var(--k-paper); }
+.controls .primary-button, .controls .secondary-button { padding: 0 8px; white-space: nowrap; }
+.controls .speed-control { grid-column: 1 / -1; grid-template-columns: auto 1fr; }
+@media (max-width: 860px) { .controls { grid-template-columns: 1fr; } }
+.speed-control { border: 2px solid var(--k-ink); border-radius: 14px; background: #fff; color: var(--k-ink); font-family: var(--k-hand); }
+.speed-control input { accent-color: var(--k-ink); }
+
+/* Result line becomes the speech-bubble feedback box from the demo. */
+.result-line {
+  margin: 0 14px 14px;
+  padding: 12px 16px;
+  border: var(--k-line);
+  border-radius: 16px;
+  background: #fff;
+  color: var(--k-ink);
+  font-weight: 700;
+}
+.result-line.is-good { background: var(--k-green); color: var(--k-ink); }
+.result-line.is-bad { background: var(--k-coral); color: var(--k-ink); }
+
+/* ---- board ---- */
+.board-wrap { background: var(--k-paper); }
+.board {
+  gap: 6px;
+  padding: 8px;
+  border: var(--k-line);
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: none;
+}
+.cell,
+.cell:nth-child(odd) {
+  border: 2px dashed rgba(62, 58, 57, .18);
+  border-radius: 10px;
+  background: var(--k-sand);
+}
+.cell.is-wall {
+  border: 2px solid var(--k-ink);
+  background: var(--k-ink) repeating-linear-gradient(45deg, transparent 0 6px, rgba(255, 255, 255, .12) 6px 12px);
+}
+.cell.is-wall::before,
+.cell.is-wall::after { display: none; }
+
+/* Goal = yellow star tile. Font size follows the board's column count. */
+.goal {
+  display: grid;
+  place-items: center;
+  width: 84%;
+  border: 2px solid var(--k-ink);
+  border-radius: 10px;
+  background: var(--k-yellow);
+  box-shadow: none;
+  font-size: min(1.7rem, calc(420px / var(--cols, 5) * .42));
+  line-height: 1;
+}
+.goal::after { content: "⭐"; }
+
+.gem {
+  width: 32%;
+  border: 2px solid var(--k-ink);
+  border-radius: 4px;
+  background: var(--k-blue);
+  box-shadow: none;
+}
+.gem.is-collected { opacity: .25; }
+
+/* Robot = the yellow bot from the landing page; the coral antenna shows which way it faces. */
+.bot {
+  z-index: 1;
+  width: 60%;
+  border: 3px solid var(--k-ink);
+  border-radius: 30%;
+  background:
+    radial-gradient(circle at 33% 46%, var(--k-ink) 0 9%, transparent 10%),
+    radial-gradient(circle at 67% 46%, var(--k-ink) 0 9%, transparent 10%),
+    var(--k-yellow);
+  box-shadow: none;
+}
+.bot::before {
+  top: 60%;
+  left: 34%;
+  width: 32%;
+  height: 16%;
+  border-bottom: 3px solid var(--k-ink);
+  border-radius: 0 0 50% 50%;
+  background: transparent;
+  box-shadow: none;
+  transform: none;
+}
+.bot::after {
+  content: "";
+  position: absolute;
+  top: -34%;
+  left: 50%;
+  width: 34%;
+  height: 34%;
+  border: 2px solid var(--k-ink);
+  border-radius: 50% 50% 3px 3px;
+  background: var(--k-coral);
+  transform: translateX(-50%);
+}
+
+/* ---- tap-to-add blocks ---- */
+.quick-blocks { border-bottom: var(--k-line); background: var(--k-paper); color: var(--k-ink); }
+.quick-blocks > span { font-family: var(--k-hand); }
+.quick-block-button {
+  gap: 8px;
+  min-height: 52px;
+  padding: 8px 15px;
+  border: var(--k-line);
+  border-radius: 14px 14px 14px 4px;
+  background: #fff;
+  color: var(--k-ink);
+  font: 800 1rem var(--k-hand);
+  transition: transform .2s ease;
+}
+.quick-block-button:hover,
+.quick-block-button:focus-visible { border-color: var(--k-ink); transform: translateY(-2px); }
+.quick-block-button:focus-visible { outline: 4px solid var(--k-ink); outline-offset: 3px; }
+.quick-block-button::before { font-size: 1.05em; }
+.quick-block-button[data-block-type="move_forward"] { background: var(--k-blue); }
+.quick-block-button[data-block-type="move_forward"]::before { content: "⬆"; }
+.quick-block-button[data-block-type="turn_left"] { background: var(--k-green); }
+.quick-block-button[data-block-type="turn_left"]::before { content: "↺"; }
+.quick-block-button[data-block-type="turn_right"] { background: var(--k-coral); }
+.quick-block-button[data-block-type="turn_right"]::before { content: "↻"; }
+.quick-block-button[data-block-type="collect_gem"] { background: var(--k-yellow); }
+.quick-block-button[data-block-type="collect_gem"]::before { content: "◆"; }
+.quick-block-button[data-block-type="repeat_times"] { background: var(--k-peach); }
+.quick-block-button[data-block-type="repeat_times"]::before { content: "⟳"; }
+.quick-block-button[data-block-type="while_loop"] { background: var(--k-mint); }
+.quick-block-button[data-block-type="while_loop"]::before { content: "⟳"; }
+.quick-block-button[data-block-type="if_condition"],
+.quick-block-button[data-block-type="if_else_condition"] { background: var(--k-pink); }
+.quick-block-button[data-block-type="if_condition"]::before,
+.quick-block-button[data-block-type="if_else_condition"]::before { content: "?"; font-weight: 900; }
+
+.quick-target-button { border: 2px solid var(--k-ink); border-radius: 12px; background: #fff; color: var(--k-ink); font-family: var(--k-hand); }
+.quick-target-button:hover { background: var(--k-sand); }
+.quick-target { border: 2px solid var(--k-ink); background: var(--k-green); color: var(--k-ink); font-family: var(--k-hand); }
+
+/* ---- Blockly: ink outlines and dark text on pastel blocks ---- */
+#blocklyDiv .blocklyPath { stroke: var(--k-ink); stroke-width: 2px; }
+#blocklyDiv .blocklyText { fill: var(--k-ink) !important; font-family: var(--k-hand) !important; }
+#blocklyDiv .blocklyToolboxDiv,
+#blocklyDiv .blocklyToolbox { border-right: var(--k-line); }
+.blocklyTreeLabel, .blocklyToolboxCategoryLabel { color: var(--k-ink); font-family: var(--k-hand); font-weight: 800; }
+.blocklyMenuItem, .blocklyDropDownDiv .goog-menuitem { font-family: var(--k-hand); }
+
+.load-warning { border: var(--k-line); border-radius: 16px; background: var(--k-coral); color: var(--k-ink); }
+
+@media (max-width: 860px) {
+  .level-select-box, .hint-box { border: 0; border-top: var(--k-line); }
+  .level-select-box { border-top: 0; }
+}

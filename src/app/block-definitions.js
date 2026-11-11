@@ -1,5 +1,6 @@
 import { parseXml, safeText } from "./xml.js";
 import { t, blockLabel, conditionOptions, repeatCountOptions } from "./i18n.js";
+import { BLOCK_COLOURS, CATEGORY_COLOURS } from "./block-colours.js";
 
 export function defineBlocks() {
   Blockly.defineBlocksWithJsonArray([
@@ -7,7 +8,7 @@ export function defineBlocks() {
       type: "start",
       message0: t("startBlock"),
       nextStatement: null,
-      colour: 145,
+      colour: BLOCK_COLOURS.start,
       tooltip: t("startTooltip"),
     },
     {
@@ -15,7 +16,7 @@ export function defineBlocks() {
       message0: blockLabel("move_forward"),
       previousStatement: null,
       nextStatement: null,
-      colour: 205,
+      colour: BLOCK_COLOURS.move_forward,
       tooltip: t("moveTooltip"),
     },
     {
@@ -23,7 +24,7 @@ export function defineBlocks() {
       message0: blockLabel("turn_left"),
       previousStatement: null,
       nextStatement: null,
-      colour: 260,
+      colour: BLOCK_COLOURS.turn_left,
       tooltip: t("turnLeftTooltip"),
     },
     {
@@ -31,7 +32,7 @@ export function defineBlocks() {
       message0: blockLabel("turn_right"),
       previousStatement: null,
       nextStatement: null,
-      colour: 260,
+      colour: BLOCK_COLOURS.turn_right,
       tooltip: t("turnRightTooltip"),
     },
     {
@@ -39,7 +40,7 @@ export function defineBlocks() {
       message0: blockLabel("collect_gem"),
       previousStatement: null,
       nextStatement: null,
-      colour: 38,
+      colour: BLOCK_COLOURS.collect_gem,
       tooltip: t("collectTooltip"),
     },
     {
@@ -61,7 +62,7 @@ export function defineBlocks() {
       ],
       previousStatement: null,
       nextStatement: null,
-      colour: 42,
+      colour: BLOCK_COLOURS.repeat_times,
       tooltip: t("repeatTooltip"),
     },
     {
@@ -83,7 +84,7 @@ export function defineBlocks() {
       ],
       previousStatement: null,
       nextStatement: null,
-      colour: 165,
+      colour: BLOCK_COLOURS.while_loop,
       tooltip: t("whileTooltip"),
     },
     {
@@ -105,7 +106,7 @@ export function defineBlocks() {
       ],
       previousStatement: null,
       nextStatement: null,
-      colour: 12,
+      colour: BLOCK_COLOURS.if_condition,
       tooltip: t("ifTooltip"),
     },
     {
@@ -134,7 +135,7 @@ export function defineBlocks() {
       ],
       previousStatement: null,
       nextStatement: null,
-      colour: 12,
+      colour: BLOCK_COLOURS.if_else_condition,
       tooltip: t("ifElseTooltip"),
     },
   ]);
@@ -152,7 +153,7 @@ export function toolboxFor(level) {
     hasWhile ? `<block type="while_loop"></block>` : "",
   ].filter(Boolean).join("");
   const loopBlocks = loopInner
-    ? `<category name="${safeText(t("loopCategory"))}" colour="#f4b63f">${loopInner}</category>`
+    ? `<category name="${safeText(t("loopCategory"))}" colour="${CATEGORY_COLOURS.loop}">${loopInner}</category>`
     : "";
   const conditionBlocks = level.blocks.includes("if_condition")
     ? `<block type="if_condition"></block>`
@@ -161,12 +162,12 @@ export function toolboxFor(level) {
     ? `<block type="if_else_condition"></block>`
     : "";
   const conditionCategory = conditionBlocks || ifElseBlocks
-    ? `<category name="${safeText(t("conditionCategory"))}" colour="#ef5962">${conditionBlocks}${ifElseBlocks}</category>`
+    ? `<category name="${safeText(t("conditionCategory"))}" colour="${CATEGORY_COLOURS.condition}">${conditionBlocks}${ifElseBlocks}</category>`
     : "";
 
   return parseXml(`
     <xml xmlns="https://developers.google.com/blockly/xml">
-      <category name="${safeText(t("actionCategory"))}" colour="#1d8fea">
+      <category name="${safeText(t("actionCategory"))}" colour="${CATEGORY_COLOURS.action}">
         ${actionBlocks}
       </category>
       ${loopBlocks}
